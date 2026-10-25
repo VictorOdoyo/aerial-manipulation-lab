@@ -50,3 +50,9 @@ def test_outlier_study_retains_available_but_rejected_observation():
     )
     a = r["arrays"]
     assert np.any(a["position_available"] & ~a["position_accepted"])
+
+
+def test_unmodeled_payload_produces_initial_weight_support_error():
+    r = m.study("payload-model-mismatch", m.Config(duration_s=0.3, payload_kg=0.45))
+    a = r["arrays"]
+    assert np.min(a["state"][:, 1]) < 1.995

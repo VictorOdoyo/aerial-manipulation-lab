@@ -153,3 +153,7 @@ def outage(scale=1, seed=42):
 
 def outlier(scale=1, seed=42):
     return study("position-outlier-gating", Config(dt_s=0.005 / scale, seed=seed, position_outlier=True))
+
+
+def payload_mismatch(scale=1, seed=42):
+    return study("payload-model-mismatch", Config(dt_s=0.005 / scale, seed=seed, payload_kg=0.45))

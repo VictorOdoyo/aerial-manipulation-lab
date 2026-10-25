@@ -18,3 +18,8 @@ def test_rotation_matrix_preserves_norm_and_positive_orientation():
 def test_constant_body_rate_matches_known_axis_rotation():
     q = m.integrate([1, 0, 0, 0], [0, 0, np.pi], 0.5)
     assert np.allclose(m.matrix(q) @ [1, 0, 0], [0, 1, 0], atol=1e-12)
+
+
+def test_attitude_error_is_invariant_to_quaternion_sign():
+    q = m.integrate([1, 0, 0, 0], [0.2, -0.1, 0.3], 1)
+    assert np.allclose(m.error([1, 0, 0, 0], q), m.error([1, 0, 0, 0], -q))

@@ -40,3 +40,15 @@ def integrate(quaternion, omega_rad_s, dt_s):
     vector = omega * dt / 2 * np.sinc(angle / (2 * np.pi))
     increment = np.r_[np.cos(angle / 2), vector]
     return multiply(q, increment)
+
+
+def error(current, desired):
+    q = normalize(current)
+    target = normalize(desired)
+    relative = multiply(q * np.array([1, -1, -1, -1]), target)
+    if relative[0] < 0:
+        relative = -relative
+    norm = np.linalg.norm(relative[1:])
+    if norm < 1e-12:
+        return 2 * relative[1:]
+    return relative[1:] / norm * (2 * np.arctan2(norm, relative[0]))

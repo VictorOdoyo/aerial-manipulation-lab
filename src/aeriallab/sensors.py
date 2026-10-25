@@ -15,3 +15,15 @@ def specific_force(acceleration_world, pitch_rad, gravity=9.80665):
     if a.shape != (2,):
         raise ValueError("planar world acceleration required")
     return rotation(pitch_rad).T @ (a + np.array([0, positive(gravity, allow_zero=True)]))
+
+
+def encoder(joints_rad, counts=16384):
+    from .core import finite, integer
+
+    q = finite(joints_rad, real=True)
+    integer(counts, 4)
+    if q.shape != (2,):
+        raise ValueError("two joint encoder angles required")
+    codes = np.rint(q * counts / (2 * np.pi)).astype(np.int64) % counts
+    angle = (codes * 2 * np.pi / counts + np.pi) % (2 * np.pi) - np.pi
+    return {"codes": codes, "angle_rad": angle, "lsb_rad": 2 * np.pi / counts}

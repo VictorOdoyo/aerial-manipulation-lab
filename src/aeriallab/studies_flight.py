@@ -167,3 +167,10 @@ def payload_known(scale=1, seed=42):
 
 def partial_loss(scale=1, seed=42):
     return study("partial-actuator-loss", Config(dt_s=0.005 / scale, seed=seed, actuator_fault=True))
+
+
+def complete_loss(scale=1, seed=42):
+    return study(
+        "complete-actuator-loss",
+        Config(dt_s=0.005 / scale, seed=seed, actuator_fault=True, health_after=(0, 1)),
+    )

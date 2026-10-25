@@ -26,3 +26,11 @@ def test_coordinated_reference_has_distinct_base_and_arm_paths():
     a = reference(4, True, True)
     assert np.allclose(a["base"]["position"], [1, 2.2])
     assert np.allclose(a["arm"]["position"], [0.7, -0.8])
+
+
+def test_gust_environment_can_deliver_nonzero_disturbance_without_changing_sensor_truth():
+    from aeriallab.environment import drag, gust
+
+    wind = gust(3, peak_m_s=6)
+    force = drag([0, 0], [wind, 0])["force_n"]
+    assert force[0] > 1 and force[1] == 0

@@ -141,3 +141,7 @@ def baseline(scale=1, seed=42):
 
 def coordinated(scale=1, seed=42):
     return study("coordinated-translation", Config(dt_s=0.005 / scale, seed=seed, moving_base=True))
+
+
+def wind(scale=1, seed=42):
+    return study("wind-gust-rejection", Config(dt_s=0.005 / scale, seed=seed, wind_peak_m_s=6))

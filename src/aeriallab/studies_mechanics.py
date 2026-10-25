@@ -155,3 +155,56 @@ def trim_workspace(scale=1, seed=42):
             "Residual norm combines stated force and torque coordinates; allocator uses explicit [1,4] wrench weights."
         ],
     )
+
+
+def rotor_lag(scale=1, seed=42):
+    from .actuators import mean_thrust, rotor_step, wrench
+
+    dt = 0.001 / scale
+    t = np.arange(round(0.4 / dt) + 1) * dt
+    omega = np.zeros(2)
+    actual = []
+    requested = []
+    for time in t:
+        target = (
+            np.array([0.0, 0.0])
+            if time < 0.05
+            else np.array([12.0, 12.0])
+            if time < 0.2
+            else np.array([10.0, 14.0])
+        )
+        average = mean_thrust(omega, target, dt)
+        omega = rotor_step(omega, target, dt)["speed_rad_s"]
+        actual.append(wrench(average))
+        requested.append(wrench(target))
+    actual = np.array(actual)
+    requested = np.array(requested)
+    a = {
+        "time_s": t,
+        "actual_force_n": actual[:, 0],
+        "requested_force_n": requested[:, 0],
+        "actual_torque_nm": actual[:, 1],
+        "requested_torque_nm": requested[:, 1],
+    }
+    return make(
+        "rotor-lag-response",
+        {"lag_s": 0.035, "ct_n_s2": 2e-5, "dt_s": dt},
+        {"final_force_n": float(actual[-1, 0]), "final_torque_nm": float(actual[-1, 1])},
+        a,
+        [
+            curve(
+                "Total thrust interval average",
+                "time_s",
+                [("requested_force_n", "Requested"), ("actual_force_n", "Delivered")],
+                "Time (s)",
+                "Force (N)",
+            ),
+            curve(
+                "Differential pitch torque",
+                "time_s",
+                [("requested_torque_nm", "Requested"), ("actual_torque_nm", "Delivered")],
+                "Time (s)",
+                "Torque (Nm)",
+            ),
+        ],
+    )

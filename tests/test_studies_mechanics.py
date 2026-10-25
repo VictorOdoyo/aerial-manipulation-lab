@@ -15,3 +15,9 @@ def test_internal_reaction_study_has_base_motion_without_external_momentum():
 def test_heavy_payload_reduces_attainable_hover_workspace():
     r = m.trim_workspace()["summary"]
     assert r["heavy_feasible_fraction"] < r["nominal_feasible_fraction"]
+
+
+def test_rotor_lag_study_retains_transient_wrench_error():
+    a = m.rotor_lag()["arrays"]
+    assert max(abs(a["requested_force_n"] - a["actual_force_n"])) > 10
+    assert abs(a["actual_torque_nm"][-1] - 1) < 0.02

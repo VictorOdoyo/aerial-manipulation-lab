@@ -154,4 +154,7 @@ def navigation_observability(times):
         f[2:4, 4:] = -np.eye(2) * elapsed
         matrices.append(h @ f)
     singular = np.linalg.svd(np.vstack(matrices), compute_uv=False)
-    return {"rank": int(np.linalg.matrix_rank(np.vstack(matrices))), "singular_values": singular}
+    return {
+        "rank": int(np.linalg.matrix_rank(np.vstack(matrices))),
+        "singular_values": np.pad(singular, (0, max(0, 6 - len(singular)))),
+    }

@@ -47,3 +47,8 @@ def test_navigation_observer_uses_supplied_sensors_and_gates_position_outlier():
 def test_navigation_bias_requires_temporally_separated_position_observations():
     assert m.navigation_observability([0, 0.1])["rank"] == 4
     assert m.navigation_observability([0, 0.1, 0.2])["rank"] == 6
+
+
+def test_two_position_observations_retain_two_unobservable_bias_directions():
+    r = m.navigation_observability([0, 0.1])
+    assert r["singular_values"].shape == (6,) and np.sum(r["singular_values"] == 0) == 2

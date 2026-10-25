@@ -88,6 +88,7 @@ def command(state, reference, model=None, reaction_compensation=True, integral_a
         "thrust_n": thrust,
         "body_torque_nm": float(force[2]),
         "joint_torques_nm": force[3:],
+        "joint_acceleration_rad_s2": arm_acc,
         "pitch_reference_rad": pitch,
         "base_acceleration_m_s2": base_acc,
         "feasible_base_acceleration_m_s2": base_acc_feasible,

@@ -19,3 +19,15 @@ def quintic(time_s, start, end, duration_s, start_time_s=0):
         "velocity": ds[..., None] * (b - a),
         "acceleration": dds[..., None] * (b - a),
     }
+
+
+def waypoints(time_s, knots_s, positions):
+    from .core import finite, timebase
+
+    t = float(finite(time_s, real=True))
+    knots = timebase(knots_s)
+    p = finite(positions, real=True, ndim=2)
+    if len(p) != len(knots):
+        raise ValueError("one position per waypoint clock required")
+    index = int(np.clip(np.searchsorted(knots, t, side="right") - 1, 0, len(knots) - 2))
+    return quintic(t, p[index], p[index + 1], knots[index + 1] - knots[index], knots[index])

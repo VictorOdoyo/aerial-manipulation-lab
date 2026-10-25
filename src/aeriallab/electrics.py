@@ -48,3 +48,16 @@ def battery_point(soc, power_w, resistance_ohm=0.06, series=6):
     current = 2 * power_w / (ocv + np.sqrt(discriminant))
     voltage = ocv - resistance * current
     return {"current_a": current, "bus_v": voltage, "ocv_v": ocv, "heat_w": current**2 * resistance}
+
+
+def battery_step(soc, current_a, dt_s, capacity_ah=5):
+    from .core import positive
+
+    dt = positive(dt_s)
+    capacity = positive(capacity_ah)
+    if not 0 <= soc <= 1 or not np.isfinite(current_a) or current_a < 0:
+        raise ValueError("bounded discharge state required")
+    result = soc - current_a * dt / (3600 * capacity)
+    if result < 0:
+        raise ValueError("battery depleted during flight step")
+    return result

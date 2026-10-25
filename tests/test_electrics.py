@@ -22,3 +22,9 @@ def test_battery_quadratic_point_closes_terminal_and_internal_power():
     assert r["ocv_v"] * r["current_a"] == pytest.approx(400 + r["heat_w"])
     with pytest.raises(ValueError):
         m.battery_point(0.8, 10000)
+
+
+def test_flight_battery_coulomb_count_has_physical_capacity_units():
+    assert m.battery_step(0.8, 5, 360, 5) == pytest.approx(0.7)
+    with pytest.raises(ValueError):
+        m.battery_step(0.001, 100, 1, 5)

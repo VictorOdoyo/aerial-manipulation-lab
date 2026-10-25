@@ -17,3 +17,12 @@ def test_attitude_filter_estimates_constant_gyro_bias_from_reference_angles():
         m.correct_attitude(r, 0)
     assert abs(r.state[0]) < 0.001 and abs(r.state[1] - 0.01) < 0.001
     assert not m.correct_attitude(r, 2)["accepted"]
+
+
+def test_navigation_prediction_matches_analytic_constant_acceleration_and_bias():
+    x = np.zeros(6)
+    x[4:] = [0.1, -0.2]
+    state, p = m.navigation_predict(x, np.eye(6), [1, 2], 0.5)
+    assert np.allclose(state[:2], 0.5 * np.array([0.9, 2.2]) * 0.5**2)
+    assert np.allclose(state[2:4], np.array([0.9, 2.2]) * 0.5)
+    assert np.linalg.eigvalsh(p).min() > 0

@@ -45,3 +45,30 @@ def _attitude_correct(observer, angle_rad, std_rad=0.003, gate=9):
 
 def correct_attitude(observer, angle_rad, std_rad=0.003, gate=9):
     return _attitude_correct(observer, angle_rad, std_rad, gate)
+
+
+def navigation_predict(state, covariance, acceleration_world, dt_s, acceleration_std=0.1, bias_walk_std=0.01):
+    from .core import finite, positive
+
+    x = finite(state, real=True)
+    p = finite(covariance, real=True)
+    a = finite(acceleration_world, real=True)
+    dt = positive(dt_s)
+    std = positive(acceleration_std, allow_zero=True)
+    walk = positive(bias_walk_std, allow_zero=True)
+    if (
+        x.shape != (6,)
+        or p.shape != (6, 6)
+        or a.shape != (2,)
+        or not np.allclose(p, p.T)
+        or np.min(np.linalg.eigvalsh(p)) < -1e-12
+    ):
+        raise ValueError("six-state PSD navigation estimate required")
+    f = np.eye(6)
+    f[:2, 2:4] = np.eye(2) * dt
+    f[:2, 4:] = -np.eye(2) * dt**2 / 2
+    f[2:4, 4:] = -np.eye(2) * dt
+    b = np.vstack([np.eye(2) * dt**2 / 2, np.eye(2) * dt, np.zeros((2, 2))])
+    q = b @ b.T * std**2
+    q[4:, 4:] += np.eye(2) * walk**2 * dt
+    return f @ x + b @ a, f @ p @ f.T + q

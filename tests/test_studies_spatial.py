@@ -10,3 +10,8 @@ def test_spatial_precession_study_conserves_full_rigid_body_invariants():
 def test_spatial_attitude_benchmark_recovers_from_declared_initial_rotation():
     r = m.attitude_recovery()
     assert r["summary"]["final_attitude_error_rad"] < 0.01
+
+
+def test_failed_quad_allocation_retains_nonzero_unavailable_authority():
+    r = m.quad_loss()
+    assert r["summary"]["maximum_failed_moment_error_nm"] > 0.01

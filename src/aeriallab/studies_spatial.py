@@ -125,3 +125,47 @@ def attitude_recovery(scale=1, seed=42):
             "Separate spatial ideal-state attitude bench; no arm coupling or position-regulation claim."
         ],
     )
+
+
+def quad_loss(scale=1, seed=42):
+    from .quadrotor import Model, allocate
+
+    p = Model()
+    yaw = np.linspace(-0.3, 0.3, 101 * scale)
+    healthy = []
+    failed = []
+    force = []
+    for value in yaw:
+        a = allocate([20, 0, 0, value], model=p)
+        b = allocate([20, 0, 0, value], maximum_n=[0, 10, 10, 10], model=p)
+        healthy.append(np.linalg.norm(a["residual"][1:]))
+        failed.append(np.linalg.norm(b["residual"][1:]))
+        force.append(b["residual"][0])
+    arrays = {
+        "yaw_requested_nm": yaw,
+        "healthy_moment_error_nm": healthy,
+        "failed_moment_error_nm": failed,
+        "failed_force_error_n": force,
+    }
+    return make(
+        "quadrotor-failure-allocation",
+        {"model": asdict(p), "thrust_request_n": 20, "failed_rotor": 0},
+        {"maximum_failed_moment_error_nm": float(max(failed))},
+        arrays,
+        [
+            curve(
+                "Moment authority after rotor loss",
+                "yaw_requested_nm",
+                [("healthy_moment_error_nm", "Healthy"), ("failed_moment_error_nm", "Rotor 0 unavailable")],
+                "Requested yaw torque (Nm)",
+                "Moment residual norm (Nm)",
+            ),
+            curve(
+                "Retained force allocation error",
+                "yaw_requested_nm",
+                [("failed_force_error_n", "Failed-rotor thrust residual")],
+                "Requested yaw torque (Nm)",
+                "Thrust error (N)",
+            ),
+        ],
+    )

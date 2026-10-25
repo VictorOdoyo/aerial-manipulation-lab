@@ -21,3 +21,10 @@ class Model:
         i = finite(self.inertia, real=True)
         if i.shape != (3,) or np.any(i <= 0) or 2 * max(i) >= sum(i):
             raise ValueError("physical rigid-body principal inertias required")
+
+
+def allocation_matrix(model=None):
+    p = Model() if model is None else model
+    arm = p.arm_m
+    k = p.yaw_ratio_m
+    return np.array([[1, 1, 1, 1], [0, arm, 0, -arm], [-arm, 0, arm, 0], [k, -k, k, -k]])

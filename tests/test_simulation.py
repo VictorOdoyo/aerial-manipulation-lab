@@ -30,3 +30,8 @@ def test_position_outlier_is_rejected_without_replacing_the_measurement_with_tru
     assert a["position_available"].sum() == 3
     assert np.sum(a["position_available"] & ~a["position_accepted"]) >= 1
     assert max(a["position_nis"]) > 9.21034
+
+
+def test_nondivisible_flight_duration_is_actually_completed():
+    r = m.run(m.Config(duration_s=0.017))
+    assert r["arrays"]["time_s"][-1] == 0.017 and r["termination"] == "completed"

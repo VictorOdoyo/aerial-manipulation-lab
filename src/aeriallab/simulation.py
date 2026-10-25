@@ -77,6 +77,7 @@ def run(config):
         wrench_error_n,
     )
     from .control import PositionIntegral, arm_effort_for_wrench, command
+    from .core import timeline
     from .electrics import battery_point, battery_step, propulsion_power, servo_power
     from .environment import gust
     from .estimation import Navigation
@@ -89,7 +90,7 @@ def run(config):
         raise ValueError("validated flight replay config required")
     plant = Model(payload_kg=config.payload_kg)
     controller_model = Model(payload_kg=config.assumed_payload_kg)
-    time = np.arange(int(config.duration_s / config.dt_s) + 1) * config.dt_s
+    time = timeline(config.duration_s, config.dt_s)
     n = len(time)
     state = np.r_[[0.0, 2.0, 0.0, 0.0, 0.0], np.zeros(5)]
     sensors = Suite(config.seed)

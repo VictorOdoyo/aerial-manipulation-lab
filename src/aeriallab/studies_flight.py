@@ -149,3 +149,7 @@ def wind(scale=1, seed=42):
 
 def outage(scale=1, seed=42):
     return study("position-sensor-outage", Config(dt_s=0.005 / scale, seed=seed, position_outage=(2, 4)))
+
+
+def outlier(scale=1, seed=42):
+    return study("position-outlier-gating", Config(dt_s=0.005 / scale, seed=seed, position_outlier=True))

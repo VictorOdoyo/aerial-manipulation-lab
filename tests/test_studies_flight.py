@@ -42,3 +42,11 @@ def test_sensor_outage_retains_time_and_covariance_without_position_measurements
     a = r["arrays"]
     assert a["position_available"].sum() == 1 and a["time_s"][-1] == pytest.approx(0.3)
     assert np.min(np.linalg.eigvalsh(a["navigation_covariance"])) > 0
+
+
+def test_outlier_study_retains_available_but_rejected_observation():
+    r = m.study(
+        "position-outlier-gating", m.Config(duration_s=0.3, position_outlier=True, outlier_time_s=0.1)
+    )
+    a = r["arrays"]
+    assert np.any(a["position_available"] & ~a["position_accepted"])

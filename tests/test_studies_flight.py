@@ -83,3 +83,9 @@ def test_low_pack_draws_more_current_for_comparable_hover_power():
     normal = m.study("sensor-feedback-hover", m.Config(duration_s=0.2, moving_arm=False))
     assert np.mean(low["arrays"]["bus_v"]) < np.mean(normal["arrays"]["bus_v"])
     assert np.mean(low["arrays"]["battery_current_a"]) > np.mean(normal["arrays"]["battery_current_a"])
+
+
+def test_ideal_benchmark_keeps_noisy_observer_record_separate_from_control_state():
+    r = m.study("ideal-state-feedback-benchmark", m.Config(duration_s=0.2, feedback="ideal"))
+    assert np.max(r["arrays"]["estimated_position_error_m"]) > 0
+    assert r["summary"]["position_rmse_m"] < 0.01

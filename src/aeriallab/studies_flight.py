@@ -178,3 +178,7 @@ def complete_loss(scale=1, seed=42):
 
 def low_pack(scale=1, seed=42):
     return study("low-pack-headroom", Config(dt_s=0.005 / scale, seed=seed, initial_soc=0.15))
+
+
+def ideal(scale=1, seed=42):
+    return study("ideal-state-feedback-benchmark", Config(dt_s=0.005 / scale, seed=seed, feedback="ideal"))

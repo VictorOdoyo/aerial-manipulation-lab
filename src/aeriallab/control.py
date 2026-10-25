@@ -134,3 +134,26 @@ def attitude_torque(quaternion, omega, desired_quaternion, desired_omega=(0, 0, 
     return inertia * (
         positive(kp) * error(quaternion, desired_quaternion) + positive(kd) * (reference - w)
     ) + np.cross(w, inertia * w)
+
+
+def arm_effort_for_wrench(
+    state, desired_joint_acceleration, rotor_wrench, model=None, estimated_wind_n=(0, 0)
+):
+    from .core import finite
+    from .planar import Model, coriolis_matrix, generalized_force, gravity, mass_matrix
+
+    p = Model() if model is None else model
+    x = finite(state, real=True)
+    joint_acc = finite(desired_joint_acceleration, real=True)
+    wrench = finite(rotor_wrench, real=True)
+    if x.shape != (10,) or joint_acc.shape != (2,) or wrench.shape != (2,):
+        raise ValueError("estimated coupled state arm acceleration and measured rotor wrench required")
+    q, v = x[:5], x[5:]
+    matrix = mass_matrix(q, p)
+    h = coriolis_matrix(q, v, p) @ v + gravity(q, p)
+    external = generalized_force(
+        q, max(0, float(wrench[0])), float(wrench[1]), wind_n=estimated_wind_n, model=p
+    )[:3]
+    base_acc = np.linalg.solve(matrix[:3, :3], external - matrix[:3, 3:] @ joint_acc - h[:3])
+    effort = matrix[3:, :3] @ base_acc + matrix[3:, 3:] @ joint_acc + h[3:]
+    return {"torque_nm": effort, "predicted_base_acceleration": base_acc}

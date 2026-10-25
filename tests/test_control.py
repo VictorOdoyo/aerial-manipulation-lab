@@ -59,3 +59,15 @@ def test_dynamic_compensation_preserves_arm_task_when_horizontal_base_demand_is_
     actual = acceleration(x[:5], x[5:], force)
     assert np.allclose(actual[3:], 0, atol=1e-10)
     assert np.allclose(actual[:2], command["feasible_base_acceleration_m_s2"], atol=1e-10)
+
+
+def test_partitioned_arm_inverse_reaches_joint_acceleration_under_actual_rotor_wrench():
+    from aeriallab.planar import acceleration, generalized_force
+
+    x = np.r_[[0.0, 2.0, 0.3, 0.2, -0.3], [0.1, -0.2, 0.3, 0.4, -0.2]]
+    target = np.array([1.0, -2.0])
+    wrench = np.array([22.0, -0.2])
+    r = m.arm_effort_for_wrench(x, target, wrench)
+    force = generalized_force(x[:5], wrench[0], wrench[1], r["torque_nm"])
+    actual = acceleration(x[:5], x[5:], force)
+    assert np.allclose(actual[3:], target, atol=1e-10)

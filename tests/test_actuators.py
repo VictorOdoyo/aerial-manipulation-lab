@@ -24,3 +24,8 @@ def test_rotor_step_matches_held_speed_command_exponential():
 def test_voltage_and_health_derating_change_thrust_capacity_consistently():
     a = m.speed_ceiling(11.1, health=[1, 0.25])
     assert np.allclose(a, [500, 250])
+
+
+def test_joint_effort_obeys_amplitude_and_slew_constraints():
+    a = m.joint_effort([10, -10], [0, 0], 0.01)
+    assert np.allclose(a["torque_nm"], [0.4, -0.4]) and a["limited"]

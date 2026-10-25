@@ -51,13 +51,10 @@ def rotor_step(
     dt = positive(dt_s)
     ct = positive(coefficient)
     tau = positive(time_constant_s)
-    maximum = positive(maximum_rad_s)
-    if (
-        speed.shape != command.shape
-        or np.any(speed < 0)
-        or np.any(command < 0)
-        or np.any(speed > maximum * (1 + 1e-8))
-    ):
+    maximum = finite(maximum_rad_s, real=True)
+    if np.any(maximum < 0):
+        raise ValueError("nonnegative rotor speed ceilings required")
+    if speed.shape != command.shape or np.any(speed < 0) or np.any(command < 0):
         raise ValueError("aligned bounded positive rotor states and commands required")
     target = np.minimum(np.sqrt(command / ct), maximum)
     next_speed = target + (speed - target) * np.exp(-dt / tau)

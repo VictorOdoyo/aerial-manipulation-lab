@@ -29,3 +29,9 @@ def test_voltage_and_health_derating_change_thrust_capacity_consistently():
 def test_joint_effort_obeys_amplitude_and_slew_constraints():
     a = m.joint_effort([10, -10], [0, 0], 0.01)
     assert np.allclose(a["torque_nm"], [0.4, -0.4]) and a["limited"]
+
+
+def test_rotor_can_coast_above_a_reduced_speed_ceiling():
+    a = m.rotor_step([800.0, 800.0], [20.0, 20.0], 0.035, maximum_rad_s=[0.0, 500.0])
+    assert 0 < a["speed_rad_s"][0] < 800
+    assert 500 < a["speed_rad_s"][1] < 800

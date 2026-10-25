@@ -51,3 +51,62 @@ class EncoderVelocity:
             self.velocity = decay * self.velocity + (1 - decay) * raw
         self.previous = q.copy()
         return self.velocity.copy()
+
+
+class Suite:
+    def __init__(
+        self,
+        seed=42,
+        gyro_bias=0.005,
+        accel_bias=(0.03, -0.02),
+        gyro_std=0.003,
+        accel_std=0.05,
+        position_std=0.02,
+        attitude_std=0.003,
+    ):
+        from .core import finite, positive, stream
+
+        self.bias = float(finite(gyro_bias, real=True))
+        self.accel_bias = finite(accel_bias, real=True)
+        if self.accel_bias.shape != (2,):
+            raise ValueError("planar accelerometer bias required")
+        self.std = {
+            key: positive(value, allow_zero=True)
+            for key, value in (
+                ("gyro", gyro_std),
+                ("accel", accel_std),
+                ("position", position_std),
+                ("attitude", attitude_std),
+            )
+        }
+        self.rng = {key: stream(seed, "sensor-" + key) for key in self.std}
+
+    def imu(self, pitch, rate, acceleration_world, gravity=9.80665):
+        from .core import finite
+
+        finite([pitch, rate], real=True)
+        f = (
+            specific_force(acceleration_world, pitch, gravity)
+            + self.accel_bias
+            + self.rng["accel"].normal(0, self.std["accel"], 2)
+        )
+        gyro = rate + self.bias + self.rng["gyro"].normal(0, self.std["gyro"])
+        valid = bool(np.all(abs(f) < 16 * 9.80665))
+        return {
+            "specific_force_m_s2": np.clip(f, -16 * 9.80665, 16 * 9.80665),
+            "gyro_rad_s": float(gyro),
+            "valid": valid,
+        }
+
+    def position(self, position):
+        from .core import finite
+
+        p = finite(position, real=True)
+        if p.shape != (2,):
+            raise ValueError("planar position required")
+        return p + self.rng["position"].normal(0, self.std["position"], 2)
+
+    def attitude(self, pitch):
+        return float(
+            (pitch + self.rng["attitude"].normal(0, self.std["attitude"]) + np.pi) % (2 * np.pi) - np.pi
+        )

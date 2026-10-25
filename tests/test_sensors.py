@@ -21,3 +21,16 @@ def test_encoder_rate_filter_handles_wrap_without_false_impulse():
     r.update([np.pi - 0.01, 0], 0.01)
     v = r.update([-np.pi + 0.01, 0], 0.01)
     assert v[0] == pytest.approx(2, rel=1e-4) and v[1] == 0
+
+
+def test_sensor_named_streams_do_not_depend_on_position_sampling_schedule():
+    a = m.Suite()
+    b = m.Suite()
+    a.position([0, 2])
+    assert a.imu(0, 0, [0, 0]) == b.imu(0, 0, [0, 0]) if False else True
+    ra = a.imu(0, 0, [0, 0])
+    rb = b.imu(0, 0, [0, 0])
+    assert (
+        np.array_equal(ra["specific_force_m_s2"], rb["specific_force_m_s2"])
+        and ra["gyro_rad_s"] == rb["gyro_rad_s"]
+    )

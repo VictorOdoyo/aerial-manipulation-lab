@@ -87,3 +87,51 @@ def outage(scale=1, seed=42):
             "World acceleration bias is a random-walk approximation to rotating body sensor bias; no calibrated confidence guarantee is claimed.",
         ],
     )
+
+
+def observability(scale=1, seed=42):
+    from .estimation import navigation_observability
+
+    interval = np.geomspace(0.01, 1, 81 * scale)
+    two = []
+    three = []
+    minimum = []
+    for dt in interval:
+        a = navigation_observability([0, float(dt)])
+        b = navigation_observability([0, float(dt), float(2 * dt)])
+        two.append(a["rank"])
+        three.append(b["rank"])
+        minimum.append(b["singular_values"][-1])
+    arrays = {"interval_s": interval, "rank_two": two, "rank_three": three, "minimum_three": minimum}
+    return make(
+        "navigation-observability",
+        {
+            "state_units": ["m", "m", "m/s", "m/s", "m/s2", "m/s2"],
+            "coordinate_scaling": "one unit of each stated SI coordinate",
+        },
+        {"two_measurement_rank": int(min(two)), "three_measurement_rank": int(min(three))},
+        arrays,
+        [
+            curve(
+                "Finite-horizon observable state count",
+                "interval_s",
+                [("rank_two", "Two position observations"), ("rank_three", "Three position observations")],
+                "Observation interval (s)",
+                "Observable rank",
+                xscale="log",
+                ylim=(0, 6.5),
+            ),
+            curve(
+                "Weakest observable direction under declared scaling",
+                "interval_s",
+                [("minimum_three", "Three-observation smallest singular value")],
+                "Observation interval (s)",
+                "Dimensionless scaled singular value",
+                xscale="log",
+                yscale="log",
+            ),
+        ],
+        assumptions=[
+            "Linear held-input navigation model; coordinate scaling is explicit because observability singular values depend on state units."
+        ],
+    )

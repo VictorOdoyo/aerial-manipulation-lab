@@ -31,3 +31,12 @@ def waypoints(time_s, knots_s, positions):
         raise ValueError("one position per waypoint clock required")
     index = int(np.clip(np.searchsorted(knots, t, side="right") - 1, 0, len(knots) - 2))
     return quintic(t, p[index], p[index + 1], knots[index + 1] - knots[index], knots[index])
+
+
+def reference(time_s, moving_base=False, moving_arm=True):
+    from .core import finite
+
+    t = float(finite(time_s, real=True))
+    base = quintic(t, [0, 2], [1, 2.2] if moving_base else [0, 2], 3, 1)
+    arm = quintic(t, [0, 0], [0.7, -0.8] if moving_arm else [0, 0], 2, 1)
+    return {"base": base, "arm": arm}

@@ -15,3 +15,10 @@ def test_waypoint_reference_is_continuous_at_segment_boundary():
     a = m.waypoints(1.0, [0, 1, 2], p)
     assert np.allclose(a["position"], [1, 3]) and np.allclose(a["velocity"], 0)
     assert np.allclose(m.waypoints(10, [0, 1, 2], p)["position"], p[-1])
+
+
+def test_coordinated_reference_retains_hold_before_arm_motion():
+    a = m.reference(0.5)
+    assert np.allclose(a["arm"]["position"], [0, 0])
+    b = m.reference(4)
+    assert np.allclose(b["arm"]["position"], [0.7, -0.8])

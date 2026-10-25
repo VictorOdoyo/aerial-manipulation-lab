@@ -124,3 +124,10 @@ def mass_derivatives(q, model=None):
     return np.stack(
         [np.imag(_mass(x.astype(complex) + 1j * h * np.eye(5)[k], p)) / h for k in range(5)], axis=2
     )
+
+
+def coriolis_matrix(q, velocity, model=None):
+    v = configuration(velocity)
+    derivatives = mass_derivatives(q, model)
+    gamma = 0.5 * (derivatives + derivatives.transpose(0, 2, 1) - derivatives.transpose(2, 0, 1))
+    return np.einsum("ijk,k->ij", gamma, v)

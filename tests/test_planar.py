@@ -54,3 +54,12 @@ def test_mass_complex_step_derivatives_match_centered_real_differences():
         axis=2,
     )
     assert np.allclose(d, numerical, atol=1e-9)
+
+
+def test_coriolis_preserves_mass_derivative_skew_identity():
+    q = np.array([0.0, 2.0, 0.2, 0.4, -0.3])
+    v = np.array([1.0, -0.2, 0.5, 0.3, -0.4])
+    mdot = np.einsum("ijk,k->ij", m.mass_derivatives(q), v)
+    c = m.coriolis_matrix(q, v)
+    skew = mdot - 2 * c
+    assert np.allclose(skew + skew.T, 0, atol=1e-12)

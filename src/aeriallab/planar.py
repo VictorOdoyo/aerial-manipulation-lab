@@ -131,3 +131,28 @@ def coriolis_matrix(q, velocity, model=None):
     derivatives = mass_derivatives(q, model)
     gamma = 0.5 * (derivatives + derivatives.transpose(0, 2, 1) - derivatives.transpose(2, 0, 1))
     return np.einsum("ijk,k->ij", gamma, v)
+
+
+def generalized_force(
+    q, thrust_n, body_torque_nm=0, joint_torques=(0, 0), wind_n=(0, 0), tip_force_n=(0, 0), model=None
+):
+    from .core import finite, positive
+
+    p = Model() if model is None else model
+    x = configuration(q)
+    thrust = positive(thrust_n, allow_zero=True)
+    joints = finite(joint_torques, real=True)
+    wind = finite(wind_n, real=True)
+    tip = finite(tip_force_n, real=True)
+    if joints.shape != (2,) or wind.shape != (2,) or tip.shape != (2,) or not np.isfinite(body_torque_nm):
+        raise ValueError("finite planar actuator wrenches required")
+    force = np.array(
+        [
+            -thrust * np.sin(x[2]) + wind[0],
+            thrust * np.cos(x[2]) + wind[1],
+            body_torque_nm,
+            joints[0],
+            joints[1],
+        ]
+    )
+    return force + kinematics(x, p)["tip"][1].T @ tip

@@ -63,3 +63,10 @@ def test_coriolis_preserves_mass_derivative_skew_identity():
     c = m.coriolis_matrix(q, v)
     skew = mdot - 2 * c
     assert np.allclose(skew + skew.T, 0, atol=1e-12)
+
+
+def test_internal_joint_torques_do_not_invent_external_base_wrench():
+    q = [0, 2, 0.2, 0.3, -0.2]
+    a = m.generalized_force(q, 0, joint_torques=[1, 2])
+    assert np.allclose(a, [0, 0, 0, 1, 2])
+    assert np.allclose(m.generalized_force(q, 10)[:2], [-10 * np.sin(0.2), 10 * np.cos(0.2)])

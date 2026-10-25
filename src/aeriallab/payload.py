@@ -26,3 +26,25 @@ def pickup(state, payload_kg, object_velocity=(0, 0), model=None):
     )
     after = energy(out, new)["total_j"]
     return {"state": out, "model": new, "dissipated_j": float(before - after)}
+
+
+def release(state, payload_kg, model=None):
+    from .core import finite, positive
+    from .planar import Model, energy, kinematics, tip_velocity
+
+    p = Model() if model is None else model
+    x = finite(state, real=True)
+    mass = positive(payload_kg)
+    if x.shape != (10,) or mass > p.payload_kg:
+        raise ValueError("available payload mass and ten-state aircraft required")
+    new = replace(p, payload_kg=p.payload_kg - mass)
+    velocity = tip_velocity(x[:5], x[5:], p)
+    position = kinematics(x[:5], p)["tip"][0]
+    object_energy = 0.5 * mass * (velocity @ velocity) + mass * p.gravity_m_s2 * position[1]
+    return {
+        "state": x.copy(),
+        "model": new,
+        "object_position_m": position,
+        "object_velocity_m_s": velocity,
+        "energy_defect_j": float(energy(x, p)["total_j"] - energy(x, new)["total_j"] - object_energy),
+    }

@@ -121,9 +121,11 @@ def mass_derivatives(q, model=None):
     p = Model() if model is None else model
     x = configuration(q)
     h = 1e-30
-    return np.stack(
-        [np.imag(_mass(x.astype(complex) + 1j * h * np.eye(5)[k], p)) / h for k in range(5)], axis=2
-    )
+    # Translation is cyclic; all arm COM positions depend on pitch+joint1 and joint2.
+    first = np.imag(_mass(x.astype(complex) + 1j * h * np.eye(5)[3], p)) / h
+    second = np.imag(_mass(x.astype(complex) + 1j * h * np.eye(5)[4], p)) / h
+    zero = np.zeros((5, 5))
+    return np.stack([zero, zero, first, first, second], axis=2)
 
 
 def coriolis_matrix(q, velocity, model=None):

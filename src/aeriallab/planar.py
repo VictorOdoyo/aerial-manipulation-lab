@@ -90,3 +90,28 @@ def _mass(q, p):
 def mass_matrix(q, model=None):
     p = Model() if model is None else model
     return _mass(configuration(q), p)
+
+
+def potential(q, model=None):
+    p = Model() if model is None else model
+    x = configuration(q)
+    kin = _kinematics(x, p)
+    return float(
+        p.gravity_m_s2
+        * (
+            p.base_mass_kg * x[1]
+            + p.link1_mass_kg * kin["link1"][0][1]
+            + p.link2_mass_kg * kin["link2"][0][1]
+            + p.payload_kg * kin["tip"][0][1]
+        )
+    )
+
+
+def gravity(q, model=None):
+    p = Model() if model is None else model
+    x = configuration(q)
+    kin = _kinematics(x, p)
+    force = np.array([0, p.base_mass_kg * p.gravity_m_s2, 0, 0, 0])
+    for key, mass in (("link1", p.link1_mass_kg), ("link2", p.link2_mass_kg), ("tip", p.payload_kg)):
+        force += mass * p.gravity_m_s2 * kin[key][1][1]
+    return force

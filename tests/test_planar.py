@@ -29,3 +29,14 @@ def test_coupled_mass_matrix_is_spd_and_includes_base_arm_cross_terms():
     matrix = m.mass_matrix([0, 2, 0.2, 0.3, -0.4])
     assert np.allclose(matrix, matrix.T) and np.linalg.eigvalsh(matrix).min() > 0
     assert abs(matrix[0, 3]) > 0.01 and abs(matrix[2, 4]) > 0.001
+
+
+def test_gravity_is_independent_potential_gradient_and_total_weight():
+    q = np.array([0.0, 2.0, 0.2, 0.4, -0.3])
+    g = m.gravity(q)
+    h = 1e-6
+    numerical = np.array(
+        [(m.potential(q + np.eye(5)[k] * h) - m.potential(q - np.eye(5)[k] * h)) / (2 * h) for k in range(5)]
+    )
+    assert np.allclose(g, numerical, atol=1e-8)
+    assert g[1] == pytest.approx(m.Model().total_mass * 9.80665)

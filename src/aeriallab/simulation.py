@@ -65,6 +65,14 @@ class Config:
     def to_dict(self):
         return asdict(self)
 
+    @classmethod
+    def from_dict(cls, value):
+        from dataclasses import fields
+
+        if not isinstance(value, dict) or set(value) - {field.name for field in fields(cls)}:
+            raise ValueError("flight config must contain only declared physical replay fields")
+        return cls(**value)
+
 
 def run(config):
     from .actuators import (

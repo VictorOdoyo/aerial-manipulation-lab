@@ -35,3 +35,9 @@ def test_position_outlier_is_rejected_without_replacing_the_measurement_with_tru
 def test_nondivisible_flight_duration_is_actually_completed():
     r = m.run(m.Config(duration_s=0.017))
     assert r["arrays"]["time_s"][-1] == 0.017 and r["termination"] == "completed"
+
+
+@pytest.mark.parametrize("value", [None, [], {"unknown": 1}, {"dt_s": 0.5}, {"moving_arm": 1}])
+def test_custom_flight_config_rejects_ambiguous_input(value):
+    with pytest.raises(ValueError):
+        m.Config.from_dict(value)

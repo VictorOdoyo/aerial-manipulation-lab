@@ -107,3 +107,28 @@ def step(state, thrusts_n, dt_s, wind_n=(0, 0, 0), model=None):
     out = x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
     out[6:10] = normalize(out[6:10])
     return out
+
+
+def energy(state, model=None):
+    from .core import finite
+
+    p = Model() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (13,):
+        raise ValueError("spatial flight state required")
+    return float(
+        0.5 * p.mass_kg * (x[3:6] @ x[3:6])
+        + 0.5 * np.sum(np.array(p.inertia) * x[10:] ** 2)
+        + p.mass_kg * p.gravity * x[2]
+    )
+
+
+def angular_momentum(state, model=None):
+    from .core import finite
+    from .rotation import matrix
+
+    p = Model() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (13,):
+        raise ValueError("spatial flight state required")
+    return matrix(x[6:10]) @ (np.array(p.inertia) * x[10:])

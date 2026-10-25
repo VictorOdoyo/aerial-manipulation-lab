@@ -35,3 +35,14 @@ def test_spatial_integrator_matches_analytic_ballistic_translation():
     y = m.step(x, np.zeros(4), dt, model=p)
     assert np.allclose(y[:3], x[:3] + x[3:6] * dt + [0, 0, -0.5 * p.gravity * dt**2])
     assert np.linalg.norm(y[6:10]) == pytest.approx(1)
+
+
+def test_torque_free_spatial_rotation_conserves_energy_and_inertial_momentum():
+    p = m.Model(gravity=0)
+    x = np.r_[np.zeros(6), [1.0, 0.0, 0.0, 0.0], [1.0, 2.0, 3.0]]
+    e = m.energy(x, p)
+    h = m.angular_momentum(x, p)
+    for _ in range(100):
+        x = m.step(x, np.zeros(4), 0.002, model=p)
+    assert m.energy(x, p) == pytest.approx(e, abs=1e-10)
+    assert np.allclose(m.angular_momentum(x, p), h, atol=1e-10)

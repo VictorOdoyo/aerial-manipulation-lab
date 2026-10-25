@@ -104,7 +104,7 @@ def internal_reaction(scale=1, seed=42):
 
 
 def trim_workspace(scale=1, seed=42):
-    from .actuators import allocate
+    from .actuators import allocate, wrench_error_n
     from .control import hover_trim
     from .planar import Model
 
@@ -119,7 +119,7 @@ def trim_workspace(scale=1, seed=42):
             r = hover_trim([0, 2, 0, q1, -q1], p)
             allocation = allocate(r["thrust_n"], r["body_torque_nm"])
             forces.append(allocation["thrusts_n"])
-            residual.append(np.linalg.norm(allocation["residual"]))
+            residual.append(wrench_error_n(allocation["residual"]))
         forces = np.array(forces)
         a[label + "_left_n"] = forces[:, 0]
         a[label + "_right_n"] = forces[:, 1]
@@ -148,11 +148,11 @@ def trim_workspace(scale=1, seed=42):
                 "joint1_rad",
                 [("nominal_residual", "Nominal payload"), ("heavy_residual", "Heavy payload")],
                 "Relative q1 (rad)",
-                "Wrench residual norm (mixed N / Nm)",
+                "Force-equivalent wrench residual (N)",
             ),
         ],
         assumptions=[
-            "Residual norm combines stated force and torque coordinates; allocator uses explicit [1,4] wrench weights."
+            "Torque residual is divided by the 0.25 m lever arm before combining with force; allocator weights are [1,4]."
         ],
     )
 

@@ -38,7 +38,7 @@ def study(name, config):
         "electrical_wh": float(np.trapezoid(a["electric_w"], t) / 3600),
         "maximum_mechanical_defect_j": float(max(abs(a["mechanical_defect_j"]))),
         "position_rejections": int(sum(a["position_available"] & ~a["position_accepted"])),
-        "maximum_allocation_residual": float(max(a["allocation_residual"])),
+        "maximum_allocation_residual_n": float(max(a["allocation_residual_n"])),
     }
     plots = [
         curve(

@@ -67,7 +67,15 @@ class Config:
 
 
 def run(config):
-    from .actuators import allocate, joint_effort, mean_thrust, rotor_step, speed_ceiling, wrench
+    from .actuators import (
+        allocate,
+        joint_effort,
+        mean_thrust,
+        rotor_step,
+        speed_ceiling,
+        wrench,
+        wrench_error_n,
+    )
     from .control import PositionIntegral, arm_effort_for_wrench, command
     from .electrics import battery_point, battery_step, propulsion_power, servo_power
     from .environment import gust
@@ -113,7 +121,7 @@ def run(config):
         "electric_w",
         "mechanical_defect_j",
         "pitch_reference_rad",
-        "allocation_residual",
+        "allocation_residual_n",
         "position_nis",
         "wind_m_s",
     ):
@@ -234,7 +242,7 @@ def run(config):
             "electric_w": electrical,
             "mechanical_defect_j": advanced["mechanical_defect_j"],
             "pitch_reference_rad": requested["pitch_reference_rad"],
-            "allocation_residual": np.linalg.norm(allocation["residual"]),
+            "allocation_residual_n": wrench_error_n(allocation["residual"]),
             "position_nis": result["position_nis"],
             "wind_m_s": wind,
             "position_available": position is not None,

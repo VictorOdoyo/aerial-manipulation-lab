@@ -64,7 +64,7 @@ def test_known_payload_starts_at_consistent_hover_support():
 
 def test_partial_loss_produces_real_actuator_saturation_residual():
     r = m.study("partial-actuator-loss", m.Config(duration_s=0.4, actuator_fault=True, fault_time_s=0.1))
-    assert r["summary"]["maximum_allocation_residual"] > 0.1
+    assert r["summary"]["maximum_allocation_residual_n"] > 0.1
 
 
 def test_complete_loss_models_rotor_coasting_and_unattainable_wrench():
@@ -73,7 +73,7 @@ def test_complete_loss_models_rotor_coasting_and_unattainable_wrench():
         m.Config(duration_s=0.4, actuator_fault=True, fault_time_s=0.1, health_after=(0, 1)),
     )
     a = r["arrays"]
-    assert r["summary"]["maximum_allocation_residual"] > 1
+    assert r["summary"]["maximum_allocation_residual_n"] > 1
     assert a["rotor_thrust_n"][-1, 0] < a["rotor_thrust_n"][1, 0]
 
 

@@ -27,3 +27,10 @@ def test_reaction_compensator_cancels_static_arm_torque_while_baseline_retains_d
         u = generalized_force(x[:5], r["thrust_n"], r["body_torque_nm"], r["joint_torques_nm"])
         results.append(acceleration(x[:5], x[5:], u))
     assert np.linalg.norm(results[0]) < 1e-11 and abs(results[1][2]) > 0.1
+
+
+def test_position_integral_does_not_wind_up_unbounded_under_unavailable_acceleration():
+    r = m.PositionIntegral()
+    for _ in range(100):
+        r.update([10, 10], 0.1, [3, 3], [0, 0])
+    assert np.all(abs(r.value) <= 1)

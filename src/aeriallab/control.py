@@ -81,3 +81,28 @@ def command(state, reference, model=None, reaction_compensation=True, integral_a
         "base_acceleration_m_s2": base_acc,
         "generalized_reference": force,
     }
+
+
+class PositionIntegral:
+    def __init__(self, gain=0.3, tracking_s=0.5, maximum_m_s2=1):
+        from .core import positive
+
+        self.gain = positive(gain, allow_zero=True)
+        self.tracking = positive(tracking_s)
+        self.maximum = positive(maximum_m_s2)
+        self.value = np.zeros(2)
+
+    def update(self, position_error, dt_s, requested_acceleration=(0, 0), achieved_acceleration=(0, 0)):
+        from .core import finite, positive
+
+        error = finite(position_error, real=True)
+        requested = finite(requested_acceleration, real=True)
+        achieved = finite(achieved_acceleration, real=True)
+        if error.shape != (2,) or requested.shape != (2,) or achieved.shape != (2,):
+            raise ValueError("two-axis integral inputs required")
+        self.value = np.clip(
+            self.value + positive(dt_s) * (self.gain * error + (achieved - requested) / self.tracking),
+            -self.maximum,
+            self.maximum,
+        )
+        return self.value.copy()

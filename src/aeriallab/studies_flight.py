@@ -163,3 +163,7 @@ def payload_known(scale=1, seed=42):
     return study(
         "known-heavy-payload", Config(dt_s=0.005 / scale, seed=seed, payload_kg=0.45, assumed_payload_kg=0.45)
     )
+
+
+def partial_loss(scale=1, seed=42):
+    return study("partial-actuator-loss", Config(dt_s=0.005 / scale, seed=seed, actuator_fault=True))

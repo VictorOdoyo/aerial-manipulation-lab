@@ -61,3 +61,8 @@ def test_unmodeled_payload_produces_initial_weight_support_error():
 def test_known_payload_starts_at_consistent_hover_support():
     r = m.study("known-heavy-payload", m.Config(duration_s=0.3, payload_kg=0.45, assumed_payload_kg=0.45))
     assert r["summary"]["position_rmse_m"] < 0.05
+
+
+def test_partial_loss_produces_real_actuator_saturation_residual():
+    r = m.study("partial-actuator-loss", m.Config(duration_s=0.4, actuator_fault=True, fault_time_s=0.1))
+    assert r["summary"]["maximum_allocation_residual"] > 0.1

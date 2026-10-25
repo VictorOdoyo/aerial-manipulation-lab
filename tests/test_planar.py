@@ -23,3 +23,9 @@ def test_tip_jacobian_matches_independent_centered_position_difference():
         ]
     )
     assert np.allclose(a["tip"][1], numerical, atol=1e-9)
+
+
+def test_coupled_mass_matrix_is_spd_and_includes_base_arm_cross_terms():
+    matrix = m.mass_matrix([0, 2, 0.2, 0.3, -0.4])
+    assert np.allclose(matrix, matrix.T) and np.linalg.eigvalsh(matrix).min() > 0
+    assert abs(matrix[0, 3]) > 0.01 and abs(matrix[2, 4]) > 0.001

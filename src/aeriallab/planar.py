@@ -71,3 +71,22 @@ def _kinematics(q, p):
 def kinematics(q, model=None):
     p = Model() if model is None else model
     return _kinematics(configuration(q), p)
+
+
+def _mass(q, p):
+    kin = _kinematics(q, p)
+    matrix = np.diag(
+        np.array([p.base_mass_kg, p.base_mass_kg, p.base_inertia_kg_m2, 0, 0], dtype=np.result_type(q, float))
+    )
+    for key, mass in (("link1", p.link1_mass_kg), ("link2", p.link2_mass_kg), ("tip", p.payload_kg)):
+        jac = kin[key][1]
+        matrix += mass * jac.T @ jac
+    w1 = np.array([0, 0, 1, 1, 0])
+    w2 = np.array([0, 0, 1, 1, 1])
+    i1, i2 = p.inertias
+    return matrix + i1 * np.outer(w1, w1) + i2 * np.outer(w2, w2)
+
+
+def mass_matrix(q, model=None):
+    p = Model() if model is None else model
+    return _mass(configuration(q), p)

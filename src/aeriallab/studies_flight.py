@@ -174,3 +174,7 @@ def complete_loss(scale=1, seed=42):
         "complete-actuator-loss",
         Config(dt_s=0.005 / scale, seed=seed, actuator_fault=True, health_after=(0, 1)),
     )
+
+
+def low_pack(scale=1, seed=42):
+    return study("low-pack-headroom", Config(dt_s=0.005 / scale, seed=seed, initial_soc=0.15))

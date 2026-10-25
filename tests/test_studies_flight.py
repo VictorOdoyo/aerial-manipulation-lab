@@ -76,3 +76,10 @@ def test_complete_loss_models_rotor_coasting_and_unattainable_wrench():
     a = r["arrays"]
     assert r["summary"]["maximum_allocation_residual"] > 1
     assert a["rotor_thrust_n"][-1, 0] < a["rotor_thrust_n"][1, 0]
+
+
+def test_low_pack_draws_more_current_for_comparable_hover_power():
+    low = m.study("low-pack-headroom", m.Config(duration_s=0.2, initial_soc=0.15, moving_arm=False))
+    normal = m.study("sensor-feedback-hover", m.Config(duration_s=0.2, moving_arm=False))
+    assert np.mean(low["arrays"]["bus_v"]) < np.mean(normal["arrays"]["bus_v"])
+    assert np.mean(low["arrays"]["battery_current_a"]) > np.mean(normal["arrays"]["battery_current_a"])

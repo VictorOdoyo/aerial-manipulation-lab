@@ -40,3 +40,17 @@ def test_gravity_is_independent_potential_gradient_and_total_weight():
     )
     assert np.allclose(g, numerical, atol=1e-8)
     assert g[1] == pytest.approx(m.Model().total_mass * 9.80665)
+
+
+def test_mass_complex_step_derivatives_match_centered_real_differences():
+    q = np.array([0.0, 2.0, 0.2, 0.4, -0.3])
+    d = m.mass_derivatives(q)
+    h = 1e-5
+    numerical = np.stack(
+        [
+            (m.mass_matrix(q + np.eye(5)[k] * h) - m.mass_matrix(q - np.eye(5)[k] * h)) / (2 * h)
+            for k in range(5)
+        ],
+        axis=2,
+    )
+    assert np.allclose(d, numerical, atol=1e-9)

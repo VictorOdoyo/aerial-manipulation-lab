@@ -115,3 +115,12 @@ def gravity(q, model=None):
     for key, mass in (("link1", p.link1_mass_kg), ("link2", p.link2_mass_kg), ("tip", p.payload_kg)):
         force += mass * p.gravity_m_s2 * kin[key][1][1]
     return force
+
+
+def mass_derivatives(q, model=None):
+    p = Model() if model is None else model
+    x = configuration(q)
+    h = 1e-30
+    return np.stack(
+        [np.imag(_mass(x.astype(complex) + 1j * h * np.eye(5)[k], p)) / h for k in range(5)], axis=2
+    )

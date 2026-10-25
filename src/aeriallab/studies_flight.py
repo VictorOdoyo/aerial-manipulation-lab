@@ -83,6 +83,43 @@ def study(name, config):
             "Error (m)",
         ),
     ]
+    if config.initial_soc < 0.5:
+        a["left_force_n"] = a["rotor_thrust_n"][:, 0]
+        a["right_force_n"] = a["rotor_thrust_n"][:, 1]
+        a["left_capacity_n"] = a["rotor_capacity_n"][:, 0]
+        a["right_capacity_n"] = a["rotor_capacity_n"][:, 1]
+        plots = [
+            curve(
+                "Loaded pack bus voltage",
+                "time_s",
+                [("bus_v", "Terminal bus")],
+                "Time (s)",
+                "Voltage (V)",
+                valid="valid_sample",
+            ),
+            curve(
+                "Electrical discharge current",
+                "time_s",
+                [("battery_current_a", "Pack current")],
+                "Time (s)",
+                "Current (A)",
+                valid="valid_sample",
+            ),
+            curve("Remaining charge", "time_s", [("battery_soc", "SOC")], "Time (s)", "SOC"),
+            curve(
+                "Rotor operating point and target-speed ceiling",
+                "time_s",
+                [
+                    ("left_force_n", "Delivered left"),
+                    ("right_force_n", "Delivered right"),
+                    ("left_capacity_n", "Left capacity"),
+                    ("right_capacity_n", "Right capacity"),
+                ],
+                "Time (s)",
+                "Force (N)",
+                valid="valid_sample",
+            ),
+        ]
     return make(
         name,
         {

@@ -66,13 +66,13 @@ class Config:
 
 def run(config):
     from .actuators import allocate, joint_effort, mean_thrust, rotor_step, speed_ceiling, wrench
-    from .control import PositionIntegral, command
+    from .control import PositionIntegral, arm_effort_for_wrench, command
     from .electrics import battery_point, battery_step, propulsion_power, servo_power
     from .environment import gust
     from .estimation import Navigation
     from .integration import wrench_step
     from .planar import Model, kinematics
-    from .sensors import EncoderVelocity, Suite, encoder
+    from .sensors import EncoderVelocity, Suite, encoder, rotor_tachometer
     from .trajectory import reference
 
     if not isinstance(config, Config):
@@ -153,7 +153,13 @@ def run(config):
         ceiling = speed_ceiling(bus, health=health)
         maximum = 2e-5 * ceiling**2
         allocation = allocate(requested["thrust_n"], requested["body_torque_nm"], maximum_n=maximum)
-        joint = joint_effort(requested["joint_torques_nm"], previous_joint, dt)["torque_nm"]
+        joint_request = requested["joint_torques_nm"]
+        if config.reaction_compensation:
+            measured_wrench = wrench(2e-5 * rotor_tachometer(sensors, rotor_speed) ** 2)
+            joint_request = arm_effort_for_wrench(
+                feedback, requested["joint_acceleration_rad_s2"], measured_wrench, controller_model
+            )["torque_nm"]
+        joint = joint_effort(joint_request, previous_joint, dt)["torque_nm"]
         previous_joint = joint
         average_thrust = mean_thrust(rotor_speed, allocation["thrusts_n"], dt, maximum_rad_s=ceiling)
         rotors = rotor_step(rotor_speed, allocation["thrusts_n"], dt, maximum_rad_s=ceiling)

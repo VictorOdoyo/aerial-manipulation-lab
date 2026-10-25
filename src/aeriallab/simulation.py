@@ -118,6 +118,7 @@ def run(config):
         "reference_position_m": (2,),
         "reference_arm_rad": (2,),
         "rotor_thrust_n": (2,),
+        "rotor_capacity_n": (2,),
         "joint_torque_nm": (2,),
         "tip_m": (2,),
         "navigation_covariance": (6, 6),
@@ -137,6 +138,7 @@ def run(config):
         arrays[key] = np.zeros(n)
     for key in ("position_available", "position_accepted", "imu_valid"):
         arrays[key] = np.zeros(n, bool)
+    arrays["rotor_capacity_n"][0] = 2e-5 * speed_ceiling(bus) ** 2
     arrays["state"][0] = state
     arrays["estimated_state"][0] = np.r_[nav.state[:2], 0.0, enc, nav.state[2:4], 0.0, joint_rate]
     arrays["battery_soc"][0] = pack_soc
@@ -241,6 +243,7 @@ def run(config):
         arrays["reference_position_m"][k] = display_ref["base"]["position"]
         arrays["reference_arm_rad"][k] = display_ref["arm"]["position"]
         arrays["rotor_thrust_n"][k] = average_thrust
+        arrays["rotor_capacity_n"][k] = maximum
         arrays["joint_torque_nm"][k] = joint
         arrays["tip_m"][k] = kinematics(state[:5], plant)["tip"][0]
         arrays["navigation_covariance"][k] = nav.covariance

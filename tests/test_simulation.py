@@ -41,3 +41,10 @@ def test_nondivisible_flight_duration_is_actually_completed():
 def test_custom_flight_config_rejects_ambiguous_input(value):
     with pytest.raises(ValueError):
         m.Config.from_dict(value)
+
+
+def test_replay_retains_actual_voltage_dependent_rotor_capacity():
+    r = m.run(m.Config(duration_s=0.017, initial_soc=0.15))
+    a = r["arrays"]
+    assert a["rotor_capacity_n"].shape == a["rotor_thrust_n"].shape
+    assert max(a["rotor_capacity_n"][1:].ravel()) < 20

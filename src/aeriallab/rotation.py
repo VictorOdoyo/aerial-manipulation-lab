@@ -26,3 +26,17 @@ def matrix(quaternion):
             [2 * (x * z - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y)],
         ]
     )
+
+
+def integrate(quaternion, omega_rad_s, dt_s):
+    from .core import finite, positive
+
+    q = normalize(quaternion)
+    omega = finite(omega_rad_s, real=True)
+    dt = positive(dt_s)
+    if omega.shape != (3,):
+        raise ValueError("three body angular rates required")
+    angle = np.linalg.norm(omega) * dt
+    vector = omega * dt / 2 * np.sinc(angle / (2 * np.pi))
+    increment = np.r_[np.cos(angle / 2), vector]
+    return multiply(q, increment)

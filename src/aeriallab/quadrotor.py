@@ -79,3 +79,31 @@ def acceleration(quaternion, velocity, omega, thrusts_n, wind_n=(0, 0, 0), model
     )
     angular = (wrench[1:] - np.cross(w, inertia * w)) / inertia
     return linear, angular
+
+
+def rhs(state, thrusts_n, wind_n=(0, 0, 0), model=None):
+    from .core import finite
+
+    x = finite(state, real=True)
+    if x.shape != (13,):
+        raise ValueError("position velocity quaternion body-rate state required")
+    linear, angular = acceleration(x[6:10], x[3:6], x[10:], thrusts_n, wind_n, model)
+    q = x[6:10]
+    w = x[10:]
+    derivative = 0.5 * np.r_[-q[1:] @ w, q[0] * w + np.cross(q[1:], w)]
+    return np.r_[x[3:6], linear, derivative, angular]
+
+
+def step(state, thrusts_n, dt_s, wind_n=(0, 0, 0), model=None):
+    from .core import finite, positive
+    from .rotation import normalize
+
+    x = finite(state, real=True)
+    dt = positive(dt_s)
+    k1 = rhs(x, thrusts_n, wind_n, model)
+    k2 = rhs(x + dt * k1 / 2, thrusts_n, wind_n, model)
+    k3 = rhs(x + dt * k2 / 2, thrusts_n, wind_n, model)
+    k4 = rhs(x + dt * k3, thrusts_n, wind_n, model)
+    out = x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
+    out[6:10] = normalize(out[6:10])
+    return out

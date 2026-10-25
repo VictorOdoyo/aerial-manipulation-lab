@@ -26,3 +26,12 @@ def test_full_quad_hover_matches_weight_without_fictitious_angular_acceleration(
     p = m.Model()
     a, w = m.acceleration([1, 0, 0, 0], [0, 0, 0], [0, 0, 0], np.full(4, p.mass_kg * p.gravity / 4), model=p)
     assert np.allclose(a, 0) and np.allclose(w, 0)
+
+
+def test_spatial_integrator_matches_analytic_ballistic_translation():
+    p = m.Model()
+    x = np.r_[[0.0, 0.0, 10.0], [1.0, 2.0, 3.0], [1.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
+    dt = 0.02
+    y = m.step(x, np.zeros(4), dt, model=p)
+    assert np.allclose(y[:3], x[:3] + x[3:6] * dt + [0, 0, -0.5 * p.gravity * dt**2])
+    assert np.linalg.norm(y[6:10]) == pytest.approx(1)

@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import sensors as m
 
@@ -13,3 +14,10 @@ def test_joint_encoder_roundtrip_error_is_bounded_by_half_count():
     r = m.encoder(q)
     assert np.max(abs(r["angle_rad"] - q)) <= r["lsb_rad"] / 2
     assert np.all(m.encoder([0, 0])["codes"] == 0)
+
+
+def test_encoder_rate_filter_handles_wrap_without_false_impulse():
+    r = m.EncoderVelocity(0.001)
+    r.update([np.pi - 0.01, 0], 0.01)
+    v = r.update([-np.pi + 0.01, 0], 0.01)
+    assert v[0] == pytest.approx(2, rel=1e-4) and v[1] == 0

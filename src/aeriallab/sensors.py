@@ -27,3 +27,27 @@ def encoder(joints_rad, counts=16384):
     codes = np.rint(q * counts / (2 * np.pi)).astype(np.int64) % counts
     angle = (codes * 2 * np.pi / counts + np.pi) % (2 * np.pi) - np.pi
     return {"codes": codes, "angle_rad": angle, "lsb_rad": 2 * np.pi / counts}
+
+
+class EncoderVelocity:
+    def __init__(self, time_constant_s=0.03):
+        from .core import positive
+
+        self.tau = positive(time_constant_s)
+        self.previous = None
+        self.velocity = np.zeros(2)
+
+    def update(self, angles, dt_s):
+        from .core import finite, positive
+
+        q = finite(angles, real=True)
+        dt = positive(dt_s)
+        if q.shape != (2,):
+            raise ValueError("two joint angles required")
+        if self.previous is not None:
+            delta = (q - self.previous + np.pi) % (2 * np.pi) - np.pi
+            raw = delta / dt
+            decay = np.exp(-dt / self.tau)
+            self.velocity = decay * self.velocity + (1 - decay) * raw
+        self.previous = q.copy()
+        return self.velocity.copy()

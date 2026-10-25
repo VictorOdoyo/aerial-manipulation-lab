@@ -42,3 +42,20 @@ def test_spatial_attitude_torque_is_restoring_and_cancels_gyroscopic_drift():
     current = integrate([1, 0, 0, 0], [0.1, 0, 0], 1)
     torque = m.attitude_torque(current, [0, 0, 0], [1, 0, 0, 0])
     assert torque[0] < 0 and np.allclose(torque[1:], 0)
+
+
+def test_dynamic_compensation_preserves_arm_task_when_horizontal_base_demand_is_unattainable():
+    from aeriallab.planar import acceleration, generalized_force
+
+    x = np.r_[[0.0, 2.0, 0.3, 0.2, -0.3], np.zeros(5)]
+    ref = {
+        "base": {"position": x[:2], "velocity": np.zeros(2), "acceleration": np.zeros(2)},
+        "arm": {"position": x[3:5], "velocity": np.zeros(2), "acceleration": np.zeros(2)},
+    }
+    command = m.command(x, ref)
+    force = generalized_force(
+        x[:5], command["thrust_n"], command["body_torque_nm"], command["joint_torques_nm"]
+    )
+    actual = acceleration(x[:5], x[5:], force)
+    assert np.allclose(actual[3:], 0, atol=1e-10)
+    assert np.allclose(actual[:2], command["feasible_base_acceleration_m_s2"], atol=1e-10)

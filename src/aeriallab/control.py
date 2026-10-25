@@ -72,13 +72,25 @@ def command(state, reference, model=None, reaction_compensation=True, integral_a
             + (coriolis_matrix(q, np.r_[np.zeros(3), v[3:]], p) @ np.r_[np.zeros(3), v[3:]])[3:]
             + g[3:],
         ]
-    thrust = max(0, float(force[:2] @ np.array([-np.sin(q[2]), np.cos(q[2])])))
+    direction = np.array([-np.sin(q[2]), np.cos(q[2])])
+    thrust = max(0, float(force[:2] @ direction))
+    if reaction_compensation:
+        # The single thrust axis cannot realize an arbitrary two-axis base acceleration.
+        # Project that demand first, then compute arm and attitude efforts from the feasible acceleration.
+        base_acc_feasible = np.linalg.solve(
+            inertia[:2, :2], direction * thrust - inertia[:2, 2:] @ desired[2:] - c[:2] - g[:2]
+        )
+        desired[:2] = base_acc_feasible
+        force = inertia @ desired + c + g
+    else:
+        base_acc_feasible = base_acc
     return {
         "thrust_n": thrust,
         "body_torque_nm": float(force[2]),
         "joint_torques_nm": force[3:],
         "pitch_reference_rad": pitch,
         "base_acceleration_m_s2": base_acc,
+        "feasible_base_acceleration_m_s2": base_acc_feasible,
         "generalized_reference": force,
     }
 

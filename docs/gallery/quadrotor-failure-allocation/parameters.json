@@ -1,0 +1,15 @@
+{
+  "failed_rotor": 0,
+  "model": {
+    "arm_m": 0.2,
+    "gravity": 9.80665,
+    "inertia": [
+      0.03,
+      0.035,
+      0.05
+    ],
+    "mass_kg": 1.8,
+    "yaw_ratio_m": 0.015
+  },
+  "thrust_request_n": 20
+}

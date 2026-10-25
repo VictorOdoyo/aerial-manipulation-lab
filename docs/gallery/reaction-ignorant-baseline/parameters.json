@@ -1,0 +1,151 @@
+{
+  "actuators": {
+    "aggregate_pairs": 2,
+    "arm_m": 0.25,
+    "ct_n_s2": 2e-05,
+    "joint_max_nm": 2,
+    "joint_slew_nm_s": 40,
+    "lag_s": 0.035,
+    "rated_rad_s": 1000
+  },
+  "configuration": {
+    "actuator_fault": false,
+    "assumed_payload_kg": 0.1,
+    "dt_s": 0.005,
+    "duration_s": 6.0,
+    "fault_time_s": 3.0,
+    "feedback": "estimated",
+    "health_after": [
+      0.2,
+      1.0
+    ],
+    "initial_soc": 0.9,
+    "integral": true,
+    "moving_arm": true,
+    "moving_base": false,
+    "outlier_time_s": 3.0,
+    "payload_kg": 0.1,
+    "position_outage": null,
+    "position_outlier": false,
+    "reaction_compensation": false,
+    "seed": 42,
+    "wind_peak_m_s": 0.0
+  },
+  "controller": {
+    "base_acceleration_limit_m_s2": 3,
+    "base_kd": 3,
+    "base_kp": 4,
+    "integral_gain": 0.3,
+    "integral_limit_m_s2": 1,
+    "integral_tracking_s": 0.5,
+    "joint_acceleration_limit_rad_s2": 40,
+    "joint_kd": 12,
+    "joint_kp": 60,
+    "pitch_kd": 16,
+    "pitch_kp": 64,
+    "pitch_limit_rad": 0.6
+  },
+  "controller_model": {
+    "base_inertia_kg_m2": 0.035,
+    "base_mass_kg": 1.8,
+    "gravity_m_s2": 9.80665,
+    "link1_m": 0.35,
+    "link1_mass_kg": 0.25,
+    "link2_m": 0.3,
+    "link2_mass_kg": 0.18,
+    "payload_kg": 0.1
+  },
+  "environment": {
+    "drag_areas_m2": [
+      0.08,
+      0.12
+    ],
+    "gust_duration_s": 2,
+    "gust_start_s": 2
+  },
+  "flight_envelope": {
+    "maximum_abs_pitch_rad": 1.4,
+    "minimum_base_height_m": 0.2,
+    "minimum_soc": 0.05
+  },
+  "navigation": {
+    "acceleration_sample_std_m_s2": 0.1,
+    "attitude_gate_nis": 9,
+    "bias_walk_std": 0.01,
+    "initial_position_m": [
+      0.03,
+      1.97
+    ],
+    "initial_std": [
+      0.1,
+      0.1,
+      0.2,
+      0.2,
+      0.1,
+      0.1
+    ],
+    "position_gate_nis": 9.21034
+  },
+  "pack": {
+    "capacity_ah": 5,
+    "cell_ocv_intercept_v": 3.3,
+    "cell_ocv_soc_gain_v": 0.9,
+    "resistance_ohm": 0.06,
+    "series": 6
+  },
+  "plant": {
+    "base_inertia_kg_m2": 0.035,
+    "base_mass_kg": 1.8,
+    "gravity_m_s2": 9.80665,
+    "link1_m": 0.35,
+    "link1_mass_kg": 0.25,
+    "link2_m": 0.3,
+    "link2_mass_kg": 0.18,
+    "payload_kg": 0.1
+  },
+  "power": {
+    "aggregate_disk_area_m2": 0.08,
+    "air_density_kg_m3": 1.225,
+    "auxiliary_w": 20,
+    "profile_coefficient": 2e-08,
+    "propulsive_efficiency": 0.65,
+    "servo_efficiency": 0.7,
+    "servo_idle_per_joint_w": 3
+  },
+  "reference": {
+    "arm_move_duration_s": 2,
+    "base_end_m": [
+      0,
+      2
+    ],
+    "base_move_duration_s": 3,
+    "base_start_m": [
+      0,
+      2
+    ],
+    "joint_end_rad": [
+      0.7,
+      -0.8
+    ],
+    "joint_start_rad": [
+      0,
+      0
+    ],
+    "start_s": 1
+  },
+  "sensors": {
+    "accel_bias_body_m_s2": [
+      0.03,
+      -0.02
+    ],
+    "accel_std_m_s2": 0.05,
+    "attitude_period_s": 0.02,
+    "attitude_std_rad": 0.003,
+    "encoder_counts": 16384,
+    "gyro_bias_rad_s": 0.005,
+    "gyro_std_rad_s": 0.003,
+    "position_period_s": 0.1,
+    "position_std_m": 0.02,
+    "rotor_std_rad_s": 1
+  }
+}

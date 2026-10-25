@@ -1,0 +1,27 @@
+{
+  "attitude_period_s": 0.02,
+  "dt_s": 0.005,
+  "navigation": {
+    "acceleration_sample_std": 0.1,
+    "attitude_gate_nis": 9,
+    "bias_walk_std": 0.01,
+    "position_gate_nis": 9.21034
+  },
+  "outage_s": [
+    2,
+    4
+  ],
+  "position_period_s": 0.1,
+  "seed": 42,
+  "sensor_model": {
+    "accel_bias_body_m_s2": [
+      0.03,
+      -0.02
+    ],
+    "accel_std_m_s2": 0.05,
+    "attitude_std_rad": 0.003,
+    "gyro_bias_rad_s": 0.005,
+    "gyro_std_rad_s": 0.003,
+    "position_std_m": 0.02
+  }
+}

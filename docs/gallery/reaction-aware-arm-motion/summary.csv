@@ -1,0 +1,11 @@
+metric,value
+achieved_duration_s,6.0
+arm_rmse_rad,0.0026927161529022164
+completion_fraction,1.0
+electrical_wh,0.5374702928702516
+final_arm_error_rad,0.0005406432945626895
+maximum_allocation_residual_n,1.6091724337024826e-14
+maximum_mechanical_defect_j,2.5819845393681984e-12
+position_rejections,0
+position_rmse_m,0.011651642729905867
+termination,completed

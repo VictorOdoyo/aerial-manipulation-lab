@@ -1,0 +1,26 @@
+{
+  "configuration": [
+    0.0,
+    1.0,
+    0.2,
+    0.3,
+    -0.4
+  ],
+  "incoming_velocity": [
+    1.0,
+    -2.0,
+    0.3,
+    0.4,
+    -0.2
+  ],
+  "model": {
+    "base_inertia_kg_m2": 0.035,
+    "base_mass_kg": 1.8,
+    "gravity_m_s2": 9.80665,
+    "link1_m": 0.35,
+    "link1_mass_kg": 0.25,
+    "link2_m": 0.3,
+    "link2_mass_kg": 0.18,
+    "payload_kg": 0.1
+  }
+}

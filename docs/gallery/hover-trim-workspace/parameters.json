@@ -1,0 +1,11 @@
+{
+  "arm_pose_rule": "q2=-q1",
+  "maximum_pair_thrust_n": [
+    20,
+    20
+  ],
+  "payloads_kg": [
+    0.1,
+    0.8
+  ]
+}

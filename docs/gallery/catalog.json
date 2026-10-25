@@ -1,0 +1,780 @@
+{
+  "experiments": [
+    {
+      "archive": "reaction-aware-arm-motion/fields.npz",
+      "case": "reaction-aware-arm-motion",
+      "configuration": {
+        "case": "reaction-aware-arm-motion",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "566c0643164e9df327b67fb64b04b0d81f75639612d53bf15d91cb29735154a8",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "8a23ef865cb1ddca99198d18e464a162270f3830fd5eddb0be529d4af5708466",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0026927161529022164,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5374702928702516,
+        "final_arm_error_rad": 0.0005406432945626895,
+        "maximum_allocation_residual_n": 1.6091724337024826e-14,
+        "maximum_mechanical_defect_j": 2.5819845393681984e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.011651642729905867,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "sensor-feedback-hover/fields.npz",
+      "case": "sensor-feedback-hover",
+      "configuration": {
+        "case": "sensor-feedback-hover",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e14bf457b2d4db2f2a2789360577bbdce9c6016f44ea86202a36e3b1eedea8fb",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "a7cace94f27aaff837019d46edc6b1165152feee19b123e6cfccb8193a1312ef",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.00043233803923790827,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5348582164620225,
+        "final_arm_error_rad": 0.00015821600230144525,
+        "maximum_allocation_residual_n": 1.638707612741825e-14,
+        "maximum_mechanical_defect_j": 1.543555647881556e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.012997564618085301,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "reaction-ignorant-baseline/fields.npz",
+      "case": "reaction-ignorant-baseline",
+      "configuration": {
+        "case": "reaction-ignorant-baseline",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "08f39d6921366530d09d21a66fff0eedd401a7c97e2a3c2525f528d720345794",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "214c9d2ad6de9bff3c8e0ce797681a300c11d244be0e7dd78ccb296d48431987",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.01750316012884268,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5383958469131267,
+        "final_arm_error_rad": 0.021439332134417594,
+        "maximum_allocation_residual_n": 1.652704112758165e-14,
+        "maximum_mechanical_defect_j": 2.7258243405492433e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 1.6311813390563492,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "coordinated-translation/fields.npz",
+      "case": "coordinated-translation",
+      "configuration": {
+        "case": "coordinated-translation",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "5d0126f812e6a2c33b4c3a56e1d52ff1bab6c12190e5f4b6e45c38f0f761f54b",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "4191b4e7448a703519ad22a4fce77c18fb4122e3291e6082279077ba57d1258e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0024847045025261296,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5384583924127514,
+        "final_arm_error_rad": 0.0005899751545912092,
+        "maximum_allocation_residual_n": 1.652704112758165e-14,
+        "maximum_mechanical_defect_j": 5.09236576518024e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.031955723047526634,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "wind-gust-rejection/fields.npz",
+      "case": "wind-gust-rejection",
+      "configuration": {
+        "case": "wind-gust-rejection",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "ecd11aecd07a387b7bed3137a2291495fb6f1782235f8c15a7ace1bca8e1da24",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "51b27e95a14a22e4bcc5f9fd3a58b0df4dfa9d09e9fde96abab3c09eebbb2b20",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.006918087521945919,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.53809140499914,
+        "final_arm_error_rad": 0.0005592838815497966,
+        "maximum_allocation_residual_n": 1.6304788408914756e-14,
+        "maximum_mechanical_defect_j": 2.5819845393681984e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.04600081656992662,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "position-sensor-outage/fields.npz",
+      "case": "position-sensor-outage",
+      "configuration": {
+        "case": "position-sensor-outage",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e461e7f51ab32a4004e7e4f1ac2bf34334ef20dd969a6b904b1ea18875d22e3a",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "bd8b285467964848aafef6a77f8e14af6b393d56abc6e4ac5e6c9f6b054bb7ec",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0026848533430727088,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5373235537696519,
+        "final_arm_error_rad": 0.0006498919409709074,
+        "maximum_allocation_residual_n": 1.6758116906701664e-14,
+        "maximum_mechanical_defect_j": 4.068051017575014e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.03884385228117298,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "position-outlier-gating/fields.npz",
+      "case": "position-outlier-gating",
+      "configuration": {
+        "case": "position-outlier-gating",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e5d75c91aba1d8742e6eaa01bfa6b878b07e63e0ad8827cb9f3c0e260a2afe72",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "71714804442daf71395bf32f6cb33f50f199a1b051c41644e1d914b966bf0121",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.002692172756379517,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5374838278367273,
+        "final_arm_error_rad": 0.0005248405378312338,
+        "maximum_allocation_residual_n": 1.6091724337024826e-14,
+        "maximum_mechanical_defect_j": 2.5819845393681984e-12,
+        "position_rejections": 1,
+        "position_rmse_m": 0.012651269298278265,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "payload-model-mismatch/fields.npz",
+      "case": "payload-model-mismatch",
+      "configuration": {
+        "case": "payload-model-mismatch",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "5f8db176ea374e0f2193b5fc689c57154785ee1ffcd8dcfb6cb66c5d5a695774",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "928ccaf5c9197925bab2a0733470eb71f889899cc3b5b71ec901317e71b26d8d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.31295652969382165,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.6551180403257013,
+        "final_arm_error_rad": 0.5652927897938199,
+        "maximum_allocation_residual_n": 1.7598435796883273e-14,
+        "maximum_mechanical_defect_j": 7.960486436697778e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.18792788473632455,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "known-heavy-payload/fields.npz",
+      "case": "known-heavy-payload",
+      "configuration": {
+        "case": "known-heavy-payload",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "a541c1675506dee0753f16b560f0ae2b255efc19f7935bc0500aaa22ddfddd25",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "36ab06ede0bf0dc6755984d851c611c51739487e81b27b748cccdfc854c8b966",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0029290672690270437,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.6574546882527741,
+        "final_arm_error_rad": 0.0006310511297637503,
+        "maximum_allocation_residual_n": 1.724530548492318e-14,
+        "maximum_mechanical_defect_j": 9.422330320488226e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.011392767255651274,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "partial-actuator-loss/fields.npz",
+      "case": "partial-actuator-loss",
+      "configuration": {
+        "case": "partial-actuator-loss",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "c7bc749f41f0fc289745ba7cea03db57db797e9c8b7a4b76a308b4bd22c3be2f",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "ed0500d7a31911b45898b024457f3dd4e5d65e875bb5e90f143b3436a14fa6be",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 3.84,
+        "arm_rmse_rad": 0.008378071191101196,
+        "completion_fraction": 0.64,
+        "electrical_wh": 0.2955120077872363,
+        "final_arm_error_rad": 0.06121326432044876,
+        "maximum_allocation_residual_n": 23.267778123436646,
+        "maximum_mechanical_defect_j": 5.2303632779027165e-11,
+        "position_rejections": 0,
+        "position_rmse_m": 0.26127985678622506,
+        "termination": "flight-envelope-exceeded"
+      }
+    },
+    {
+      "archive": "complete-actuator-loss/fields.npz",
+      "case": "complete-actuator-loss",
+      "configuration": {
+        "case": "complete-actuator-loss",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "daf485628a6b06fcb4dac2ceb89560a287896b5dedb4ef0775d2533f95d9ccea",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "e9b2a50113fe4f13d3deac55aab31894dbaf682745d49bc6096db857c471d74f",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 3.63,
+        "arm_rmse_rad": 0.009139451102382552,
+        "completion_fraction": 0.605,
+        "electrical_wh": 0.2782622791886294,
+        "final_arm_error_rad": 0.03772396765204984,
+        "maximum_allocation_residual_n": 56.028061046419914,
+        "maximum_mechanical_defect_j": 1.0569371853424991e-10,
+        "position_rejections": 0,
+        "position_rmse_m": 0.20299123019330523,
+        "termination": "flight-envelope-exceeded"
+      }
+    },
+    {
+      "archive": "low-pack-headroom/fields.npz",
+      "case": "low-pack-headroom",
+      "configuration": {
+        "case": "low-pack-headroom",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "98c7205e11d4c5202776d523465875dadc97ef0c533a140763f59ceab8ed0912",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "cea859240a969a9e06461aa176ee9d2a99bb826b27df766d90c6a5ad16adc1d2",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0026927161529022164,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5374702928702516,
+        "final_arm_error_rad": 0.0005406432945626895,
+        "maximum_allocation_residual_n": 1.6091724337024826e-14,
+        "maximum_mechanical_defect_j": 2.5819845393681984e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.011651642729905867,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "ideal-state-feedback-benchmark/fields.npz",
+      "case": "ideal-state-feedback-benchmark",
+      "configuration": {
+        "case": "ideal-state-feedback-benchmark",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "ad37b8326cb7108f843642001b4cc141e33f84df365c0a81563d10d18cc19735",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "2e605349083a7b2bf1a8463062302dba6403fb1ef7b93fe7a7c5044424d77dd7",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "achieved_duration_s": 6.0,
+        "arm_rmse_rad": 0.0014835904139597093,
+        "completion_fraction": 1.0,
+        "electrical_wh": 0.5373404346527539,
+        "final_arm_error_rad": 0.00041994543783745517,
+        "maximum_allocation_residual_n": 1.6978645345907213e-14,
+        "maximum_mechanical_defect_j": 3.3391961071216336e-12,
+        "position_rejections": 0,
+        "position_rmse_m": 0.003882348452334059,
+        "termination": "completed"
+      }
+    },
+    {
+      "archive": "coupled-energy-convergence/fields.npz",
+      "case": "coupled-energy-convergence",
+      "configuration": {
+        "case": "coupled-energy-convergence",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "43876b4a5688626d3f1b7ce6b537627945f32ef23dc32995a7d11a99110cc5a0",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "2c207626d14b08a9adf12cdbbdcf09c2f5a6baa0e392fe142a32768cacf7b8a4",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "coarse_error_j": 2.0370741538044967e-08,
+        "fine_error_j": 4.725109192804666e-12
+      }
+    },
+    {
+      "archive": "internal-reaction-momentum/fields.npz",
+      "case": "internal-reaction-momentum",
+      "configuration": {
+        "case": "internal-reaction-momentum",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "042b84abdec732a4127d1c451a0cd8c206046f438c0ac92c4a4b8244a997d34f",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "2737780af3d7a839a13eaad97d90d5d29fd4798e58f92f8db9afd1b1125f1989",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "final_pitch_rad": -0.17857142857142821,
+        "maximum_momentum_defect_n_s": 3.4528009996214586e-11
+      }
+    },
+    {
+      "archive": "hover-trim-workspace/fields.npz",
+      "case": "hover-trim-workspace",
+      "configuration": {
+        "case": "hover-trim-workspace",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "bdf0eafaf1bc81172693d5d084881557c7584e74e7e35bf3b1ff1d493713c8b9",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "8790f13294fde3e142d95384f5de9be461162c3a7ceaf4a49e18e92ec9db50c1",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "heavy_feasible_fraction": 0.8217821782178217,
+        "nominal_feasible_fraction": 1.0
+      }
+    },
+    {
+      "archive": "rotor-lag-response/fields.npz",
+      "case": "rotor-lag-response",
+      "configuration": {
+        "case": "rotor-lag-response",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "d679bdf0cd9395556a6932f872cfc1282e7212eef6709b246b43d453e1bd2998",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "aeb6255a1756a5bd37d8e42bafbe49aa66b302bd8ee119770df90dbc47d6a1f6",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "final_force_n": 23.99731422121543,
+        "final_torque_nm": 0.9967147948208996
+      }
+    },
+    {
+      "archive": "payload-capture-release/fields.npz",
+      "case": "payload-capture-release",
+      "configuration": {
+        "case": "payload-capture-release",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "3789b74a39958503442e285346e3d832a8d1b89b71d362025bbb807d020b8d7e",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "b24769df3c1ec9b7a602b67826eeafa89a6f428e716bd600d6e9fbc83af50e07",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_energy_defect_j": 1.1102230246251565e-15,
+        "maximum_momentum_defect_n_s": 8.95090418262362e-16
+      }
+    },
+    {
+      "archive": "contact-impact-restitution/fields.npz",
+      "case": "contact-impact-restitution",
+      "configuration": {
+        "case": "contact-impact-restitution",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "cf4b3c86b55d2bd90e67596aaf8da0fa9122aa028d2f0cf9cff4d2d669168581",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "67efb1c161dea4707bd706b4f251c2b1bb33de294a1103a771285ba584288160",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "elastic_energy_loss_j": 4.440892098500626e-15,
+        "maximum_velocity_residual_m_s": 8.881784197001252e-16
+      }
+    },
+    {
+      "archive": "arm-manipulability/fields.npz",
+      "case": "arm-manipulability",
+      "configuration": {
+        "case": "arm-manipulability",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "d3d7539a9f8f48b56d905fa2f32f078582faeb7c5a623301e7b069edbbb9b4d1",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "6aba1d2123af5eaae3aae8a19dad1f81c3b7fb29f6c5ec3a20fd9886ad356f38",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_area_residual_m2": 5.551115123125783e-17
+      }
+    },
+    {
+      "archive": "joint-stop-base-reaction/fields.npz",
+      "case": "joint-stop-base-reaction",
+      "configuration": {
+        "case": "joint-stop-base-reaction",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "4a1869e63ce841e11f70d0f0117444f3a1c664534bdb84271d12b348c7b9016c",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "33f1c1074bd22eacdacf302e1141cb04bc8780ef9e8ae326abc08ca217c447a9",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_momentum_defect_n_s": 1.734723475976807e-17
+      }
+    },
+    {
+      "archive": "kinematic-task-sharing/fields.npz",
+      "case": "kinematic-task-sharing",
+      "configuration": {
+        "case": "kinematic-task-sharing",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "7884090f04cc4958354bb0991c66c39131c785b840175db7b82a3ca1a027d826",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "5d32e0b8a25bb43978b9a9180d4f8d11279a9d09c6f54283808b18545dab42c5",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_task_residual_m_s": 7.076311083754595e-17
+      }
+    },
+    {
+      "archive": "spatial-free-rotation/fields.npz",
+      "case": "spatial-free-rotation",
+      "configuration": {
+        "case": "spatial-free-rotation",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "79743fd3504a8fa5bd84279034f3acf1e9f5d9220bc811bcb6df2364bd72a1b4",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "16bc75306a10fb79170072b6f719a135fcbeaba841a419f363fcbc72e98c7f5d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_energy_defect_j": 1.1283751710777778e-12,
+        "maximum_momentum_defect": 3.219978784969722e-11
+      }
+    },
+    {
+      "archive": "spatial-attitude-recovery/fields.npz",
+      "case": "spatial-attitude-recovery",
+      "configuration": {
+        "case": "spatial-attitude-recovery",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "bcaf101bd337c22d2bdecc961afa87b1c00a03fb640ba861e85ffe3288b2111e",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "4ac4ad068f045d4325c7b857584814e2e3aef3f8e91c63ffb1db7f229c568780",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "final_attitude_error_rad": 8.490655324607192e-07,
+        "maximum_force_residual_n": 1.4210854715202004e-14
+      }
+    },
+    {
+      "archive": "quadrotor-failure-allocation/fields.npz",
+      "case": "quadrotor-failure-allocation",
+      "configuration": {
+        "case": "quadrotor-failure-allocation",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "83fb9c0006e1dc1cdbee26dc76ef2b632a1469efd51ece29d8aa65f403c5135d",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "1df764f458e4ded3aa9d3e44f7538781ba76edb83e70a2040edd87d049f66bb4",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_failed_moment_error_nm": 0.5990491676534334
+      }
+    },
+    {
+      "archive": "inertial-position-outage/fields.npz",
+      "case": "inertial-position-outage",
+      "configuration": {
+        "case": "inertial-position-outage",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "9f43eb26609cc1c3b0f66be7cf0cd518d23fd3737fbc0060b1f98a5e4b09e69c",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "138f9674ce8bb201243ccca8e5bfa5100c61e1d552514ec880a5ab0ab0a456aa",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "final_position_error_m": 0.019437316969863568,
+        "maximum_position_error_m": 0.12198646678090344
+      }
+    },
+    {
+      "archive": "navigation-observability/fields.npz",
+      "case": "navigation-observability",
+      "configuration": {
+        "case": "navigation-observability",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "0ed798e21a153081f76fc7f0d7e3808f5def0b72a24fd17e72ed1c618eb80821",
+        "git_dirty": false,
+        "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "f7df2c9f4b8994226a9629dc1e5f42cad6829032034d5afa60b346174475f13d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "three_measurement_rank": 6,
+        "two_measurement_rank": 4
+      }
+    }
+  ],
+  "schema_version": 1
+}

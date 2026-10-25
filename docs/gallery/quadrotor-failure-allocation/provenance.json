@@ -1,0 +1,12 @@
+{
+  "configuration_sha256": "83fb9c0006e1dc1cdbee26dc76ef2b632a1469efd51ece29d8aa65f403c5135d",
+  "git_dirty": false,
+  "git_revision": "1930b2c54813555687ad78d238f2c0751830eb9c",
+  "matplotlib": "3.11.2",
+  "numpy": "2.5.4",
+  "package_version": "0.1.0",
+  "parameters_sha256": "1df764f458e4ded3aa9d3e44f7538781ba76edb83e70a2040edd87d049f66bb4",
+  "python": "3.13.15",
+  "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+  "scipy": "1.18.1"
+}

@@ -1,0 +1,12 @@
+{
+  "achieved_duration_s": 3.63,
+  "arm_rmse_rad": 0.009139451102382552,
+  "completion_fraction": 0.605,
+  "electrical_wh": 0.2782622791886294,
+  "final_arm_error_rad": 0.03772396765204984,
+  "maximum_allocation_residual_n": 56.028061046419914,
+  "maximum_mechanical_defect_j": 1.0569371853424991e-10,
+  "position_rejections": 0,
+  "position_rmse_m": 0.20299123019330523,
+  "termination": "flight-envelope-exceeded"
+}

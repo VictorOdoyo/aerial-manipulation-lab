@@ -1,0 +1,12 @@
+{
+  "achieved_duration_s": 6.0,
+  "arm_rmse_rad": 0.0026848533430727088,
+  "completion_fraction": 1.0,
+  "electrical_wh": 0.5373235537696519,
+  "final_arm_error_rad": 0.0006498919409709074,
+  "maximum_allocation_residual_n": 1.6758116906701664e-14,
+  "maximum_mechanical_defect_j": 4.068051017575014e-12,
+  "position_rejections": 0,
+  "position_rmse_m": 0.03884385228117298,
+  "termination": "completed"
+}

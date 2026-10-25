@@ -1,0 +1,11 @@
+{
+  "coordinate_scaling": "one unit of each stated SI coordinate",
+  "state_units": [
+    "m",
+    "m",
+    "m/s",
+    "m/s",
+    "m/s2",
+    "m/s2"
+  ]
+}

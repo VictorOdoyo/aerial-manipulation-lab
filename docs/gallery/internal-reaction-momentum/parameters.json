@@ -1,0 +1,17 @@
+{
+  "dt_s": 0.0025,
+  "joint_torques_nm": [
+    0.05,
+    -0.04
+  ],
+  "model": {
+    "base_inertia_kg_m2": 0.035,
+    "base_mass_kg": 1.8,
+    "gravity_m_s2": 0,
+    "link1_m": 0.35,
+    "link1_mass_kg": 0.25,
+    "link2_m": 0.3,
+    "link2_mass_kg": 0.18,
+    "payload_kg": 0.1
+  }
+}

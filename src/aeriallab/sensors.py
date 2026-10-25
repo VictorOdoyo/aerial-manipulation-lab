@@ -79,7 +79,7 @@ class Suite:
                 ("attitude", attitude_std),
             )
         }
-        self.rng = {key: stream(seed, "sensor-" + key) for key in self.std}
+        self.rng = {key: stream(seed, "sensor-" + key) for key in [*self.std, "rotor"]}
 
     def imu(self, pitch, rate, acceleration_world, gravity=9.80665):
         from .core import finite
@@ -110,3 +110,12 @@ class Suite:
         return float(
             (pitch + self.rng["attitude"].normal(0, self.std["attitude"]) + np.pi) % (2 * np.pi) - np.pi
         )
+
+
+def rotor_tachometer(suite, speed_rad_s, std_rad_s=1):
+    from .core import finite, positive
+
+    speed = finite(speed_rad_s, real=True)
+    if speed.shape != (2,) or np.any(speed < 0):
+        raise ValueError("two nonnegative rotor-pair speeds required")
+    return np.maximum(0, speed + suite.rng["rotor"].normal(0, positive(std_rad_s, allow_zero=True), 2))

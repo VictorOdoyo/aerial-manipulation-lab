@@ -42,3 +42,9 @@ def test_zero_noise_suite_exposes_declared_imu_bias_without_hidden_truth_correct
     assert r["gyro_rad_s"] == 0.005
     clipped = suite.imu(0, 0, [1000, 0])
     assert not clipped["valid"] and max(abs(clipped["specific_force_m_s2"])) <= 16 * 9.80665
+
+
+def test_zero_noise_tachometer_reports_supplied_rotor_state_without_touching_imu_streams():
+    suite = m.Suite()
+    speed = np.array([700.0, 800.0])
+    assert np.array_equal(m.rotor_tachometer(suite, speed, 0), speed)

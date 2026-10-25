@@ -106,3 +106,19 @@ class PositionIntegral:
             self.maximum,
         )
         return self.value.copy()
+
+
+def attitude_torque(quaternion, omega, desired_quaternion, desired_omega=(0, 0, 0), model=None, kp=64, kd=16):
+    from .core import finite, positive
+    from .quadrotor import Model
+    from .rotation import error
+
+    p = Model() if model is None else model
+    w = finite(omega, real=True)
+    reference = finite(desired_omega, real=True)
+    if w.shape != (3,) or reference.shape != (3,):
+        raise ValueError("spatial body-rate commands required")
+    inertia = np.array(p.inertia)
+    return inertia * (
+        positive(kp) * error(quaternion, desired_quaternion) + positive(kd) * (reference - w)
+    ) + np.cross(w, inertia * w)

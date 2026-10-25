@@ -34,3 +34,11 @@ def test_position_integral_does_not_wind_up_unbounded_under_unavailable_accelera
     for _ in range(100):
         r.update([10, 10], 0.1, [3, 3], [0, 0])
     assert np.all(abs(r.value) <= 1)
+
+
+def test_spatial_attitude_torque_is_restoring_and_cancels_gyroscopic_drift():
+    from aeriallab.rotation import integrate
+
+    current = integrate([1, 0, 0, 0], [0.1, 0, 0], 1)
+    torque = m.attitude_torque(current, [0, 0, 0], [1, 0, 0, 0])
+    assert torque[0] < 0 and np.allclose(torque[1:], 0)

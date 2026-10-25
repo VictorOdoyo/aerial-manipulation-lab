@@ -70,3 +70,9 @@ def test_internal_joint_torques_do_not_invent_external_base_wrench():
     a = m.generalized_force(q, 0, joint_torques=[1, 2])
     assert np.allclose(a, [0, 0, 0, 1, 2])
     assert np.allclose(m.generalized_force(q, 10)[:2], [-10 * np.sin(0.2), 10 * np.cos(0.2)])
+
+
+def test_free_fall_translates_whole_articulated_system_at_gravity():
+    q = [0, 2, 0.2, 0.3, -0.4]
+    a = m.acceleration(q, np.zeros(5), np.zeros(5))
+    assert np.allclose(a, [0, -9.80665, 0, 0, 0], atol=1e-12)

@@ -156,3 +156,16 @@ def generalized_force(
         ]
     )
     return force + kinematics(x, p)["tip"][1].T @ tip
+
+
+def acceleration(q, velocity, force, model=None, damping=(0, 0, 0, 0, 0)):
+    from .core import finite
+
+    p = Model() if model is None else model
+    x = configuration(q)
+    v = configuration(velocity)
+    u = configuration(force)
+    d = finite(damping, real=True)
+    if d.shape != (5,) or np.any(d < 0):
+        raise ValueError("five nonnegative damping coefficients required")
+    return np.linalg.solve(mass_matrix(x, p), u - coriolis_matrix(x, v, p) @ v - gravity(x, p) - d * v)

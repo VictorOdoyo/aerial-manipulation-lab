@@ -127,3 +127,7 @@ def study(name, config):
 
 def nominal(scale=1, seed=42):
     return study("reaction-aware-arm-motion", Config(dt_s=0.005 / scale, seed=seed))
+
+
+def hover(scale=1, seed=42):
+    return study("sensor-feedback-hover", Config(dt_s=0.005 / scale, seed=seed, moving_arm=False))

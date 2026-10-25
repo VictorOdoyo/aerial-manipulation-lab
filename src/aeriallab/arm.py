@@ -20,3 +20,15 @@ def inverse_kinematics(base_pose, target_world_m, elbow=1, model=None):
     q2 = elbow * np.arccos(np.clip(cosine, -1, 1))
     q1 = np.arctan2(u, v) - np.arctan2(p.link2_m * np.sin(q2), p.link1_m + p.link2_m * np.cos(q2))
     return np.array([q1, q2])
+
+
+def manipulability(q, model=None):
+    from .planar import kinematics
+
+    jac = kinematics(q, model)["tip"][1][:, 3:]
+    singular = np.linalg.svd(jac, compute_uv=False)
+    return {
+        "area_m2": float(abs(np.linalg.det(jac))),
+        "singular_values_m": singular,
+        "singular": bool(singular[-1] < 1e-8),
+    }

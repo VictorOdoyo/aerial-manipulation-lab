@@ -122,6 +122,7 @@ def attitude_recovery(scale=1, seed=42):
                 [("moment_residual_nm", "Roll pitch yaw vector norm")],
                 "Time (s)",
                 "Moment (Nm)",
+                ylim=(0, 0.001),
             ),
         ],
         assumptions=[

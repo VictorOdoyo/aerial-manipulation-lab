@@ -14,3 +14,11 @@ def test_servo_braking_dissipates_mechanical_energy_without_claimed_regeneration
     assert r["mechanical_w"] == -4
     assert r["electrical_w"] - r["heat_w"] == pytest.approx(-4)
     assert r["electrical_w"] > 0
+
+
+def test_battery_quadratic_point_closes_terminal_and_internal_power():
+    r = m.battery_point(0.8, 400)
+    assert r["bus_v"] * r["current_a"] == pytest.approx(400)
+    assert r["ocv_v"] * r["current_a"] == pytest.approx(400 + r["heat_w"])
+    with pytest.raises(ValueError):
+        m.battery_point(0.8, 10000)

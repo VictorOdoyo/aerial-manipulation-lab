@@ -32,3 +32,19 @@ def servo_power(torque_nm, speed_rad_s, efficiency=0.7, idle_per_joint_w=3):
         "electrical_w": float(sum(draw)),
         "heat_w": float(sum(draw - mechanical)),
     }
+
+
+def battery_point(soc, power_w, resistance_ohm=0.06, series=6):
+    from .core import integer, positive
+
+    resistance = positive(resistance_ohm)
+    integer(series)
+    if not 0 <= soc <= 1 or not np.isfinite(power_w) or power_w < 0:
+        raise ValueError("bounded SOC and nonnegative electrical demand required")
+    ocv = series * (3.3 + 0.9 * soc)
+    discriminant = ocv**2 - 4 * resistance * power_w
+    if discriminant < 0:
+        raise ValueError("electrical load exceeds voltage-collapse limit")
+    current = 2 * power_w / (ocv + np.sqrt(discriminant))
+    voltage = ocv - resistance * current
+    return {"current_a": current, "bus_v": voltage, "ocv_v": ocv, "heat_w": current**2 * resistance}

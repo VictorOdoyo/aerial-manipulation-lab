@@ -23,3 +23,8 @@ def test_straight_arm_is_singular_while_bent_arm_has_nonzero_area():
 def test_damped_inverse_retains_unattainable_singular_task_residual():
     r = m.damped_velocity([0, 2, 0, 0, 0], [0, 1])
     assert np.allclose(r["joint_rad_s"], 0) and np.linalg.norm(r["residual_m_s"]) == pytest.approx(1)
+
+
+def test_weighted_kinematic_allocation_exactly_reaches_task_without_claiming_dynamic_actuation():
+    r = m.weighted_velocity([0, 2, 0.2, 0.3, -0.4], [0.1, 0.05])
+    assert np.allclose(r["achieved_m_s"], [0.1, 0.05])

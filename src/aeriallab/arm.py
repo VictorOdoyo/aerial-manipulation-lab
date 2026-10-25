@@ -45,3 +45,17 @@ def damped_velocity(q, desired_tip_velocity, damping_m=0.02, model=None):
     jac = kinematics(q, model)["tip"][1][:, 3:]
     rates = jac.T @ np.linalg.solve(jac @ jac.T + lam**2 * np.eye(2), desired)
     return {"joint_rad_s": rates, "achieved_m_s": jac @ rates, "residual_m_s": jac @ rates - desired}
+
+
+def weighted_velocity(q, desired_tip_velocity, weights=(100, 100, 100, 1, 1), model=None):
+    from .core import finite
+    from .planar import kinematics
+
+    desired = finite(desired_tip_velocity, real=True)
+    weight = finite(weights, real=True)
+    if desired.shape != (2,) or weight.shape != (5,) or np.any(weight <= 0):
+        raise ValueError("task velocity and five positive kinematic weights required")
+    jac = kinematics(q, model)["tip"][1]
+    inverse = 1 / weight
+    rates = inverse * (jac.T @ np.linalg.solve((jac * inverse) @ jac.T, desired))
+    return {"generalized_rate": rates, "achieved_m_s": jac @ rates}

@@ -209,3 +209,20 @@ def energy(state, model=None):
 
 def actuator_power(velocity, force):
     return float(configuration(velocity) @ configuration(force))
+
+
+def center_of_mass(q, model=None):
+    p = Model() if model is None else model
+    x = configuration(q)
+    kin = kinematics(x, p)
+    position = p.base_mass_kg * x[:2]
+    jac = p.base_mass_kg * np.column_stack([np.eye(2), np.zeros((2, 3))])
+    for key, mass in (("link1", p.link1_mass_kg), ("link2", p.link2_mass_kg), ("tip", p.payload_kg)):
+        position = position + mass * kin[key][0]
+        jac = jac + mass * kin[key][1]
+    return position / p.total_mass, jac / p.total_mass
+
+
+def linear_momentum(q, velocity, model=None):
+    p = Model() if model is None else model
+    return p.total_mass * center_of_mass(q, p)[1] @ configuration(velocity)

@@ -95,3 +95,16 @@ def test_energy_rate_matches_independent_generalized_actuator_power():
     h = 1e-6
     derivative = (m.energy(x + h * f)["total_j"] - m.energy(x - h * f)["total_j"]) / (2 * h)
     assert derivative == pytest.approx(m.actuator_power(x[5:], u), abs=1e-8)
+
+
+def test_internal_arm_impulse_preserves_total_translational_momentum():
+    from dataclasses import replace
+
+    p = replace(m.Model(), gravity_m_s2=0)
+    x = np.r_[[0.0, 2.0, 0.0, 0.4, -0.3], np.zeros(5)]
+    initial = m.linear_momentum(x[:5], x[5:], p)
+    u = m.generalized_force(x[:5], 0, joint_torques=[0.1, -0.1])
+    for _ in range(20):
+        x = m.step(x, u, 0.001, p)
+    assert np.allclose(m.linear_momentum(x[:5], x[5:], p), initial, atol=1e-9)
+    assert abs(x[7]) > 1e-4

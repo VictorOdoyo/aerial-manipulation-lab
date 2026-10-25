@@ -26,3 +26,9 @@ def test_navigation_prediction_matches_analytic_constant_acceleration_and_bias()
     assert np.allclose(state[:2], 0.5 * np.array([0.9, 2.2]) * 0.5**2)
     assert np.allclose(state[2:4], np.array([0.9, 2.2]) * 0.5)
     assert np.linalg.eigvalsh(p).min() > 0
+
+
+def test_navigation_update_gates_outlier_and_reduces_position_uncertainty():
+    x, p, accepted, _nis = m.navigation_correct(np.zeros(6), np.eye(6), [0.1, 0.2])
+    assert accepted and p[0, 0] < 0.001 and x[0] > 0.09
+    assert not m.navigation_correct(np.zeros(6), np.eye(6), [100, 100])[2]

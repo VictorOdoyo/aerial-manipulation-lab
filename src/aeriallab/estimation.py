@@ -72,3 +72,24 @@ def navigation_predict(state, covariance, acceleration_world, dt_s, acceleration
     q = b @ b.T * std**2
     q[4:, 4:] += np.eye(2) * walk**2 * dt
     return f @ x + b @ a, f @ p @ f.T + q
+
+
+def navigation_correct(state, covariance, position_m, std_m=0.02, gate=9.21034):
+    from .core import finite, positive
+
+    x = finite(state, real=True)
+    p = finite(covariance, real=True)
+    z = finite(position_m, real=True)
+    variance = positive(std_m) ** 2
+    if x.shape != (6,) or p.shape != (6, 6) or z.shape != (2,):
+        raise ValueError("navigation state and planar position measurement required")
+    residual = z - x[:2]
+    s = p[:2, :2] + np.eye(2) * variance
+    nis = float(residual @ np.linalg.solve(s, residual))
+    if nis > positive(gate):
+        return x.copy(), p.copy(), False, nis
+    gain = np.linalg.solve(s, p[:, :2].T).T
+    h = np.column_stack([np.eye(2), np.zeros((2, 4))])
+    j = np.eye(6) - gain @ h
+    post = j @ p @ j.T + gain @ gain.T * variance
+    return x + gain @ residual, (post + post.T) / 2, True, nis

@@ -27,3 +27,9 @@ def test_payload_sequence_conserves_momentum_and_accounts_for_capture_loss():
     r = m.payload_sequence()["summary"]
     assert r["maximum_momentum_defect_n_s"] < 1e-12
     assert r["maximum_energy_defect_j"] < 1e-12
+
+
+def test_contact_restitution_study_recovers_impact_law_and_elastic_energy_limit():
+    r = m.contact_restitution()["summary"]
+    assert r["maximum_velocity_residual_m_s"] < 1e-12
+    assert abs(r["elastic_energy_loss_j"]) < 1e-12

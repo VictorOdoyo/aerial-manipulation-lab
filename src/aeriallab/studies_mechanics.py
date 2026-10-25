@@ -269,3 +269,53 @@ def payload_sequence(scale=1, seed=42):
             ),
         ],
     )
+
+
+def contact_restitution(scale=1, seed=42):
+    from .contact import normal_impulse
+    from .planar import tip_velocity
+
+    q = np.array([0.0, 1.0, 0.2, 0.3, -0.4])
+    v = np.array([1.0, -2.0, 0.3, 0.4, -0.2])
+    incoming = tip_velocity(q, v)[1]
+    e = np.linspace(0, 1, 101 * scale)
+    speed = []
+    loss = []
+    impulse = []
+    for value in e:
+        r = normal_impulse(q, v, float(value))
+        speed.append(tip_velocity(q, r["velocity"])[1])
+        loss.append(r["dissipated_j"])
+        impulse.append(r["impulse_n_s"])
+    a = {
+        "restitution": e,
+        "outgoing_m_s": speed,
+        "analytic_outgoing_m_s": -e * incoming,
+        "dissipated_j": loss,
+        "impulse_n_s": impulse,
+    }
+    return make(
+        "contact-impact-restitution",
+        {"configuration": q.tolist(), "incoming_velocity": v.tolist(), "model": "default planar"},
+        {
+            "maximum_velocity_residual_m_s": float(max(abs(np.array(speed) + e * incoming))),
+            "elastic_energy_loss_j": float(loss[-1]),
+        },
+        a,
+        [
+            curve(
+                "Normal impact law",
+                "restitution",
+                [("analytic_outgoing_m_s", "Analytic -e v_in"), ("outgoing_m_s", "Coupled impulse")],
+                "Restitution",
+                "Outgoing normal speed (m/s)",
+            ),
+            curve(
+                "Impact energy accounting",
+                "restitution",
+                [("dissipated_j", "Dissipated")],
+                "Restitution",
+                "Energy (J)",
+            ),
+        ],
+    )

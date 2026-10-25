@@ -400,3 +400,52 @@ def joint_impact(scale=1, seed=42):
             ),
         ],
     )
+
+
+def task_sharing(scale=1, seed=42):
+    from .arm import weighted_velocity
+
+    q = [0, 2, 0.2, 0.4, -0.7]
+    weights = np.geomspace(1, 1e4, 81 * scale)
+    base = []
+    arm = []
+    residual = []
+    for weight in weights:
+        r = weighted_velocity(q, [0.1, 0.05], weights=(weight, weight, 1000, 1, 1))
+        rates = r["generalized_rate"]
+        base.append(np.linalg.norm(rates[:2]))
+        arm.append(np.linalg.norm(rates[3:]))
+        residual.append(np.linalg.norm(r["achieved_m_s"] - [0.1, 0.05]))
+    a = {"base_weight": weights, "base_speed_m_s": base, "arm_rate_rad_s": arm}
+    return make(
+        "kinematic-task-sharing",
+        {
+            "configuration": q,
+            "desired_tip_m_s": [0.1, 0.05],
+            "pitch_weight": 1000,
+            "coordinate_normalization": "1 m translation and 1 rad rotation",
+        },
+        {"maximum_task_residual_m_s": float(max(residual))},
+        a,
+        [
+            curve(
+                "Base motion cost trades against arm motion",
+                "base_weight",
+                [("base_speed_m_s", "Base speed")],
+                "Dimensionless base weight",
+                "Speed (m/s)",
+                xscale="log",
+            ),
+            curve(
+                "Required joint motion",
+                "base_weight",
+                [("arm_rate_rad_s", "Joint-rate norm")],
+                "Dimensionless base weight",
+                "Rate (rad/s)",
+                xscale="log",
+            ),
+        ],
+        assumptions=[
+            "Kinematic redundancy with declared coordinate normalization; actuator limits and underactuated dynamics are not certified by this inverse."
+        ],
+    )

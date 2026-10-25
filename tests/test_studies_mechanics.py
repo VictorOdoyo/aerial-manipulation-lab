@@ -41,3 +41,10 @@ def test_manipulability_study_matches_independent_planar_formula():
 
 def test_internal_joint_stop_study_conserves_external_momentum():
     assert m.joint_impact()["summary"]["maximum_momentum_defect_n_s"] < 1e-12
+
+
+def test_task_sharing_retains_exact_task_and_decreases_base_motion_cost():
+    r = m.task_sharing()
+    a = r["arrays"]
+    assert r["summary"]["maximum_task_residual_m_s"] < 1e-12
+    assert a["base_speed_m_s"][-1] < a["base_speed_m_s"][0]

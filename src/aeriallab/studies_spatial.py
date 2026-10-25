@@ -99,6 +99,9 @@ def attitude_recovery(scale=1, seed=42):
             "dt_s": dt,
             "initial_rotation_vector_rad": [0.25, -0.15, 0.05],
             "feedback": "ideal state benchmark",
+            "controller_gains": {"kp": 64, "kd": 16},
+            "allocation_weights": [1, 4, 4, 1],
+            "maximum_rotor_n": [10, 10, 10, 10],
         },
         {
             "final_attitude_error_rad": float(errors[-1]),

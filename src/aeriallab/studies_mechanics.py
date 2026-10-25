@@ -273,7 +273,7 @@ def payload_sequence(scale=1, seed=42):
 
 def contact_restitution(scale=1, seed=42):
     from .contact import normal_impulse
-    from .planar import tip_velocity
+    from .planar import Model, tip_velocity
 
     q = np.array([0.0, 1.0, 0.2, 0.3, -0.4])
     v = np.array([1.0, -2.0, 0.3, 0.4, -0.2])
@@ -296,7 +296,7 @@ def contact_restitution(scale=1, seed=42):
     }
     return make(
         "contact-impact-restitution",
-        {"configuration": q.tolist(), "incoming_velocity": v.tolist(), "model": "default planar"},
+        {"configuration": q.tolist(), "incoming_velocity": v.tolist(), "model": asdict(Model())},
         {
             "maximum_velocity_residual_m_s": float(max(abs(np.array(speed) + e * incoming))),
             "elastic_energy_loss_j": float(loss[-1]),
@@ -364,7 +364,7 @@ def manipulability_curve(scale=1, seed=42):
 
 def joint_impact(scale=1, seed=42):
     from .contact import joint_stop
-    from .planar import linear_momentum
+    from .planar import Model, linear_momentum
 
     q = np.array([0.0, 2.0, 0.2, 0.3, -0.4])
     rates = np.linspace(-2, 2, 101 * scale)
@@ -380,7 +380,7 @@ def joint_impact(scale=1, seed=42):
     a = {"incoming_joint_rad_s": rates, "base_pitch_rad_s": pitch, "dissipated_j": loss}
     return make(
         "joint-stop-base-reaction",
-        {"configuration": q.tolist(), "stopped_joint": 2, "restitution": 0},
+        {"model": asdict(Model()), "configuration": q.tolist(), "stopped_joint": 2, "restitution": 0},
         {"maximum_momentum_defect_n_s": float(max(defect))},
         a,
         [
@@ -404,6 +404,7 @@ def joint_impact(scale=1, seed=42):
 
 def task_sharing(scale=1, seed=42):
     from .arm import weighted_velocity
+    from .planar import Model
 
     q = [0, 2, 0.2, 0.4, -0.7]
     weights = np.geomspace(1, 1e4, 81 * scale)
@@ -420,6 +421,7 @@ def task_sharing(scale=1, seed=42):
     return make(
         "kinematic-task-sharing",
         {
+            "model": asdict(Model()),
             "configuration": q,
             "desired_tip_m_s": [0.1, 0.05],
             "pitch_weight": 1000,

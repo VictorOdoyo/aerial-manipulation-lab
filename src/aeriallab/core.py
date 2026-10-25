@@ -50,3 +50,17 @@ def integrate(time, values):
     if values.shape[0] != len(time):
         raise ValueError("aligned timestamps required")
     return np.trapezoid(values, time, axis=0)
+
+
+def timeline(duration_s, maximum_step_s):
+    duration = positive(duration_s)
+    step = positive(maximum_step_s)
+    count = int(np.floor(duration / step))
+    values = np.arange(count + 1) * step
+    if duration - values[-1] > 1e-12 * max(1.0, duration):
+        values = np.r_[values, duration]
+    else:
+        values[-1] = duration
+    if len(values) < 2:
+        values = np.array([0.0, duration])
+    return values

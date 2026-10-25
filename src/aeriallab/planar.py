@@ -169,3 +169,27 @@ def acceleration(q, velocity, force, model=None, damping=(0, 0, 0, 0, 0)):
     if d.shape != (5,) or np.any(d < 0):
         raise ValueError("five nonnegative damping coefficients required")
     return np.linalg.solve(mass_matrix(x, p), u - coriolis_matrix(x, v, p) @ v - gravity(x, p) - d * v)
+
+
+def rhs(state, force, model=None, damping=(0, 0, 0, 0, 0)):
+    from .core import finite
+
+    x = finite(state, real=True)
+    if x.shape != (10,):
+        raise ValueError("five positions and five generalized velocities required")
+    return np.r_[x[5:], acceleration(x[:5], x[5:], force, model, damping)]
+
+
+def step(state, force, dt_s, model=None, damping=(0, 0, 0, 0, 0)):
+    from .core import finite, positive
+
+    x = finite(state, real=True)
+    dt = positive(dt_s)
+    k1 = rhs(x, force, model, damping)
+    k2 = rhs(x + dt * k1 / 2, force, model, damping)
+    k3 = rhs(x + dt * k2 / 2, force, model, damping)
+    k4 = rhs(x + dt * k3, force, model, damping)
+    result = x + dt * (k1 + 2 * k2 + 2 * k3 + k4) / 6
+    if not np.isfinite(result).all():
+        raise RuntimeError("nonfinite coupled state integration")
+    return result

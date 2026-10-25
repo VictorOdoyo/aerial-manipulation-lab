@@ -76,3 +76,13 @@ def test_free_fall_translates_whole_articulated_system_at_gravity():
     q = [0, 2, 0.2, 0.3, -0.4]
     a = m.acceleration(q, np.zeros(5), np.zeros(5))
     assert np.allclose(a, [0, -9.80665, 0, 0, 0], atol=1e-12)
+
+
+def test_coupled_rk4_matches_independent_adaptive_integrator():
+    from scipy.integrate import solve_ivp
+
+    x = np.r_[[0.0, 2.0, 0.2, 0.4, -0.3], [0.1, -0.2, 0.3, 0.4, -0.2]]
+    force = np.array([0.0, 23.0, 0.1, 0.05, -0.03])
+    dt = 0.005
+    reference = solve_ivp(lambda _t, y: m.rhs(y, force), (0, dt), x, rtol=1e-11, atol=1e-12).y[:, -1]
+    assert np.allclose(m.step(x, force, dt), reference, atol=1e-8)

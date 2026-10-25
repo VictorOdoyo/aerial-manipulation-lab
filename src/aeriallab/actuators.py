@@ -84,3 +84,24 @@ def joint_effort(request, previous, dt_s, maximum_nm=2, slew_nm_s=40):
     command = np.clip(r, -limit, limit)
     applied = old + np.clip(command - old, -rate * dt, rate * dt)
     return {"torque_nm": applied, "limited": bool(np.any(abs(applied - r) > 1e-8))}
+
+
+def mean_thrust(
+    speed_rad_s, thrust_command_n, dt_s, coefficient=2e-5, time_constant_s=0.035, maximum_rad_s=1000
+):
+    from .core import finite, positive
+
+    old = finite(speed_rad_s, real=True)
+    command = finite(thrust_command_n, real=True)
+    dt = positive(dt_s)
+    ct = positive(coefficient)
+    tau = positive(time_constant_s)
+    maximum = finite(maximum_rad_s, real=True)
+    if old.shape != command.shape or np.any(old < 0) or np.any(command < 0) or np.any(maximum < 0):
+        raise ValueError("aligned nonnegative rotor states commands and ceilings required")
+    target = np.minimum(np.sqrt(command / ct), maximum)
+    delta = old - target
+    decay = np.exp(-dt / tau)
+    return ct * (
+        target**2 + 2 * target * delta * tau * (1 - decay) / dt + delta**2 * tau * (1 - decay**2) / (2 * dt)
+    )

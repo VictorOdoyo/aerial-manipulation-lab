@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import actuators as m
 
@@ -35,3 +36,15 @@ def test_rotor_can_coast_above_a_reduced_speed_ceiling():
     a = m.rotor_step([800.0, 800.0], [20.0, 20.0], 0.035, maximum_rad_s=[0.0, 500.0])
     assert 0 < a["speed_rad_s"][0] < 800
     assert 500 < a["speed_rad_s"][1] < 800
+
+
+def test_mean_rotor_thrust_matches_independent_numeric_quadrature():
+    from scipy.integrate import quad
+
+    old = 200.0
+    target = 800.0
+    tau = 0.035
+    dt = 0.02
+    ct = 2e-5
+    expected = quad(lambda t: ct * (target + (old - target) * np.exp(-t / tau)) ** 2, 0, dt)[0] / dt
+    assert m.mean_thrust(np.array([old]), np.array([ct * target**2]), dt)[0] == pytest.approx(expected)

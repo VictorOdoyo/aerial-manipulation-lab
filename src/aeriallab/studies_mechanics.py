@@ -208,3 +208,64 @@ def rotor_lag(scale=1, seed=42):
             ),
         ],
     )
+
+
+def payload_sequence(scale=1, seed=42):
+    from .payload import pickup, release
+    from .planar import Model, energy, linear_momentum
+
+    p = Model(payload_kg=0, gravity_m_s2=0)
+    initial = np.r_[[0.0, 2.0, 0.2, 0.4, -0.3], [1.0, -0.2, 0.3, 0.4, -0.2]]
+    masses = np.linspace(0.01, 0.5, 61 * scale)
+    loss = []
+    momentum = []
+    energy_defect = []
+    vx = []
+    initial_energy = energy(initial, p)["total_j"]
+    initial_momentum = linear_momentum(initial[:5], initial[5:], p)
+    for mass in masses:
+        captured = pickup(initial, float(mass), model=p)
+        released = release(captured["state"], float(mass), captured["model"])
+        x = released["state"]
+        final_momentum = (
+            linear_momentum(x[:5], x[5:], released["model"]) + mass * released["object_velocity_m_s"]
+        )
+        final_energy = energy(x, released["model"])["total_j"] + 0.5 * mass * np.sum(
+            released["object_velocity_m_s"] ** 2
+        )
+        loss.append(captured["dissipated_j"])
+        momentum.append(np.linalg.norm(final_momentum - initial_momentum))
+        energy_defect.append(initial_energy - final_energy - captured["dissipated_j"])
+        vx.append(x[5])
+    a = {
+        "payload_kg": masses,
+        "capture_loss_j": loss,
+        "momentum_defect_n_s": momentum,
+        "energy_defect_j": energy_defect,
+        "base_velocity_x_m_s": vx,
+    }
+    return make(
+        "payload-capture-release",
+        {"model": asdict(p), "initial_state": initial.tolist(), "object_velocity_m_s": [0, 0]},
+        {
+            "maximum_momentum_defect_n_s": float(max(momentum)),
+            "maximum_energy_defect_j": float(max(abs(np.array(energy_defect)))),
+        },
+        a,
+        [
+            curve(
+                "Capture dissipates relative kinetic energy",
+                "payload_kg",
+                [("capture_loss_j", "Inelastic loss")],
+                "Added and released payload (kg)",
+                "Energy (J)",
+            ),
+            curve(
+                "Aircraft velocity after pickup and release",
+                "payload_kg",
+                [("base_velocity_x_m_s", "Base x velocity")],
+                "Payload (kg)",
+                "Velocity (m/s)",
+            ),
+        ],
+    )

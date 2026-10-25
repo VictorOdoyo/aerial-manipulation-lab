@@ -21,3 +21,9 @@ def test_rotor_lag_study_retains_transient_wrench_error():
     a = m.rotor_lag()["arrays"]
     assert max(abs(a["requested_force_n"] - a["actual_force_n"])) > 10
     assert abs(a["actual_torque_nm"][-1] - 1) < 0.02
+
+
+def test_payload_sequence_conserves_momentum_and_accounts_for_capture_loss():
+    r = m.payload_sequence()["summary"]
+    assert r["maximum_momentum_defect_n_s"] < 1e-12
+    assert r["maximum_energy_defect_j"] < 1e-12

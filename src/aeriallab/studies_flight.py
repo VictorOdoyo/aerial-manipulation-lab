@@ -137,3 +137,7 @@ def baseline(scale=1, seed=42):
     return study(
         "reaction-ignorant-baseline", Config(dt_s=0.005 / scale, seed=seed, reaction_compensation=False)
     )
+
+
+def coordinated(scale=1, seed=42):
+    return study("coordinated-translation", Config(dt_s=0.005 / scale, seed=seed, moving_base=True))

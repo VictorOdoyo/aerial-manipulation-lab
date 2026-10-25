@@ -139,3 +139,19 @@ class Navigation:
             "attitude_accepted": attitude_result["accepted"],
             "imu_valid": bool(imu["valid"]),
         }
+
+
+def navigation_observability(times):
+    from .core import timebase
+
+    t = timebase(times)
+    h = np.column_stack([np.eye(2), np.zeros((2, 4))])
+    matrices = []
+    for elapsed in t - t[0]:
+        f = np.eye(6)
+        f[:2, 2:4] = np.eye(2) * elapsed
+        f[:2, 4:] = -np.eye(2) * elapsed**2 / 2
+        f[2:4, 4:] = -np.eye(2) * elapsed
+        matrices.append(h @ f)
+    singular = np.linalg.svd(np.vstack(matrices), compute_uv=False)
+    return {"rank": int(np.linalg.matrix_rank(np.vstack(matrices))), "singular_values": singular}

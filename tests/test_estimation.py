@@ -42,3 +42,8 @@ def test_navigation_observer_uses_supplied_sensors_and_gates_position_outlier():
     assert np.linalg.norm(r.state[:4] - [0, 2, 0, 0]) < 1e-8
     result = r.update(imu, 0.01, position=[100, 100])
     assert not result["position_accepted"]
+
+
+def test_navigation_bias_requires_temporally_separated_position_observations():
+    assert m.navigation_observability([0, 0.1])["rank"] == 4
+    assert m.navigation_observability([0, 0.1, 0.2])["rank"] == 6

@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+import numpy as np
+
 
 @dataclass(frozen=True)
 class Model:
@@ -43,3 +45,29 @@ def configuration(q):
     if x.shape != (5,):
         raise ValueError("x z pitch relative-joint1 relative-joint2 coordinates required")
     return x
+
+
+def _kinematics(q, p):
+    x, z, theta, q1, q2 = q
+    a = theta + q1
+    b = a + q2
+    sa, ca, sb, cb = np.sin(a), np.cos(a), np.sin(b), np.cos(b)
+    dtype = np.result_type(q, float)
+
+    def point(first, second):
+        position = np.array([x + first * sa + second * sb, z - first * ca - second * cb], dtype=dtype)
+        dx = first * ca + second * cb
+        dz = first * sa + second * sb
+        jac = np.array([[1, 0, dx, dx, second * cb], [0, 1, dz, dz, second * sb]], dtype=dtype)
+        return position, jac
+
+    return {
+        "link1": point(p.link1_m / 2, 0),
+        "link2": point(p.link1_m, p.link2_m / 2),
+        "tip": point(p.link1_m, p.link2_m),
+    }
+
+
+def kinematics(q, model=None):
+    p = Model() if model is None else model
+    return _kinematics(configuration(q), p)

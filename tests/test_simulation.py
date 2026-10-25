@@ -22,3 +22,11 @@ def test_causal_short_flight_replay_remains_finite_and_uses_real_sensor_updates(
     assert a["position_available"].sum() == 3
     assert a["battery_soc"][-1] < a["battery_soc"][0]
     assert np.max(abs(a["mechanical_defect_j"])) < 1e-4
+
+
+def test_position_outlier_is_rejected_without_replacing_the_measurement_with_truth():
+    r = m.run(m.Config(duration_s=0.3, position_outlier=True, outlier_time_s=0.1))
+    a = r["arrays"]
+    assert a["position_available"].sum() == 3
+    assert np.sum(a["position_available"] & ~a["position_accepted"]) >= 1
+    assert max(a["position_nis"]) > 9.21034

@@ -17,6 +17,7 @@ class Config:
     assumed_payload_kg: float = 0.1
     position_outage: tuple | None = None
     position_outlier: bool = False
+    outlier_time_s: float = 3.0
     actuator_fault: bool = False
     fault_time_s: float = 3.0
     health_after: tuple = (0.2, 1.0)
@@ -32,6 +33,7 @@ class Config:
         positive(self.payload_kg, allow_zero=True)
         positive(self.assumed_payload_kg, allow_zero=True)
         positive(self.fault_time_s, allow_zero=True)
+        positive(self.outlier_time_s, allow_zero=True)
         if (
             self.dt_s > 0.01
             or self.duration_s < 2 * self.dt_s
@@ -193,7 +195,7 @@ def run(config):
             )
             if not in_outage:
                 position = sensors.position(state[:2])
-                if config.position_outlier and time[k] >= 3 and not outlier_used:
+                if config.position_outlier and time[k] >= config.outlier_time_s and not outlier_used:
                     position += np.array([3.0, 3.0])
                     outlier_used = True
         if time[k] + 1e-10 >= next_attitude:

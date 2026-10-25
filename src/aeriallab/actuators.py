@@ -101,9 +101,10 @@ def mean_thrust(
         raise ValueError("aligned nonnegative rotor states commands and ceilings required")
     target = np.minimum(np.sqrt(command / ct), maximum)
     delta = old - target
-    decay = np.exp(-dt / tau)
+    one_minus = -np.expm1(-dt / tau)
+    two_minus = -np.expm1(-2 * dt / tau)
     return ct * (
-        target**2 + 2 * target * delta * tau * (1 - decay) / dt + delta**2 * tau * (1 - decay**2) / (2 * dt)
+        target**2 + 2 * target * delta * tau * one_minus / dt + delta**2 * tau * two_minus / (2 * dt)
     )
 
 

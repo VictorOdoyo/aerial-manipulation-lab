@@ -53,3 +53,10 @@ def test_mean_rotor_thrust_matches_independent_numeric_quadrature():
 def test_wrench_residual_uses_lever_arm_to_convert_torque_to_force():
     assert m.wrench_error_n([0, 1], 0.25) == pytest.approx(4)
     assert m.wrench_error_n([3, 1], 0.25) == pytest.approx(5)
+
+
+def test_mean_rotor_force_approaches_instantaneous_force_for_short_interval():
+    old = np.array([500.0, 700.0])
+    command = np.array([20.0, 10.0])
+    actual = m.mean_thrust(old, command, 1e-10)
+    assert np.allclose(actual, 2e-5 * old**2, rtol=1e-7)

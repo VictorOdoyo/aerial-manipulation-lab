@@ -319,3 +319,44 @@ def contact_restitution(scale=1, seed=42):
             ),
         ],
     )
+
+
+def manipulability_curve(scale=1, seed=42):
+    from .arm import manipulability
+    from .planar import Model
+
+    p = Model()
+    angle = np.linspace(0, np.pi, 201 * scale)
+    data = [manipulability([0, 2, 0, 0.3, q2], p) for q2 in angle]
+    area = np.array([r["area_m2"] for r in data])
+    singular = np.array([r["singular_values_m"] for r in data])
+    exact = p.link1_m * p.link2_m * abs(np.sin(angle))
+    a = {
+        "joint2_rad": angle,
+        "area_m2": area,
+        "analytic_area_m2": exact,
+        "largest_m": singular[:, 0],
+        "smallest_m": singular[:, 1],
+    }
+    return make(
+        "arm-manipulability",
+        {"model": asdict(p), "joint1_rad": 0.3},
+        {"maximum_area_residual_m2": float(max(abs(area - exact)))},
+        a,
+        [
+            curve(
+                "Task-space area metric",
+                "joint2_rad",
+                [("analytic_area_m2", "Analytic l1 l2 |sin q2|"), ("area_m2", "Jacobian determinant")],
+                "Relative q2 (rad)",
+                "Area metric (m squared)",
+            ),
+            curve(
+                "Task observability",
+                "joint2_rad",
+                [("largest_m", "Largest singular value"), ("smallest_m", "Smallest singular value")],
+                "Relative q2 (rad)",
+                "Jacobian singular value (m)",
+            ),
+        ],
+    )

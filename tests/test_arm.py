@@ -18,3 +18,8 @@ def test_inverse_kinematics_recovers_forward_endpoint_and_rejects_unreachable_po
 def test_straight_arm_is_singular_while_bent_arm_has_nonzero_area():
     assert m.manipulability([0, 2, 0, 0, 0])["singular"]
     assert m.manipulability([0, 2, 0, 0.2, -0.8])["area_m2"] > 0
+
+
+def test_damped_inverse_retains_unattainable_singular_task_residual():
+    r = m.damped_velocity([0, 2, 0, 0, 0], [0, 1])
+    assert np.allclose(r["joint_rad_s"], 0) and np.linalg.norm(r["residual_m_s"]) == pytest.approx(1)

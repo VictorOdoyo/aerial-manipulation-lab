@@ -32,3 +32,16 @@ def manipulability(q, model=None):
         "singular_values_m": singular,
         "singular": bool(singular[-1] < 1e-8),
     }
+
+
+def damped_velocity(q, desired_tip_velocity, damping_m=0.02, model=None):
+    from .core import finite, positive
+    from .planar import kinematics
+
+    desired = finite(desired_tip_velocity, real=True)
+    lam = positive(damping_m)
+    if desired.shape != (2,):
+        raise ValueError("planar task velocity required")
+    jac = kinematics(q, model)["tip"][1][:, 3:]
+    rates = jac.T @ np.linalg.solve(jac @ jac.T + lam**2 * np.eye(2), desired)
+    return {"joint_rad_s": rates, "achieved_m_s": jac @ rates, "residual_m_s": jac @ rates - desired}

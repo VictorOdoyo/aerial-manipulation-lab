@@ -105,3 +105,12 @@ def mean_thrust(
     return ct * (
         target**2 + 2 * target * delta * tau * (1 - decay) / dt + delta**2 * tau * (1 - decay**2) / (2 * dt)
     )
+
+
+def wrench_error_n(residual, arm_m=0.25):
+    from .core import finite, positive
+
+    error = finite(residual, real=True)
+    if error.shape != (2,):
+        raise ValueError("force and torque residual pair required")
+    return float(np.linalg.norm(error / np.array([1.0, positive(arm_m)])))

@@ -48,3 +48,8 @@ def test_mean_rotor_thrust_matches_independent_numeric_quadrature():
     ct = 2e-5
     expected = quad(lambda t: ct * (target + (old - target) * np.exp(-t / tau)) ** 2, 0, dt)[0] / dt
     assert m.mean_thrust(np.array([old]), np.array([ct * target**2]), dt)[0] == pytest.approx(expected)
+
+
+def test_wrench_residual_uses_lever_arm_to_convert_torque_to_force():
+    assert m.wrench_error_n([0, 1], 0.25) == pytest.approx(4)
+    assert m.wrench_error_n([3, 1], 0.25) == pytest.approx(5)

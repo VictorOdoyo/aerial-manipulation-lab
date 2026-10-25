@@ -360,3 +360,43 @@ def manipulability_curve(scale=1, seed=42):
             ),
         ],
     )
+
+
+def joint_impact(scale=1, seed=42):
+    from .contact import joint_stop
+    from .planar import linear_momentum
+
+    q = np.array([0.0, 2.0, 0.2, 0.3, -0.4])
+    rates = np.linspace(-2, 2, 101 * scale)
+    pitch = []
+    loss = []
+    defect = []
+    for rate in rates:
+        v = np.array([0.0, 0.0, 0.0, 0.0, rate])
+        r = joint_stop(q, v, joint=1)
+        pitch.append(r["velocity"][2])
+        loss.append(r["dissipated_j"])
+        defect.append(np.linalg.norm(linear_momentum(q, r["velocity"]) - linear_momentum(q, v)))
+    a = {"incoming_joint_rad_s": rates, "base_pitch_rad_s": pitch, "dissipated_j": loss}
+    return make(
+        "joint-stop-base-reaction",
+        {"configuration": q.tolist(), "stopped_joint": 2, "restitution": 0},
+        {"maximum_momentum_defect_n_s": float(max(defect))},
+        a,
+        [
+            curve(
+                "Joint stop reacts on aircraft rotation",
+                "incoming_joint_rad_s",
+                [("base_pitch_rad_s", "Post-impact base pitch rate")],
+                "Incoming q2 rate (rad/s)",
+                "Aircraft pitch rate (rad/s)",
+            ),
+            curve(
+                "Inelastic joint-stop loss",
+                "incoming_joint_rad_s",
+                [("dissipated_j", "Dissipated")],
+                "Incoming q2 rate (rad/s)",
+                "Energy (J)",
+            ),
+        ],
+    )

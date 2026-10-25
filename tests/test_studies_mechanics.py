@@ -37,3 +37,7 @@ def test_contact_restitution_study_recovers_impact_law_and_elastic_energy_limit(
 
 def test_manipulability_study_matches_independent_planar_formula():
     assert m.manipulability_curve()["summary"]["maximum_area_residual_m2"] < 1e-12
+
+
+def test_internal_joint_stop_study_conserves_external_momentum():
+    assert m.joint_impact()["summary"]["maximum_momentum_defect_n_s"] < 1e-12

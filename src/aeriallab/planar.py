@@ -193,3 +193,19 @@ def step(state, force, dt_s, model=None, damping=(0, 0, 0, 0, 0)):
     if not np.isfinite(result).all():
         raise RuntimeError("nonfinite coupled state integration")
     return result
+
+
+def energy(state, model=None):
+    from .core import finite
+
+    p = Model() if model is None else model
+    x = finite(state, real=True)
+    if x.shape != (10,):
+        raise ValueError("ten-state energy required")
+    kinetic = float(0.5 * x[5:] @ mass_matrix(x[:5], p) @ x[5:])
+    potential_j = potential(x[:5], p)
+    return {"kinetic_j": kinetic, "potential_j": potential_j, "total_j": kinetic + potential_j}
+
+
+def actuator_power(velocity, force):
+    return float(configuration(velocity) @ configuration(force))

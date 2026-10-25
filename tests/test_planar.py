@@ -86,3 +86,12 @@ def test_coupled_rk4_matches_independent_adaptive_integrator():
     dt = 0.005
     reference = solve_ivp(lambda _t, y: m.rhs(y, force), (0, dt), x, rtol=1e-11, atol=1e-12).y[:, -1]
     assert np.allclose(m.step(x, force, dt), reference, atol=1e-8)
+
+
+def test_energy_rate_matches_independent_generalized_actuator_power():
+    x = np.r_[[0.0, 2.0, 0.2, 0.4, -0.3], [0.1, -0.2, 0.3, 0.4, -0.2]]
+    u = np.array([1.0, 23.0, 0.1, 0.05, -0.03])
+    f = m.rhs(x, u)
+    h = 1e-6
+    derivative = (m.energy(x + h * f)["total_j"] - m.energy(x - h * f)["total_j"]) / (2 * h)
+    assert derivative == pytest.approx(m.actuator_power(x[5:], u), abs=1e-8)

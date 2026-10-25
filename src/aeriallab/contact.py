@@ -20,3 +20,25 @@ def plane_force(q, velocity, height_m=0, stiffness_n_m=500, damping_n_s_m=20, mo
         "penetration_m": penetration,
         "spring_j": 0.5 * stiffness_n_m * penetration**2,
     }
+
+
+def normal_impulse(q, velocity, restitution=0, model=None):
+    from .planar import configuration, kinematics, mass_matrix
+
+    x = configuration(q)
+    v = configuration(velocity)
+    if not 0 <= restitution <= 1:
+        raise ValueError("restitution in [0,1] required")
+    jac = kinematics(x, model)["tip"][1][1]
+    normal = float(jac @ v)
+    if normal >= 0:
+        return {"velocity": v.copy(), "impulse_n_s": 0.0, "dissipated_j": 0.0}
+    matrix = mass_matrix(x, model)
+    inverse = np.linalg.solve(matrix, jac)
+    impulse = -(1 + restitution) * normal / (jac @ inverse)
+    out = v + inverse * impulse
+    return {
+        "velocity": out,
+        "impulse_n_s": float(impulse),
+        "dissipated_j": float(0.5 * v @ matrix @ v - 0.5 * out @ matrix @ out),
+    }

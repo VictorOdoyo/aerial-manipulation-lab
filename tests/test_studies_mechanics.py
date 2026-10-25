@@ -10,3 +10,8 @@ def test_internal_reaction_study_has_base_motion_without_external_momentum():
     r = m.internal_reaction()
     assert abs(r["summary"]["final_pitch_rad"]) > 0.001
     assert r["summary"]["maximum_momentum_defect_n_s"] < 1e-7
+
+
+def test_heavy_payload_reduces_attainable_hover_workspace():
+    r = m.trim_workspace()["summary"]
+    assert r["heavy_feasible_fraction"] < r["nominal_feasible_fraction"]

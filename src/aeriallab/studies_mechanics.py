@@ -101,3 +101,57 @@ def internal_reaction(scale=1, seed=42):
             ),
         ],
     )
+
+
+def trim_workspace(scale=1, seed=42):
+    from .actuators import allocate
+    from .control import hover_trim
+    from .planar import Model
+
+    angle = np.linspace(-0.9, 0.9, 101 * scale)
+    a = {"joint1_rad": angle}
+    summary = {}
+    for label, payload in (("nominal", 0.1), ("heavy", 0.8)):
+        p = Model(payload_kg=payload)
+        forces = []
+        residual = []
+        for q1 in angle:
+            r = hover_trim([0, 2, 0, q1, -q1], p)
+            allocation = allocate(r["thrust_n"], r["body_torque_nm"])
+            forces.append(allocation["thrusts_n"])
+            residual.append(np.linalg.norm(allocation["residual"]))
+        forces = np.array(forces)
+        a[label + "_left_n"] = forces[:, 0]
+        a[label + "_right_n"] = forces[:, 1]
+        a[label + "_residual"] = np.array(residual)
+        summary[label + "_feasible_fraction"] = float(np.mean(np.array(residual) < 1e-6))
+    return make(
+        "hover-trim-workspace",
+        {"payloads_kg": [0.1, 0.8], "maximum_pair_thrust_n": [20, 20], "arm_pose_rule": "q2=-q1"},
+        summary,
+        a,
+        [
+            curve(
+                "Allocated aggregate rotor pairs",
+                "joint1_rad",
+                [
+                    ("nominal_left_n", "Nominal left"),
+                    ("nominal_right_n", "Nominal right"),
+                    ("heavy_left_n", "Heavy left"),
+                    ("heavy_right_n", "Heavy right"),
+                ],
+                "Relative q1 (rad)",
+                "Thrust (N)",
+            ),
+            curve(
+                "Unattainable hover wrench remains visible",
+                "joint1_rad",
+                [("nominal_residual", "Nominal payload"), ("heavy_residual", "Heavy payload")],
+                "Relative q1 (rad)",
+                "Wrench residual norm (mixed N / Nm)",
+            ),
+        ],
+        assumptions=[
+            "Residual norm combines stated force and torque coordinates; allocator uses explicit [1,4] wrench weights."
+        ],
+    )

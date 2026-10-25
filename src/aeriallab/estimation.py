@@ -93,3 +93,49 @@ def navigation_correct(state, covariance, position_m, std_m=0.02, gate=9.21034):
     j = np.eye(6) - gain @ h
     post = j @ p @ j.T + gain @ gain.T * variance
     return x + gain @ residual, (post + post.T) / 2, True, nis
+
+
+class Navigation:
+    def __init__(self, position=(0.03, 1.97)):
+        from .core import finite
+
+        p = finite(position, real=True)
+        if p.shape != (2,):
+            raise ValueError("surveyed initial planar position required")
+        self.attitude = Attitude()
+        self.state = np.r_[p, np.zeros(4)]
+        self.covariance = np.diag([0.1**2, 0.1**2, 0.2**2, 0.2**2, 0.1**2, 0.1**2])
+        self.last_acceleration = np.zeros(2)
+
+    def update(self, imu, dt_s, position=None, attitude_reference=None, gravity=9.80665):
+        from .core import positive
+        from .sensors import rotation
+
+        positive(gravity, allow_zero=True)
+        self.attitude.predict(imu["gyro_rad_s"], dt_s)
+        attitude_result = {"accepted": False, "nis": 0.0}
+        if attitude_reference is not None:
+            attitude_result = correct_attitude(self.attitude, attitude_reference)
+        if imu["valid"]:
+            self.last_acceleration = rotation(self.attitude.state[0]) @ imu["specific_force_m_s2"] - np.array(
+                [0, gravity]
+            )
+        self.state, self.covariance = navigation_predict(
+            self.state,
+            self.covariance,
+            self.last_acceleration,
+            dt_s,
+            acceleration_std=0.1 if imu["valid"] else 5,
+        )
+        accepted = False
+        nis = 0.0
+        if position is not None:
+            self.state, self.covariance, accepted, nis = navigation_correct(
+                self.state, self.covariance, position
+            )
+        return {
+            "position_accepted": accepted,
+            "position_nis": nis,
+            "attitude_accepted": attitude_result["accepted"],
+            "imu_valid": bool(imu["valid"]),
+        }

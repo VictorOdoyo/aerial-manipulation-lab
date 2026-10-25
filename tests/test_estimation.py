@@ -32,3 +32,13 @@ def test_navigation_update_gates_outlier_and_reduces_position_uncertainty():
     x, p, accepted, _nis = m.navigation_correct(np.zeros(6), np.eye(6), [0.1, 0.2])
     assert accepted and p[0, 0] < 0.001 and x[0] > 0.09
     assert not m.navigation_correct(np.zeros(6), np.eye(6), [100, 100])[2]
+
+
+def test_navigation_observer_uses_supplied_sensors_and_gates_position_outlier():
+    r = m.Navigation([0, 2])
+    imu = {"gyro_rad_s": 0.0, "specific_force_m_s2": np.array([0.0, 9.80665]), "valid": True}
+    for _ in range(100):
+        r.update(imu, 0.01, position=[0, 2], attitude_reference=0)
+    assert np.linalg.norm(r.state[:4] - [0, 2, 0, 0]) < 1e-8
+    result = r.update(imu, 0.01, position=[100, 100])
+    assert not result["position_accepted"]

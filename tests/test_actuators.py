@@ -13,3 +13,9 @@ def test_allocator_closes_feasible_wrench_and_retains_failure_residual():
     b = m.allocate(30, 0, maximum_n=(0, 20))
     assert b["limited"] and b["thrusts_n"][0] == 0
     assert b["achieved"][0] <= 20
+
+
+def test_rotor_step_matches_held_speed_command_exponential():
+    a = m.rotor_step(np.zeros(2), np.full(2, 20.0), 0.035)
+    assert np.allclose(a["speed_rad_s"], 1000 * (1 - np.exp(-1)))
+    assert np.all(a["thrust_n"] < 20)

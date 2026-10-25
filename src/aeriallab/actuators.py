@@ -39,3 +39,26 @@ def allocate(thrust_n, torque_nm, arm_m=0.25, maximum_n=(20, 20), weights=(1, 4)
         "residual": achieved - target,
         "limited": bool(np.linalg.norm(achieved - target) > 1e-6),
     }
+
+
+def rotor_step(
+    speed_rad_s, thrust_command_n, dt_s, coefficient=2e-5, time_constant_s=0.035, maximum_rad_s=1000
+):
+    from .core import finite, positive
+
+    speed = finite(speed_rad_s, real=True)
+    command = finite(thrust_command_n, real=True)
+    dt = positive(dt_s)
+    ct = positive(coefficient)
+    tau = positive(time_constant_s)
+    maximum = positive(maximum_rad_s)
+    if (
+        speed.shape != command.shape
+        or np.any(speed < 0)
+        or np.any(command < 0)
+        or np.any(speed > maximum * (1 + 1e-8))
+    ):
+        raise ValueError("aligned bounded positive rotor states and commands required")
+    target = np.minimum(np.sqrt(command / ct), maximum)
+    next_speed = target + (speed - target) * np.exp(-dt / tau)
+    return {"speed_rad_s": next_speed, "thrust_n": ct * next_speed**2, "limited": command > ct * maximum**2}

@@ -145,3 +145,7 @@ def coordinated(scale=1, seed=42):
 
 def wind(scale=1, seed=42):
     return study("wind-gust-rejection", Config(dt_s=0.005 / scale, seed=seed, wind_peak_m_s=6))
+
+
+def outage(scale=1, seed=42):
+    return study("position-sensor-outage", Config(dt_s=0.005 / scale, seed=seed, position_outage=(2, 4)))

@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import studies_flight as m
 
@@ -34,3 +35,10 @@ def test_gust_environment_can_deliver_nonzero_disturbance_without_changing_senso
     wind = gust(3, peak_m_s=6)
     force = drag([0, 0], [wind, 0])["force_n"]
     assert force[0] > 1 and force[1] == 0
+
+
+def test_sensor_outage_retains_time_and_covariance_without_position_measurements():
+    r = m.study("position-sensor-outage", m.Config(duration_s=0.3, position_outage=(0.1, 0.25)))
+    a = r["arrays"]
+    assert a["position_available"].sum() == 1 and a["time_s"][-1] == pytest.approx(0.3)
+    assert np.min(np.linalg.eigvalsh(a["navigation_covariance"])) > 0

@@ -57,3 +57,25 @@ def allocate(wrench, maximum_n=(10, 10, 10, 10), model=None, weights=(1, 4, 4, 1
             tol=1e-12,
         ).x
     return {"thrusts_n": forces, "achieved": matrix @ forces, "residual": matrix @ forces - target}
+
+
+def acceleration(quaternion, velocity, omega, thrusts_n, wind_n=(0, 0, 0), model=None):
+    from .core import finite
+    from .rotation import matrix
+
+    p = Model() if model is None else model
+    v = finite(velocity, real=True)
+    w = finite(omega, real=True)
+    f = finite(thrusts_n, real=True)
+    wind = finite(wind_n, real=True)
+    if v.shape != (3,) or w.shape != (3,) or f.shape != (4,) or wind.shape != (3,) or np.any(f < 0):
+        raise ValueError("finite full rigid-body state and nonnegative rotor thrusts required")
+    wrench = allocation_matrix(p) @ f
+    inertia = np.array(p.inertia)
+    linear = (
+        matrix(quaternion) @ np.array([0, 0, wrench[0]]) / p.mass_kg
+        + wind / p.mass_kg
+        - np.array([0, 0, p.gravity])
+    )
+    angular = (wrench[1:] - np.cross(w, inertia * w)) / inertia
+    return linear, angular

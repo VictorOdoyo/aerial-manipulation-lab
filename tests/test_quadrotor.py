@@ -20,3 +20,9 @@ def test_full_quad_allocation_closes_hover_and_retains_failed_rotor_residual():
     assert np.allclose(r["thrusts_n"], 5)
     failed = m.allocate([30, 0, 0, 0], maximum_n=[0, 10, 10, 10])
     assert failed["thrusts_n"][0] == 0 and np.linalg.norm(failed["residual"]) > 0.01
+
+
+def test_full_quad_hover_matches_weight_without_fictitious_angular_acceleration():
+    p = m.Model()
+    a, w = m.acceleration([1, 0, 0, 0], [0, 0, 0], [0, 0, 0], np.full(4, p.mass_kg * p.gravity / 4), model=p)
+    assert np.allclose(a, 0) and np.allclose(w, 0)

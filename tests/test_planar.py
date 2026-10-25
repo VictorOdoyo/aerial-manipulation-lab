@@ -108,3 +108,11 @@ def test_internal_arm_impulse_preserves_total_translational_momentum():
         x = m.step(x, u, 0.001, p)
     assert np.allclose(m.linear_momentum(x[:5], x[5:], p), initial, atol=1e-9)
     assert abs(x[7]) > 1e-4
+
+
+def test_contact_generalized_force_obeys_virtual_work():
+    q = np.array([0.0, 2.0, 0.2, 0.4, -0.3])
+    v = np.array([0.1, -0.2, 0.3, 0.4, -0.2])
+    f = np.array([2.0, -3.0])
+    generalized = m.generalized_force(q, 0, tip_force_n=f)
+    assert generalized @ v == pytest.approx(m.contact_power(q, v, f))

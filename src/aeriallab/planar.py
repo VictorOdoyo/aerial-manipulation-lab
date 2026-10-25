@@ -226,3 +226,16 @@ def center_of_mass(q, model=None):
 def linear_momentum(q, velocity, model=None):
     p = Model() if model is None else model
     return p.total_mass * center_of_mass(q, p)[1] @ configuration(velocity)
+
+
+def tip_velocity(q, velocity, model=None):
+    return kinematics(q, model)["tip"][1] @ configuration(velocity)
+
+
+def contact_power(q, velocity, tip_force, model=None):
+    from .core import finite
+
+    f = finite(tip_force, real=True)
+    if f.shape != (2,):
+        raise ValueError("planar contact force required")
+    return float(tip_velocity(q, velocity, model) @ f)

@@ -52,3 +52,14 @@ def test_navigation_bias_requires_temporally_separated_position_observations():
 def test_two_position_observations_retain_two_unobservable_bias_directions():
     r = m.navigation_observability([0, 0.1])
     assert r["singular_values"].shape == (6,) and np.sum(r["singular_values"] == 0) == 2
+
+
+def test_navigation_correction_rejects_asymmetric_and_negative_covariance():
+    bad = np.eye(6)
+    bad[0, 1] = 0.1
+    with pytest.raises(ValueError):
+        m.navigation_correct(np.zeros(6), bad, [0, 0])
+    bad = np.eye(6)
+    bad[0, 0] = -1
+    with pytest.raises(ValueError):
+        m.navigation_correct(np.zeros(6), bad, [0, 0])

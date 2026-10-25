@@ -81,7 +81,13 @@ def navigation_correct(state, covariance, position_m, std_m=0.02, gate=9.21034):
     p = finite(covariance, real=True)
     z = finite(position_m, real=True)
     variance = positive(std_m) ** 2
-    if x.shape != (6,) or p.shape != (6, 6) or z.shape != (2,):
+    if (
+        x.shape != (6,)
+        or p.shape != (6, 6)
+        or z.shape != (2,)
+        or not np.allclose(p, p.T)
+        or np.min(np.linalg.eigvalsh(p)) < -1e-12
+    ):
         raise ValueError("navigation state and planar position measurement required")
     residual = z - x[:2]
     s = p[:2, :2] + np.eye(2) * variance

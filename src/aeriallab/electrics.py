@@ -16,3 +16,19 @@ def propulsion_power(
         "shaft_w": float(sum(induced + profile)),
         "electrical_w": float(sum(induced + profile) / efficiency),
     }
+
+
+def servo_power(torque_nm, speed_rad_s, efficiency=0.7, idle_per_joint_w=3):
+    from .core import finite, positive
+
+    torque = finite(torque_nm, real=True)
+    speed = finite(speed_rad_s, real=True)
+    if torque.shape != (2,) or speed.shape != (2,) or not 0 < efficiency <= 1:
+        raise ValueError("two joint states and efficiency in (0,1] required")
+    mechanical = torque * speed
+    draw = positive(idle_per_joint_w, allow_zero=True) + np.maximum(mechanical, 0) / efficiency
+    return {
+        "mechanical_w": float(sum(mechanical)),
+        "electrical_w": float(sum(draw)),
+        "heat_w": float(sum(draw - mechanical)),
+    }

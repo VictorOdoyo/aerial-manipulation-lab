@@ -372,23 +372,26 @@ def joint_impact(scale=1, seed=42):
     loss = []
     defect = []
     for rate in rates:
-        v = np.array([0.0, 0.0, 0.0, 0.0, rate])
-        r = joint_stop(q, v, joint=1)
+        v = np.array([0.0, 0.0, 0.0, rate, 0.0])
+        r = joint_stop(q, v, joint=0)
         pitch.append(r["velocity"][2])
         loss.append(r["dissipated_j"])
         defect.append(np.linalg.norm(linear_momentum(q, r["velocity"]) - linear_momentum(q, v)))
     a = {"incoming_joint_rad_s": rates, "base_pitch_rad_s": pitch, "dissipated_j": loss}
     return make(
         "joint-stop-base-reaction",
-        {"model": asdict(Model()), "configuration": q.tolist(), "stopped_joint": 2, "restitution": 0},
-        {"maximum_momentum_defect_n_s": float(max(defect))},
+        {"model": asdict(Model()), "configuration": q.tolist(), "stopped_joint": 1, "restitution": 0},
+        {
+            "maximum_momentum_defect_n_s": float(max(defect)),
+            "maximum_base_pitch_rate_rad_s": float(max(abs(np.array(pitch)))),
+        },
         a,
         [
             curve(
                 "Joint stop reacts on aircraft rotation",
                 "incoming_joint_rad_s",
                 [("base_pitch_rad_s", "Post-impact base pitch rate")],
-                "Incoming q2 rate (rad/s)",
+                "Incoming q1 rate (rad/s)",
                 "Aircraft pitch rate (rad/s)",
             ),
             curve(

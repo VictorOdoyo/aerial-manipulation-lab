@@ -48,3 +48,8 @@ def test_task_sharing_retains_exact_task_and_decreases_base_motion_cost():
     a = r["arrays"]
     assert r["summary"]["maximum_task_residual_m_s"] < 1e-12
     assert a["base_speed_m_s"][-1] < a["base_speed_m_s"][0]
+
+
+def test_proximal_joint_stop_study_exposes_nonzero_aircraft_angular_reaction():
+    r = m.joint_impact()
+    assert r["summary"]["maximum_base_pitch_rate_rad_s"] > 0.01

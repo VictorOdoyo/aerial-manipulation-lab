@@ -27,10 +27,18 @@ def test_sensor_named_streams_do_not_depend_on_position_sampling_schedule():
     a = m.Suite()
     b = m.Suite()
     a.position([0, 2])
-    assert a.imu(0, 0, [0, 0]) == b.imu(0, 0, [0, 0]) if False else True
     ra = a.imu(0, 0, [0, 0])
     rb = b.imu(0, 0, [0, 0])
     assert (
         np.array_equal(ra["specific_force_m_s2"], rb["specific_force_m_s2"])
         and ra["gyro_rad_s"] == rb["gyro_rad_s"]
     )
+
+
+def test_zero_noise_suite_exposes_declared_imu_bias_without_hidden_truth_correction():
+    suite = m.Suite(gyro_std=0, accel_std=0)
+    r = suite.imu(0, 0, [0, 0])
+    assert np.allclose(r["specific_force_m_s2"], [0.03, 9.80665 - 0.02])
+    assert r["gyro_rad_s"] == 0.005
+    clipped = suite.imu(0, 0, [1000, 0])
+    assert not clipped["valid"] and max(abs(clipped["specific_force_m_s2"])) <= 16 * 9.80665

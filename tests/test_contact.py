@@ -21,3 +21,11 @@ def test_contact_impulse_enforces_restitution_without_energy_creation():
     r = m.normal_impulse(q, v, 0.3)
     assert tip_velocity(q, r["velocity"])[1] == pytest.approx(-0.3 * before)
     assert r["dissipated_j"] > 0
+
+
+def test_joint_stop_reacts_on_floating_base_and_removes_stopped_velocity():
+    q = [0, 2, 0.2, 0.3, -0.4]
+    v = np.array([0.0, 0.0, 0.0, 1.0, 0.0])
+    r = m.joint_stop(q, v)
+    assert abs(r["velocity"][3]) < 1e-12 and abs(r["velocity"][2]) > 1e-3
+    assert r["dissipated_j"] > 0

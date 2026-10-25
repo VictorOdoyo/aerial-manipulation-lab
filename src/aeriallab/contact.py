@@ -42,3 +42,24 @@ def normal_impulse(q, velocity, restitution=0, model=None):
         "impulse_n_s": float(impulse),
         "dissipated_j": float(0.5 * v @ matrix @ v - 0.5 * out @ matrix @ out),
     }
+
+
+def joint_stop(q, velocity, joint=0, restitution=0, model=None):
+    from .core import integer
+    from .planar import configuration, mass_matrix
+
+    x = configuration(q)
+    v = configuration(velocity)
+    integer(joint, 0)
+    if joint > 1 or not 0 <= restitution <= 1:
+        raise ValueError("valid arm joint and restitution required")
+    matrix = mass_matrix(x, model)
+    jac = np.eye(5)[joint + 3]
+    inverse = np.linalg.solve(matrix, jac)
+    impulse = -(1 + restitution) * (jac @ v) / (jac @ inverse)
+    out = v + inverse * impulse
+    return {
+        "velocity": out,
+        "impulse_nm_s": float(impulse),
+        "dissipated_j": float(0.5 * v @ matrix @ v - 0.5 * out @ matrix @ out),
+    }

@@ -19,3 +19,8 @@ def test_rotor_step_matches_held_speed_command_exponential():
     a = m.rotor_step(np.zeros(2), np.full(2, 20.0), 0.035)
     assert np.allclose(a["speed_rad_s"], 1000 * (1 - np.exp(-1)))
     assert np.all(a["thrust_n"] < 20)
+
+
+def test_voltage_and_health_derating_change_thrust_capacity_consistently():
+    a = m.speed_ceiling(11.1, health=[1, 0.25])
+    assert np.allclose(a, [500, 250])

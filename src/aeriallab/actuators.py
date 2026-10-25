@@ -62,3 +62,13 @@ def rotor_step(
     target = np.minimum(np.sqrt(command / ct), maximum)
     next_speed = target + (speed - target) * np.exp(-dt / tau)
     return {"speed_rad_s": next_speed, "thrust_n": ct * next_speed**2, "limited": command > ct * maximum**2}
+
+
+def speed_ceiling(bus_v, nominal_v=22.2, rated_rad_s=1000, health=(1, 1)):
+    from .core import finite, positive
+
+    health = finite(health, real=True)
+    if health.shape != (2,) or np.any((health < 0) | (health > 1)):
+        raise ValueError("two bounded rotor-pair health fractions required")
+    fraction = min(1.0, positive(bus_v, allow_zero=True) / positive(nominal_v))
+    return positive(rated_rad_s) * fraction * np.sqrt(health)

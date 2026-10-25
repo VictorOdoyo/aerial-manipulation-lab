@@ -56,3 +56,8 @@ def test_unmodeled_payload_produces_initial_weight_support_error():
     r = m.study("payload-model-mismatch", m.Config(duration_s=0.3, payload_kg=0.45))
     a = r["arrays"]
     assert np.min(a["state"][:, 1]) < 1.995
+
+
+def test_known_payload_starts_at_consistent_hover_support():
+    r = m.study("known-heavy-payload", m.Config(duration_s=0.3, payload_kg=0.45, assumed_payload_kg=0.45))
+    assert r["summary"]["position_rmse_m"] < 0.05

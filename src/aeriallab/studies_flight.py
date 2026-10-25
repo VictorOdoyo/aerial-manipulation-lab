@@ -157,3 +157,9 @@ def outlier(scale=1, seed=42):
 
 def payload_mismatch(scale=1, seed=42):
     return study("payload-model-mismatch", Config(dt_s=0.005 / scale, seed=seed, payload_kg=0.45))
+
+
+def payload_known(scale=1, seed=42):
+    return study(
+        "known-heavy-payload", Config(dt_s=0.005 / scale, seed=seed, payload_kg=0.45, assumed_payload_kg=0.45)
+    )

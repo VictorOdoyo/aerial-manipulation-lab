@@ -21,12 +21,11 @@ def test_baseline_replay_declares_ignored_reaction_without_relabeling_outcome():
     assert r["summary"]["electrical_wh"] > 0 and np.all(r["arrays"]["battery_soc"] > 0)
 
 
-def test_coordinated_reference_has_distinct_base_and_arm_paths():
-    from aeriallab.trajectory import reference
-
-    a = reference(4, True, True)
-    assert np.allclose(a["base"]["position"], [1, 2.2])
-    assert np.allclose(a["arm"]["position"], [0.7, -0.8])
+def test_coordinated_flight_tracks_base_translation_and_arm_motion():
+    r = m.coordinated()
+    assert r["summary"]["termination"] == "completed"
+    assert r["arrays"]["state"][-1, 0] > 0.8
+    assert r["summary"]["final_arm_error_rad"] < 0.02
 
 
 def test_gust_environment_can_deliver_nonzero_disturbance_without_changing_sensor_truth():

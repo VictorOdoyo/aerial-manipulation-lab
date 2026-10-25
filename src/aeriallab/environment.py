@@ -24,3 +24,13 @@ def gust(time_s, start_s=2, duration_s=2, peak_m_s=5):
     phase = (t - start_s) / duration
     active = (phase >= 0) & (phase <= 1)
     return np.where(active, peak_m_s * np.sin(np.pi * np.clip(phase, 0, 1)) ** 2, 0)
+
+
+def ground_effect(height_m, rotor_radius_m=0.12):
+    from .core import finite, positive
+
+    height = finite(height_m, real=True)
+    radius = positive(rotor_radius_m)
+    if np.any(height <= radius / 4):
+        raise ValueError("clearance below simple ground-effect model validity")
+    return 1 / (1 - (radius / (4 * height)) ** 2)

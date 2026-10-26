@@ -43,3 +43,14 @@ def minimum_duration(start, stop, velocity_limit, acceleration_limit, jerk_limit
         ]
     )
     return float(max(np.max(bounds), 1e-9))
+
+
+def synchronized(time_s, requested_duration_s, start, stop, velocity_limit, acceleration_limit, jerk_limit):
+    requested = positive(requested_duration_s)
+    minimum = minimum_duration(start, stop, velocity_limit, acceleration_limit, jerk_limit)
+    duration = max(requested, minimum)
+    return {
+        "duration_s": duration,
+        "extended": duration > requested,
+        **quintic(time_s, duration, start, stop),
+    }

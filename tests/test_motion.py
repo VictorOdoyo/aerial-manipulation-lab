@@ -17,3 +17,8 @@ def test_duration_respects_all_bounds():
     assert np.all(np.max(abs(r["velocity"]), axis=0) <= np.array([1, 2]) + 1e-8)
     assert np.all(np.max(abs(r["acceleration"]), axis=0) <= np.array([2, 3]) + 1e-8)
     assert np.all(np.max(abs(r["jerk"]), axis=0) <= np.array([10, 20]) + 1e-8)
+
+
+def test_short_request_retimed():
+    r = m.synchronized([0, 1], 0.01, [0, 0], [1, 2], 1, 2, 10)
+    assert r["extended"] and r["duration_s"] > 1

@@ -454,3 +454,37 @@ def damping(scale=1, seed=42):
             "Translation and angle channels have different SI damping units; coefficients are compared channel-wise, not summed."
         ],
     )
+
+
+def wrench(scale=1, seed=42):
+    from .identification import wrench_fit
+    from .planar import kinematics
+
+    angles = np.linspace(0, 1.5, 101 * scale)
+    standard = []
+    valid = []
+    for angle in angles:
+        jac = kinematics([0, 1, 0, 0.4, angle])["tip"][1][:, 3:]
+        try:
+            fitted = wrench_fit(jac, jac.T @ np.array([1.0, 2.0]), 0.01)
+            standard.append(np.sqrt(np.trace(fitted["covariance"])))
+            valid.append(True)
+        except ValueError:
+            standard.append(0.0)
+            valid.append(False)
+    return make(
+        "contact-wrench-conditioning",
+        {"joint_torque_std_nm": 0.01},
+        {"unobservable_samples": int(len(valid) - sum(valid))},
+        {"joint2_rad": angles, "force_std_n": np.array(standard), "valid": np.array(valid)},
+        [
+            curve(
+                "Joint-only contact-force uncertainty",
+                "joint2_rad",
+                [("force_std_n", "Conditional force standard deviation", "valid")],
+                "Joint 2 (rad)",
+                "Force standard deviation (N)",
+                yscale="log",
+            )
+        ],
+    )

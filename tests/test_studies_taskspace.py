@@ -54,3 +54,7 @@ def test_payload():
 
 def test_damping():
     assert m.damping()["summary"]["maximum_coefficient_error"] < 0.001
+
+
+def test_wrench():
+    assert m.wrench()["summary"]["unobservable_samples"] >= 1

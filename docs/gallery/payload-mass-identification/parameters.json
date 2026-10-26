@@ -1,0 +1,4 @@
+{
+  "joint_torque_noise_nm": 0.01,
+  "true_payload_kg": 0.35
+}

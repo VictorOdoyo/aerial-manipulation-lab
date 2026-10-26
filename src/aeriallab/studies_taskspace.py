@@ -270,3 +270,42 @@ def retiming(scale=1, seed=42):
             ),
         ],
     )
+
+
+def waypoints(scale=1, seed=42):
+    from .motion import waypoints as evaluate
+
+    t = np.linspace(0, 4, 801 * scale)
+    r = evaluate(t, [[0, 0], [0.7, -0.4], [-0.2, 0.5]], [2, 2])
+    return make(
+        "rest-to-rest-waypoints",
+        {"waypoints_rad": [[0, 0], [0.7, -0.4], [-0.2, 0.5]], "durations_s": [2, 2]},
+        {"final_joint1_rad": float(r["position"][-1, 0])},
+        {
+            "time_s": t,
+            "q1": r["position"][:, 0],
+            "q2": r["position"][:, 1],
+            "v1": r["velocity"][:, 0],
+            "a1": r["acceleration"][:, 0],
+        },
+        [
+            curve(
+                "Two synchronized waypoint segments",
+                "time_s",
+                [("q1", "Joint 1"), ("q2", "Joint 2")],
+                "Time (s)",
+                "Angle (rad)",
+            ),
+            curve(
+                "Rest at interior waypoint", "time_s", [("v1", "Joint 1 rate")], "Time (s)", "Rate (rad/s)"
+            ),
+            curve(
+                "Continuous acceleration at the waypoint",
+                "time_s",
+                [("a1", "Joint 1 acceleration")],
+                "Time (s)",
+                "Acceleration (rad/s^2)",
+            ),
+        ],
+        assumptions=["Piecewise rest-to-rest quintics are C2; jerk can jump at segment boundaries."],
+    )

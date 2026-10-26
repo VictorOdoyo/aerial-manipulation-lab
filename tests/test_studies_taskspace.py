@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import studies_taskspace as m
 
@@ -32,3 +33,7 @@ def test_authority():
 
 def test_retiming():
     assert m.retiming()["summary"]["max_velocity_rad_s"] <= 1 + 1e-8
+
+
+def test_waypoints():
+    assert m.waypoints()["summary"]["final_joint1_rad"] == pytest.approx(-0.2)

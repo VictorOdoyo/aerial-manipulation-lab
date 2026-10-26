@@ -346,3 +346,33 @@ def clearance(scale=1, seed=42):
             "Point end-effector line-segment geometry only; link swept volume and aircraft collision are not checked."
         ],
     )
+
+
+def jerk(scale=1, seed=42):
+    from .motion import jerk_cost, quintic
+
+    duration = np.linspace(0.5, 3, 61 * scale)
+    analytic = []
+    numeric = []
+    for value in duration:
+        t = np.linspace(0, value, 1001)
+        r = quintic(t, value, [0, 0], [0.8, -1.2])
+        analytic.append(jerk_cost([0, 0], [0.8, -1.2], value))
+        numeric.append(np.trapezoid(np.sum(r["jerk"] ** 2, axis=1), t))
+    relative = np.max(abs(np.array(numeric) / analytic - 1))
+    return make(
+        "quintic-jerk-tradeoff",
+        {"move_rad": [0.8, -1.2]},
+        {"max_relative_quadrature_error": float(relative)},
+        {"duration_s": duration, "analytic": np.array(analytic), "quadrature": np.array(numeric)},
+        [
+            curve(
+                "Rest-to-rest smoothness cost",
+                "duration_s",
+                [("analytic", "Analytical"), ("quadrature", "Numerical quadrature")],
+                "Duration (s)",
+                "Integrated squared jerk (rad^2/s^5)",
+                yscale="log",
+            )
+        ],
+    )

@@ -42,3 +42,7 @@ def test_waypoints():
 def test_clearance():
     s = m.clearance()["summary"]
     assert s["direct_collision"] and s["detour_clearance_m"] > 0
+
+
+def test_jerk():
+    assert m.jerk()["summary"]["max_relative_quadrature_error"] < 2e-5

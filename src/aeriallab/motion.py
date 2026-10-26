@@ -69,3 +69,19 @@ def segment_clearance(start, stop, centers, radii):
     closest = a + fraction[:, None] * delta
     clearance = np.linalg.norm(c - closest, axis=1) - r
     return {"clearance_m": clearance, "collision": bool(np.any(clearance <= 0)), "closest_points": closest}
+
+
+def waypoints(time_s, points, durations_s):
+    p = finite(points, real=True, ndim=2)
+    duration = finite(durations_s, real=True, ndim=1)
+    times = np.atleast_1d(finite(time_s, real=True))
+    if len(p) != len(duration) + 1 or len(duration) == 0 or np.any(duration <= 0) or times.ndim != 1:
+        raise ValueError("waypoint intervals and positive durations required")
+    boundaries = np.r_[0, np.cumsum(duration)]
+    out = {key: [] for key in ("position", "velocity", "acceleration", "jerk")}
+    for time in times:
+        index = int(np.clip(np.searchsorted(boundaries, time, side="right") - 1, 0, len(duration) - 1))
+        sample = quintic(time - boundaries[index], duration[index], p[index], p[index + 1])
+        for key in out:
+            out[key].append(sample[key])
+    return {key: np.array(value) for key, value in out.items()}

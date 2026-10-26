@@ -29,3 +29,10 @@ def test_continuous_path_not_endpoint_only():
     r = m.segment_clearance([-1, 0], [1, 0], [[0, 0]], [0.2])
     assert r["collision"] and r["clearance_m"][0] == pytest.approx(-0.2)
     assert not m.segment_clearance([-1, 1], [1, 1], [[0, 0]], [0.2])["collision"]
+
+
+def test_waypoint_continuity():
+    r = m.waypoints([1 - 1e-7, 1, 1 + 1e-7], [[0], [1], [0.5]], [1, 2])
+    assert np.max(abs(r["position"] - 1)) < 1e-10
+    assert np.max(abs(r["velocity"])) < 1e-10
+    assert np.max(abs(r["acceleration"])) < 1e-4

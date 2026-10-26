@@ -11,7 +11,7 @@
       "provenance": {
         "configuration_sha256": "566c0643164e9df327b67fb64b04b0d81f75639612d53bf15d91cb29735154a8",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -44,7 +44,7 @@
       "provenance": {
         "configuration_sha256": "e14bf457b2d4db2f2a2789360577bbdce9c6016f44ea86202a36e3b1eedea8fb",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -77,7 +77,7 @@
       "provenance": {
         "configuration_sha256": "08f39d6921366530d09d21a66fff0eedd401a7c97e2a3c2525f528d720345794",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -110,7 +110,7 @@
       "provenance": {
         "configuration_sha256": "5d0126f812e6a2c33b4c3a56e1d52ff1bab6c12190e5f4b6e45c38f0f761f54b",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -143,7 +143,7 @@
       "provenance": {
         "configuration_sha256": "ecd11aecd07a387b7bed3137a2291495fb6f1782235f8c15a7ace1bca8e1da24",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -176,7 +176,7 @@
       "provenance": {
         "configuration_sha256": "e461e7f51ab32a4004e7e4f1ac2bf34334ef20dd969a6b904b1ea18875d22e3a",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -209,7 +209,7 @@
       "provenance": {
         "configuration_sha256": "e5d75c91aba1d8742e6eaa01bfa6b878b07e63e0ad8827cb9f3c0e260a2afe72",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -242,7 +242,7 @@
       "provenance": {
         "configuration_sha256": "5f8db176ea374e0f2193b5fc689c57154785ee1ffcd8dcfb6cb66c5d5a695774",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -275,7 +275,7 @@
       "provenance": {
         "configuration_sha256": "a541c1675506dee0753f16b560f0ae2b255efc19f7935bc0500aaa22ddfddd25",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -308,7 +308,7 @@
       "provenance": {
         "configuration_sha256": "c7bc749f41f0fc289745ba7cea03db57db797e9c8b7a4b76a308b4bd22c3be2f",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -341,7 +341,7 @@
       "provenance": {
         "configuration_sha256": "daf485628a6b06fcb4dac2ceb89560a287896b5dedb4ef0775d2533f95d9ccea",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -374,7 +374,7 @@
       "provenance": {
         "configuration_sha256": "98c7205e11d4c5202776d523465875dadc97ef0c533a140763f59ceab8ed0912",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -407,7 +407,7 @@
       "provenance": {
         "configuration_sha256": "ad37b8326cb7108f843642001b4cc141e33f84df365c0a81563d10d18cc19735",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -440,7 +440,7 @@
       "provenance": {
         "configuration_sha256": "43876b4a5688626d3f1b7ce6b537627945f32ef23dc32995a7d11a99110cc5a0",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -465,7 +465,7 @@
       "provenance": {
         "configuration_sha256": "042b84abdec732a4127d1c451a0cd8c206046f438c0ac92c4a4b8244a997d34f",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -490,7 +490,7 @@
       "provenance": {
         "configuration_sha256": "bdf0eafaf1bc81172693d5d084881557c7584e74e7e35bf3b1ff1d493713c8b9",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -515,7 +515,7 @@
       "provenance": {
         "configuration_sha256": "d679bdf0cd9395556a6932f872cfc1282e7212eef6709b246b43d453e1bd2998",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -540,7 +540,7 @@
       "provenance": {
         "configuration_sha256": "3789b74a39958503442e285346e3d832a8d1b89b71d362025bbb807d020b8d7e",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -565,7 +565,7 @@
       "provenance": {
         "configuration_sha256": "cf4b3c86b55d2bd90e67596aaf8da0fa9122aa028d2f0cf9cff4d2d669168581",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -590,7 +590,7 @@
       "provenance": {
         "configuration_sha256": "d3d7539a9f8f48b56d905fa2f32f078582faeb7c5a623301e7b069edbbb9b4d1",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -614,7 +614,7 @@
       "provenance": {
         "configuration_sha256": "4a1869e63ce841e11f70d0f0117444f3a1c664534bdb84271d12b348c7b9016c",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -639,7 +639,7 @@
       "provenance": {
         "configuration_sha256": "7884090f04cc4958354bb0991c66c39131c785b840175db7b82a3ca1a027d826",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -663,7 +663,7 @@
       "provenance": {
         "configuration_sha256": "79743fd3504a8fa5bd84279034f3acf1e9f5d9220bc811bcb6df2364bd72a1b4",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -688,7 +688,7 @@
       "provenance": {
         "configuration_sha256": "bcaf101bd337c22d2bdecc961afa87b1c00a03fb640ba861e85ffe3288b2111e",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -713,7 +713,7 @@
       "provenance": {
         "configuration_sha256": "83fb9c0006e1dc1cdbee26dc76ef2b632a1469efd51ece29d8aa65f403c5135d",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -737,7 +737,7 @@
       "provenance": {
         "configuration_sha256": "9f43eb26609cc1c3b0f66be7cf0cd518d23fd3737fbc0060b1f98a5e4b09e69c",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -762,7 +762,7 @@
       "provenance": {
         "configuration_sha256": "0ed798e21a153081f76fc7f0d7e3808f5def0b72a24fd17e72ed1c618eb80821",
         "git_dirty": false,
-        "git_revision": "4098e4e4fa0f02760b06b365a66778514870c60b",
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
         "matplotlib": "3.11.2",
         "numpy": "2.5.4",
         "package_version": "0.1.0",
@@ -774,6 +774,372 @@
       "summary": {
         "three_measurement_rank": 6,
         "two_measurement_rank": 4
+      }
+    },
+    {
+      "archive": "task-inertia-payload/fields.npz",
+      "case": "task-inertia-payload",
+      "configuration": {
+        "case": "task-inertia-payload",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "1495865e9092eddaad039f532cf813f7ec4431e7e69831462776e0d8c0f93bb2",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "690e6a90ef0dfbd19c94bb41f8813ab3555172f712222fbe46e10ddb95ee983d",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "loaded_effective_mass_kg": 1.0566199215487042,
+        "minimum_effective_mass_kg": 0.05661992154870441
+      }
+    },
+    {
+      "archive": "dynamic-task-velocity/fields.npz",
+      "case": "dynamic-task-velocity",
+      "configuration": {
+        "case": "dynamic-task-velocity",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "f318e47e4b1d29fb16a971e743d3cfee057d0f3ea042b5a91794f409b9ee4108",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "ff28f74d18989414e2ccf01871816cccfd1f142625bd4798b67c13af41aa0073",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_energy_saving_j": 0.03651753674357952
+      }
+    },
+    {
+      "archive": "nullspace-joint-barrier/fields.npz",
+      "case": "nullspace-joint-barrier",
+      "configuration": {
+        "case": "nullspace-joint-barrier",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "bf61654f340a333c15a61fa85f524063e6fb57816b8ef548e65c38cda3833336",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "d296eded31c9d06bbabfba503d5c49995c198b65a58984e623e7712d1855d042",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_tip_leak_m_s": 1.8211998252746568e-14,
+        "minimum_barrier_descent": 12.945662010555035
+      }
+    },
+    {
+      "archive": "bilateral-contact-reaction/fields.npz",
+      "case": "bilateral-contact-reaction",
+      "configuration": {
+        "case": "bilateral-contact-reaction",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "b4e5644c61b681a2fcbb2e59d4f0218593f130a6ef3b35a01a0f5bad3ae6d36b",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "bceb849d14a940d7ca5450fcfa97a7f8a62bae6b9777a3705947be45f0714440",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_constraint_residual_m_s2": 6.543084740429315e-15
+      }
+    },
+    {
+      "archive": "impedance-virtual-work/fields.npz",
+      "case": "impedance-virtual-work",
+      "configuration": {
+        "case": "impedance-virtual-work",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "e6c76491fa31fc3b04dcb023beaf5efb3d59b3df78ff08cd42d75dc40375937f",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "246c60f7372f8ed648d08a66e6ebd7254d19131ef01dde4532691104817990d7",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_power_defect_w": 5.329070518200751e-15
+      }
+    },
+    {
+      "archive": "task-force-authority/fields.npz",
+      "case": "task-force-authority",
+      "configuration": {
+        "case": "task-force-authority",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "c14812802060cb94fd1792adcdeedcdf43d679cb1dd95c490a57e0ba8c93773d",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "77d0de4b0567095b500ac277474053f13af18c37ac2ce5c46bc33ca771e18af7",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "minimum_scale": 0.08185823536618167
+      }
+    },
+    {
+      "archive": "bounded-quintic-motion/fields.npz",
+      "case": "bounded-quintic-motion",
+      "configuration": {
+        "case": "bounded-quintic-motion",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "69d046bbaa13b2a6d0898ba9fb1a15d4f4813d4fc7533357f1786c053d00ddfb",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "fe5fe009131e4bcaac9536b8ecf60382f8b763f31a4f3cd2a8523bfd4b1eafe9",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "duration_s": 2.25,
+        "max_velocity_rad_s": 1.0
+      }
+    },
+    {
+      "archive": "rest-to-rest-waypoints/fields.npz",
+      "case": "rest-to-rest-waypoints",
+      "configuration": {
+        "case": "rest-to-rest-waypoints",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "a110e90a409297b78f3a0542fb2c277e39c46e71c98d95faedb4911f909bbffc",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "975a13b90d22016fc5a811ba40520af78c0839d7feb9888ebee0b8c34abeee3e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "final_joint1_rad": -0.19999999999999996
+      }
+    },
+    {
+      "archive": "continuous-path-clearance/fields.npz",
+      "case": "continuous-path-clearance",
+      "configuration": {
+        "case": "continuous-path-clearance",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "8001cd796d96751089d2d25b79b1a8fd1951a185db625292f1daaed579f3e9f5",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "85931199c33cd6765aafc23ebd9d311d9d3b2f6c0d62e2b8be5dabdc3ab50571",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "detour_clearance_m": 0.25,
+        "direct_collision": true
+      }
+    },
+    {
+      "archive": "quintic-jerk-tradeoff/fields.npz",
+      "case": "quintic-jerk-tradeoff",
+      "configuration": {
+        "case": "quintic-jerk-tradeoff",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "496ad6b5390298e08385394ea0ef86f7befee03f8019e34fdabe8eeebc7db6a9",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "14a8aa1336aac66fcf53f7d6c7f19c88fbf99d9824ef0c37d21aacec36d16bf6",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_relative_quadrature_error": 9.999994000198242e-06
+      }
+    },
+    {
+      "archive": "payload-mass-identification/fields.npz",
+      "case": "payload-mass-identification",
+      "configuration": {
+        "case": "payload-mass-identification",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "10382e903634f47e98545753d25a71753d725b1b39a28192052f316d04db812c",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "f580704412eb7e2625314819d9cf70225a33b354c7b03bd0812c60c9ebf7be9e",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "declared_std_kg": 0.000411139211505148,
+        "estimated_payload_kg": 0.3496213508566581
+      }
+    },
+    {
+      "archive": "viscous-damping-identification/fields.npz",
+      "case": "viscous-damping-identification",
+      "configuration": {
+        "case": "viscous-damping-identification",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "4ad21db94e5ab853de99b7179178ca6fce36d669331c96dfcad2a3b2e1b4d8ac",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "7c39b47f1c06907121376353fd7040f88ff5b9007187a6b7eb8cb4a8d7089640",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "maximum_coefficient_error": 0.0002537850005435438
+      }
+    },
+    {
+      "archive": "contact-wrench-conditioning/fields.npz",
+      "case": "contact-wrench-conditioning",
+      "configuration": {
+        "case": "contact-wrench-conditioning",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "dd42c982446c32684207c30a1911a41ba15f734a429ef49c984a3c1efc5477b8",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "425b1d6010d8150bc1d197f0e5a7c34924fc62cf0abe52cd35d3bcb324a64fdf",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "unobservable_samples": 1
+      }
+    },
+    {
+      "archive": "unilateral-force-projection/fields.npz",
+      "case": "unilateral-force-projection",
+      "configuration": {
+        "case": "unilateral-force-projection",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "023d8aa53d5d006e8723f7fc4c91a802c8e6fccdd13b1a2720427600d4abf20b",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "fb3755da0a74cad6469fd5b9cf29f10742721b1ec695161480f6f69fa964abfd",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_cone_violation_n": 0.0
+      }
+    },
+    {
+      "archive": "coupled-friction-impact/fields.npz",
+      "case": "coupled-friction-impact",
+      "configuration": {
+        "case": "coupled-friction-impact",
+        "resolution_scale": 1,
+        "seed": 42
+      },
+      "provenance": {
+        "configuration_sha256": "4ae1172d44933a7b4dfa1596e77b568151b78062bea185e8f7995f84561a2e5c",
+        "git_dirty": false,
+        "git_revision": "c7dc818cb7366218625417c06195e9af6e3b22d7",
+        "matplotlib": "3.11.2",
+        "numpy": "2.5.4",
+        "package_version": "0.1.0",
+        "parameters_sha256": "d27a9e6f1e19be5471fe0ee7b127bcbd709dfa62321abc61afb0e3a441521def",
+        "python": "3.13.15",
+        "quantity_convention": "SI units; planar x forward z upward; relative arm joints; scalar-first body-to-world quaternions in spatial benches",
+        "scipy": "1.18.1"
+      },
+      "summary": {
+        "max_post_normal_speed_m_s": 2.826717651482708e-16,
+        "minimum_dissipation_j": 0.2871515050010287
       }
     }
   ],

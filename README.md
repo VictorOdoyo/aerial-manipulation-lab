@@ -30,7 +30,7 @@ The main aircraft-arm model is planar. Full spatial arm coupling is outside this
 
 ## Evidence and methods
 
-The [computed gallery](docs/results.md) contains all 27 studies with arrays, CSV/JSON, source provenance, plots, HTML and SHA-256 manifests. It retains unknown-payload errors, ignored-reaction drift and actuator-loss terminations.
+The [computed gallery](docs/results.md) contains all 42 studies with arrays, CSV/JSON, source provenance, plots, HTML and SHA-256 manifests. It retains unknown-payload errors, ignored-reaction drift and actuator-loss terminations.
 
 | Method | Read |
 |---|---|
@@ -69,3 +69,7 @@ uv build
 ```
 
 Publication requires a complete default catalog from one clean committed source. CI checks Linux/Windows, Python 3.11/3.13, formatting, published evidence and an installed-wheel report. See [contributing](CONTRIBUTING.md) and [release notes](CHANGELOG.md). MIT licensed.
+
+## Task-space design extension
+
+[Coupled operational-space mechanics](docs/task-space-design.md) and [motion, identification and friction](docs/motion-identification.md) add fifteen reproducible design studies with explicit actuation and observability assumptions.

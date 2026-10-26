@@ -14,3 +14,15 @@ def tip(q, model=None):
     from .planar import kinematics
 
     return kinematics(q, model)["tip"]
+
+
+def operational_inertia(mass, jacobian):
+    matrix = metric(mass)
+    jac = finite(jacobian, real=True, ndim=2)
+    if jac.shape[1] != len(matrix):
+        raise ValueError("task Jacobian must span generalized coordinates")
+    inverse_times = np.linalg.solve(matrix, jac.T)
+    inverse_task = jac @ inverse_times
+    if np.linalg.matrix_rank(inverse_task) < len(jac):
+        raise ValueError("task directions must be independent")
+    return np.linalg.inv(inverse_task)

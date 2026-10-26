@@ -1,0 +1,7 @@
+{
+  "initial_base_velocity_m_s": [
+    1,
+    -1
+  ],
+  "normal_restitution": 0
+}

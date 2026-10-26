@@ -17,5 +17,5 @@
     "payload_kg": 0.1
   },
   "restitution": 0,
-  "stopped_joint": 2
+  "stopped_joint": 1
 }

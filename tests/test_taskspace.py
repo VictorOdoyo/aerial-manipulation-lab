@@ -68,3 +68,15 @@ def test_task_force_limit_scaling():
     r = m.scale_force(jac, [100, 20], [20, 20, 2, 1, 1])
     assert np.all(abs(r["generalized"]) <= np.array([20, 20, 2, 1, 1]) + 1e-12)
     assert r["scale"] < 1
+
+
+def test_constraint_kkt_balance():
+    from aeriallab.planar import gravity, mass_matrix
+
+    q = np.array([0, 1, 0, 0.3, -0.5])
+    mass = mass_matrix(q)
+    jac = m.tip(q)[1]
+    bias = gravity(q)
+    r = m.constrained_acceleration(mass, jac, np.zeros(5), bias, np.zeros(2), np.zeros(2))
+    assert np.allclose(jac @ r["acceleration"], 0, atol=1e-10)
+    assert np.allclose(mass @ r["acceleration"], -bias + jac.T @ r["reaction"])

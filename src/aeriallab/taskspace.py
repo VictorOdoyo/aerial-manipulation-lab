@@ -81,3 +81,26 @@ def scale_force(jacobian, force, limits):
     requested = jac.T @ f
     ratio = max(np.max(abs(requested) / bound), 1.0)
     return {"force": f / ratio, "generalized": requested / ratio, "scale": float(1 / ratio)}
+
+
+def constrained_acceleration(mass, jacobian, applied_force, bias, desired_task_acceleration, convective):
+    matrix = metric(mass)
+    jac = finite(jacobian, real=True, ndim=2)
+    force = finite(applied_force, real=True, ndim=1)
+    b = finite(bias, real=True, ndim=1)
+    desired = finite(desired_task_acceleration, real=True, ndim=1)
+    drift = finite(convective, real=True, ndim=1)
+    n = len(matrix)
+    k = len(jac)
+    if (
+        jac.shape != (k, n)
+        or force.shape != (n,)
+        or b.shape != (n,)
+        or desired.shape != (k,)
+        or drift.shape != (k,)
+    ):
+        raise ValueError("aligned constrained mechanics required")
+    solution = np.linalg.solve(
+        np.block([[matrix, -jac.T], [jac, np.zeros((k, k))]]), np.r_[force - b, desired - drift]
+    )
+    return {"acceleration": solution[:n], "reaction": solution[n:]}

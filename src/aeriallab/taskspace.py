@@ -1,6 +1,6 @@
 import numpy as np
 
-from .core import finite
+from .core import finite, positive
 
 
 def metric(matrix):
@@ -48,3 +48,12 @@ def minimum_energy_velocity(mass, jacobian, task_velocity):
         "kinetic_j": float(0.5 * solution @ metric(mass) @ solution),
         "achieved": jac @ solution,
     }
+
+
+def convective_acceleration(q, velocity, model=None, step_s=1e-5):
+    from .planar import configuration
+
+    x = configuration(q)
+    v = configuration(velocity)
+    h = positive(step_s)
+    return ((tip(x + h * v, model)[1] - tip(x - h * v, model)[1]) / (2 * h)) @ v

@@ -45,3 +45,11 @@ def test_minimum_energy_vs_null_motion():
     shifted = r["generalized_velocity"] + extra
     assert np.allclose(jac @ shifted, [0.2, -0.1])
     assert 0.5 * shifted @ mass @ shifted >= r["kinetic_j"]
+
+
+def test_convective_second_derivative():
+    q = np.array([0, 1, 0.1, 0.3, -0.5])
+    v = np.array([0.2, -0.1, 0.3, 0.5, -0.2])
+    h = 1e-4
+    numeric = (m.tip(q + h * v)[0] - 2 * m.tip(q)[0] + m.tip(q - h * v)[0]) / h**2
+    assert np.allclose(m.convective_acceleration(q, v), numeric, atol=1e-7)

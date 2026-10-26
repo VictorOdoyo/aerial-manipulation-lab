@@ -376,3 +376,52 @@ def jerk(scale=1, seed=42):
             )
         ],
     )
+
+
+def payload(scale=1, seed=42):
+    from .core import stream
+    from .identification import payload_fit, payload_regressor
+    from .planar import Model, coriolis_matrix, gravity, mass_matrix
+
+    n = 100 * scale
+    t = np.linspace(0, 5, n)
+    phi = []
+    observed = []
+    estimate = []
+    uncertainty = []
+    rng = stream(seed, "payload-fit")
+    p = Model(payload_kg=0.35)
+    for time in t:
+        q = np.array([0, 1, 0.1 * np.sin(0.5 * time), 0.4 * np.sin(time), -0.6 + 0.2 * np.cos(time)])
+        v = np.array([0, 0, 0.05 * np.cos(0.5 * time), 0.4 * np.cos(time), -0.2 * np.sin(time)])
+        a = np.array([0, 0, -0.025 * np.sin(0.5 * time), -0.4 * np.sin(time), -0.2 * np.cos(time)])
+        reg = payload_regressor(q, v, a)
+        torque = mass_matrix(q, p) @ a + coriolis_matrix(q, v, p) @ v + gravity(q, p) + rng.normal(0, 0.01, 5)
+        phi.extend(reg["column"][3:])
+        observed.extend((torque - reg["baseline"])[3:])
+        if len(phi) >= 4:
+            fitted = payload_fit(phi, observed, 0.01)
+            estimate.append(fitted["payload_kg"])
+            uncertainty.append(fitted["standard_deviation_kg"])
+        else:
+            estimate.append(0.0)
+            uncertainty.append(0.0)
+    valid = np.arange(n) > 0
+    return make(
+        "payload-mass-identification",
+        {"true_payload_kg": 0.35, "joint_torque_noise_nm": 0.01},
+        {"estimated_payload_kg": estimate[-1], "declared_std_kg": uncertainty[-1]},
+        {"time_s": t, "estimate_kg": np.array(estimate), "reference_kg": np.full(n, 0.35), "valid": valid},
+        [
+            curve(
+                "Measured joint-reaction payload fit",
+                "time_s",
+                [("estimate_kg", "Estimate", "valid"), ("reference_kg", "Synthesis reference")],
+                "Time (s)",
+                "Payload mass (kg)",
+            )
+        ],
+        assumptions=[
+            "Configuration, velocity and acceleration observations are supplied; no derivative-noise model or flight estimator is claimed."
+        ],
+    )

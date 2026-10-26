@@ -46,3 +46,7 @@ def test_clearance():
 
 def test_jerk():
     assert m.jerk()["summary"]["max_relative_quadrature_error"] < 2e-5
+
+
+def test_payload():
+    assert abs(m.payload()["summary"]["estimated_payload_kg"] - 0.35) < 0.01

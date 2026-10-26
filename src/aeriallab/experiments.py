@@ -48,6 +48,81 @@ CASES = {
     "quadrotor-failure-allocation": ["studies_spatial", "quad_loss", "Unavailable spatial wrench authority"],
     "inertial-position-outage": ["studies_sensing", "outage", "Sensor-only inertial observer"],
     "navigation-observability": ["studies_sensing", "observability", "Position and bias observability"],
+    "task-inertia-payload": [
+        "studies_taskspace",
+        "inertia",
+        "Measure payload-dependent Cartesian inertia using full floating-base mechanics",
+    ],
+    "dynamic-task-velocity": [
+        "studies_taskspace",
+        "velocity",
+        "Compare kinetic-energy-optimal task motion with Euclidean pseudoinverse allocation",
+    ],
+    "nullspace-joint-barrier": [
+        "studies_taskspace",
+        "nullspace",
+        "Reduce a joint-limit barrier while preserving instantaneous Cartesian task velocity",
+    ],
+    "bilateral-contact-reaction": [
+        "studies_taskspace",
+        "constraint",
+        "Solve coupled bilateral tip constraints and audit the reaction force",
+    ],
+    "impedance-virtual-work": [
+        "studies_taskspace",
+        "work",
+        "Audit Cartesian impedance and generalized reaction power over random coupled motions",
+    ],
+    "task-force-authority": [
+        "studies_taskspace",
+        "authority",
+        "Scale requested task forces against declared generalized-force bounds",
+    ],
+    "bounded-quintic-motion": [
+        "studies_taskspace",
+        "retiming",
+        "Retime synchronized joint motion to satisfy velocity acceleration and jerk limits",
+    ],
+    "rest-to-rest-waypoints": [
+        "studies_taskspace",
+        "waypoints",
+        "Verify continuous position velocity and acceleration through synchronized rest waypoints",
+    ],
+    "continuous-path-clearance": [
+        "studies_taskspace",
+        "clearance",
+        "Detect obstacle intersections between samples and verify a declared waypoint detour",
+    ],
+    "quintic-jerk-tradeoff": [
+        "studies_taskspace",
+        "jerk",
+        "Compare analytical and sampled integrated jerk cost as motion duration changes",
+    ],
+    "payload-mass-identification": [
+        "studies_taskspace",
+        "payload",
+        "Identify unknown payload mass from noisy arm-joint inverse-dynamics reactions",
+    ],
+    "viscous-damping-identification": [
+        "studies_taskspace",
+        "damping",
+        "Recover passive damping coefficients from excited velocity and residual-force observations",
+    ],
+    "contact-wrench-conditioning": [
+        "studies_taskspace",
+        "wrench",
+        "Retain force-observation singularity near a straight arm with joint-only torque sensing",
+    ],
+    "unilateral-force-projection": [
+        "studies_taskspace",
+        "cone",
+        "Project infeasible contact forces into the unilateral Coulomb cone",
+    ],
+    "coupled-friction-impact": [
+        "studies_taskspace",
+        "impact",
+        "Resolve sticking and sliding impacts through the floating-base kinetic metric",
+    ],
 }
 
 

@@ -29,7 +29,7 @@ def test_request_json_roundtrip(tmp_path):
     path.write_text('{"case":"coupled-energy-convergence","resolution_scale":2,"seed":7}', encoding="utf-8")
     config = load_config(path)
     assert ExperimentConfig.from_dict(config.to_dict()) == config
-    assert len(CASES) == 27
+    assert len(CASES) == 42
 
 
 def test_dispatch_uses_physical_runner_and_preserves_request():

@@ -89,3 +89,13 @@ def test_com_gravity_gradient():
     p = Model()
     r = m.center_of_mass(q, p)
     assert np.allclose(gravity(q, p), p.total_mass * p.gravity_m_s2 * r["jacobian"][1])
+
+
+def test_joint_barrier_preserves_task():
+    from aeriallab.planar import mass_matrix
+
+    q = np.array([0, 1, 0, 0.3, -0.5])
+    jac = m.tip(q)[1]
+    v = m.joint_limit_motion(q, mass_matrix(q), jac, [-2, -1, -2, -1, -1], [2, 3, 2, 1, 1])
+    assert np.allclose(jac @ v, 0, atol=1e-10)
+    assert np.linalg.norm(v) > 0

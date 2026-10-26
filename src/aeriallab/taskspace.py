@@ -118,3 +118,13 @@ def center_of_mass(q, model=None):
         position += mass * kin[name][0]
         jac += mass * kin[name][1]
     return {"position_m": position / p.total_mass, "jacobian": jac / p.total_mass}
+
+
+def joint_limit_motion(q, mass, jacobian, lower, upper, gain=0.1):
+    x = finite(q, real=True, ndim=1)
+    lo = finite(lower, real=True, ndim=1)
+    hi = finite(upper, real=True, ndim=1)
+    if x.shape != lo.shape or x.shape != hi.shape or np.any(x <= lo) or np.any(x >= hi):
+        raise ValueError("configuration strictly within declared bounds required")
+    gradient = 1 / (x - lo) - 1 / (hi - x)
+    return dynamic_inverse(mass, jacobian)["null"] @ (positive(gain) * gradient)

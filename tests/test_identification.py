@@ -31,3 +31,12 @@ def test_damping_recovery():
     v = np.random.default_rng(4).normal(size=(100, 5))
     truth = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
     assert np.allclose(m.damping_fit(v, v * truth)["damping"], truth)
+
+
+def test_contact_wrench_inverse():
+    from aeriallab.planar import kinematics
+
+    jac = kinematics([0, 1, 0, 0.3, -0.5])["tip"][1]
+    force = np.array([2.0, 4.0])
+    r = m.wrench_fit(jac, jac.T @ force, 0.01)
+    assert np.allclose(r["force"], force)

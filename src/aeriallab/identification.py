@@ -54,3 +54,17 @@ def damping_fit(velocities, residual_forces):
     if np.any(coefficient < 0):
         raise ValueError("fitted damping violates passivity")
     return {"damping": coefficient, "residual": force - v * coefficient}
+
+
+def wrench_fit(jacobian, generalized_reaction, noise_std):
+    jac = finite(jacobian, real=True, ndim=2)
+    force = finite(generalized_reaction, real=True, ndim=1)
+    sigma = np.broadcast_to(finite(noise_std, real=True), force.shape)
+    if jac.shape[1] != len(force) or np.any(sigma <= 0):
+        raise ValueError("aligned reaction channels and uncertainties required")
+    design = jac.T / sigma[:, None]
+    information = design.T @ design
+    if np.linalg.cond(information) > 1e10:
+        raise ValueError("contact wrench is unobservable")
+    cov = np.linalg.inv(information)
+    return {"force": cov @ design.T @ (force / sigma), "covariance": cov}

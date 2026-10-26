@@ -57,3 +57,16 @@ def convective_acceleration(q, velocity, model=None, step_s=1e-5):
     v = configuration(velocity)
     h = positive(step_s)
     return ((tip(x + h * v, model)[1] - tip(x - h * v, model)[1]) / (2 * h)) @ v
+
+
+def impedance(q, velocity, target, stiffness_n_m=100, damping_n_s_m=10, model=None):
+    from .planar import configuration
+
+    x = configuration(q)
+    v = configuration(velocity)
+    desired = finite(target, real=True)
+    if desired.shape != (2,):
+        raise ValueError("planar Cartesian target required")
+    point, jac = tip(x, model)
+    force = positive(stiffness_n_m) * (desired - point) - positive(damping_n_s_m, allow_zero=True) * (jac @ v)
+    return {"force_n": force, "generalized_force": jac.T @ force, "task_power_w": float(force @ (jac @ v))}

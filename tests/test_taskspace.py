@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import taskspace as m
 
@@ -53,3 +54,10 @@ def test_convective_second_derivative():
     h = 1e-4
     numeric = (m.tip(q + h * v)[0] - 2 * m.tip(q)[0] + m.tip(q - h * v)[0]) / h**2
     assert np.allclose(m.convective_acceleration(q, v), numeric, atol=1e-7)
+
+
+def test_impedance_virtual_work():
+    q = np.array([0, 1, 0.1, 0.3, -0.5])
+    v = np.array([0.2, -0.1, 0.3, 0.5, -0.2])
+    r = m.impedance(q, v, [0.2, 0.4])
+    assert r["generalized_force"] @ v == pytest.approx(r["task_power_w"])

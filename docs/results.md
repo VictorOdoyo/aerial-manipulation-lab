@@ -1,6 +1,6 @@
 # Computed experiment gallery
 
-Twenty-seven default studies computed from clean source revision [`cf36e6ee647f`](https://github.com/VictorOdoyo/aerial-manipulation-lab/commit/cf36e6ee647faeaf518eacdfed8701bbc8bd978a).
+Twenty-seven default studies computed from clean source revision [`4098e4e4fa0f`](https://github.com/VictorOdoyo/aerial-manipulation-lab/commit/4098e4e4fa0f02760b06b365a66778514870c60b).
 All values below come from the sealed captures. Each case directory contains the complete
 NPZ arrays, CSV tables, parameters, provenance, plot and HTML report.
 

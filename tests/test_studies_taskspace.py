@@ -20,3 +20,7 @@ def test_nullspace():
 
 def test_constraint():
     assert m.constraint()["summary"]["max_constraint_residual_m_s2"] < 1e-9
+
+
+def test_work():
+    assert m.work()["summary"]["max_power_defect_w"] < 1e-10

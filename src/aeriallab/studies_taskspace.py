@@ -146,3 +146,48 @@ def constraint(scale=1, seed=42):
             "Bilateral contact can pull or push. This is distinct from unilateral frictional impact."
         ],
     )
+
+
+def work(scale=1, seed=42):
+    from .core import stream
+    from .taskspace import impedance
+
+    rng = stream(seed, "virtual-work")
+    n = 200 * scale
+    task = []
+    generalized = []
+    for _ in range(n):
+        q = np.array([0, 1, 0, 0.4, -0.7]) + rng.normal(0, 0.05, 5)
+        v = rng.normal(0, 0.2, 5)
+        r = impedance(q, v, [0.2, 0.5])
+        task.append(r["task_power_w"])
+        generalized.append(r["generalized_force"] @ v)
+    residual = np.array(generalized) - task
+    return make(
+        "impedance-virtual-work",
+        {"stiffness_n_m": 100, "damping_n_s_m": 10},
+        {"max_power_defect_w": float(max(abs(residual)))},
+        {
+            "sample": np.arange(n),
+            "task_w": np.array(task),
+            "generalized_w": np.array(generalized),
+            "residual_w": residual,
+        },
+        [
+            curve(
+                "Impedance power in two coordinate spaces",
+                "sample",
+                [("task_w", "Cartesian"), ("generalized_w", "Generalized")],
+                "Independent motion sample",
+                "Power (W)",
+            ),
+            curve(
+                "Virtual-work closure",
+                "sample",
+                [("residual_w", "Power difference")],
+                "Sample",
+                "Residual (W)",
+                ylim=(-1e-10, 1e-10),
+            ),
+        ],
+    )

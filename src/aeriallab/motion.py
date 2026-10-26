@@ -23,3 +23,23 @@ def quintic(time_s, duration_s, start, stop):
         "acceleration": acceleration[..., None] * delta,
         "jerk": jerk[..., None] * delta,
     }
+
+
+def minimum_duration(start, stop, velocity_limit, acceleration_limit, jerk_limit):
+    a = np.atleast_1d(finite(start, real=True))
+    b = np.atleast_1d(finite(stop, real=True))
+    delta = abs(b - a)
+    limits = [
+        np.broadcast_to(finite(v, real=True), a.shape)
+        for v in (velocity_limit, acceleration_limit, jerk_limit)
+    ]
+    if a.shape != b.shape or a.ndim != 1 or any(np.any(v <= 0) for v in limits):
+        raise ValueError("aligned endpoints and positive component limits required")
+    bounds = np.stack(
+        [
+            1.875 * delta / limits[0],
+            np.sqrt((10 * np.sqrt(3) / 3) * delta / limits[1]),
+            np.cbrt(60 * delta / limits[2]),
+        ]
+    )
+    return float(max(np.max(bounds), 1e-9))

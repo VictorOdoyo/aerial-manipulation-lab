@@ -54,3 +54,18 @@ def synchronized(time_s, requested_duration_s, start, stop, velocity_limit, acce
         "extended": duration > requested,
         **quintic(time_s, duration, start, stop),
     }
+
+
+def segment_clearance(start, stop, centers, radii):
+    a = finite(start, real=True)
+    b = finite(stop, real=True)
+    c = finite(centers, real=True, ndim=2)
+    r = finite(radii, real=True, ndim=1)
+    if a.shape != (2,) or b.shape != (2,) or c.shape != (len(r), 2) or len(r) == 0 or np.any(r <= 0):
+        raise ValueError("planar segment and positive obstacle radii required")
+    delta = b - a
+    squared = delta @ delta
+    fraction = np.clip(((c - a) @ delta) / squared, 0, 1) if squared > 0 else np.zeros(len(r))
+    closest = a + fraction[:, None] * delta
+    clearance = np.linalg.norm(c - closest, axis=1) - r
+    return {"clearance_m": clearance, "collision": bool(np.any(clearance <= 0)), "closest_points": closest}

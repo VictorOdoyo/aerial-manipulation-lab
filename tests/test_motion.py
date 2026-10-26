@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import motion as m
 
@@ -22,3 +23,9 @@ def test_duration_respects_all_bounds():
 def test_short_request_retimed():
     r = m.synchronized([0, 1], 0.01, [0, 0], [1, 2], 1, 2, 10)
     assert r["extended"] and r["duration_s"] > 1
+
+
+def test_continuous_path_not_endpoint_only():
+    r = m.segment_clearance([-1, 0], [1, 0], [[0, 0]], [0.2])
+    assert r["collision"] and r["clearance_m"][0] == pytest.approx(-0.2)
+    assert not m.segment_clearance([-1, 1], [1, 1], [[0, 0]], [0.2])["collision"]

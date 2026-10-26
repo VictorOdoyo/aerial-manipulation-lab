@@ -488,3 +488,33 @@ def wrench(scale=1, seed=42):
             )
         ],
     )
+
+
+def cone(scale=1, seed=42):
+    from .identification import friction_projection
+
+    tangent = np.linspace(-5, 5, 101 * scale)
+    projected = np.array([friction_projection([t, 2], 0.5) for t in tangent])
+    ratio = abs(projected[:, 0]) - 0.5 * projected[:, 1]
+    return make(
+        "unilateral-force-projection",
+        {"requested_normal_n": 2, "friction_coefficient": 0.5},
+        {"max_cone_violation_n": float(max(ratio))},
+        {
+            "requested_tangent_n": tangent,
+            "projected_tangent_n": projected[:, 0],
+            "projected_normal_n": projected[:, 1],
+        },
+        [
+            curve(
+                "Euclidean projection onto the contact cone",
+                "requested_tangent_n",
+                [("projected_tangent_n", "Tangential"), ("projected_normal_n", "Normal")],
+                "Requested tangential force (N)",
+                "Projected force (N)",
+            )
+        ],
+        assumptions=[
+            "Euclidean projection may increase normal force. It is a feasibility projection, not a fixed-normal load controller."
+        ],
+    )

@@ -58,3 +58,7 @@ def test_damping():
 
 def test_wrench():
     assert m.wrench()["summary"]["unobservable_samples"] >= 1
+
+
+def test_cone():
+    assert m.cone()["summary"]["max_cone_violation_n"] < 1e-10

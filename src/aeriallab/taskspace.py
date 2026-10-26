@@ -35,3 +35,16 @@ def dynamic_inverse(mass, jacobian):
     inverse = np.linalg.solve(matrix, jac.T) @ task
     null = np.eye(len(matrix)) - inverse @ jac
     return {"inverse": inverse, "null": null, "task_inertia": task}
+
+
+def minimum_energy_velocity(mass, jacobian, task_velocity):
+    desired = finite(task_velocity, real=True, ndim=1)
+    jac = finite(jacobian, real=True, ndim=2)
+    if desired.shape != (len(jac),):
+        raise ValueError("one task velocity per Jacobian row required")
+    solution = dynamic_inverse(mass, jac)["inverse"] @ desired
+    return {
+        "generalized_velocity": solution,
+        "kinetic_j": float(0.5 * solution @ metric(mass) @ solution),
+        "achieved": jac @ solution,
+    }

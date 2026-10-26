@@ -70,3 +70,14 @@ def impedance(q, velocity, target, stiffness_n_m=100, damping_n_s_m=10, model=No
     point, jac = tip(x, model)
     force = positive(stiffness_n_m) * (desired - point) - positive(damping_n_s_m, allow_zero=True) * (jac @ v)
     return {"force_n": force, "generalized_force": jac.T @ force, "task_power_w": float(force @ (jac @ v))}
+
+
+def scale_force(jacobian, force, limits):
+    jac = finite(jacobian, real=True, ndim=2)
+    f = finite(force, real=True, ndim=1)
+    bound = finite(limits, real=True, ndim=1)
+    if jac.shape != (len(f), len(bound)) or np.any(bound <= 0):
+        raise ValueError("positive generalized limits and aligned task force required")
+    requested = jac.T @ f
+    ratio = max(np.max(abs(requested) / bound), 1.0)
+    return {"force": f / ratio, "generalized": requested / ratio, "scale": float(1 / ratio)}

@@ -61,3 +61,10 @@ def test_impedance_virtual_work():
     v = np.array([0.2, -0.1, 0.3, 0.5, -0.2])
     r = m.impedance(q, v, [0.2, 0.4])
     assert r["generalized_force"] @ v == pytest.approx(r["task_power_w"])
+
+
+def test_task_force_limit_scaling():
+    jac = m.tip([0, 1, 0, 0.4, -0.6])[1]
+    r = m.scale_force(jac, [100, 20], [20, 20, 2, 1, 1])
+    assert np.all(abs(r["generalized"]) <= np.array([20, 20, 2, 1, 1]) + 1e-12)
+    assert r["scale"] < 1

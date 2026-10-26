@@ -1,0 +1,5 @@
+{
+  "case": "viscous-damping-identification",
+  "resolution_scale": 1,
+  "seed": 42
+}

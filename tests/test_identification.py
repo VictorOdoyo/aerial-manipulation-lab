@@ -47,3 +47,16 @@ def test_friction_cone_projection():
     assert abs(r[0]) <= 0.5 * r[1] + 1e-12 and r[1] >= 0
     assert np.allclose(m.friction_projection([0, -2]), 0)
     assert np.allclose(m.friction_projection([0.1, 2]), [0.1, 2])
+
+
+def test_friction_impact_matches_frictionless_normal_limit():
+    from aeriallab.contact import normal_impulse
+
+    q = np.array([0, 1, 0, 0.3, -0.5])
+    v = np.array([1.0, -1, 0, 0, 0])
+    r = m.frictional_impact(q, v, 0)
+    reference = normal_impulse(q, v)
+    assert np.allclose(r["velocity"], reference["velocity"])
+    assert r["dissipated_j"] >= 0
+    friction = m.frictional_impact(q, v, 0.5)
+    assert abs(friction["impulse"][0]) <= 0.5 * friction["impulse"][1] + 1e-10

@@ -82,3 +82,41 @@ def friction_projection(force, coefficient=0.5):
         return np.array([0.0, max(0.0, normal)])
     candidate = max(0.0, (mu * abs(tangent) + normal) / (1 + mu * mu))
     return np.array([np.sign(tangent) * mu * candidate, candidate])
+
+
+def frictional_impact(q, velocity, coefficient=0.5, model=None):
+    from .planar import configuration, kinematics, mass_matrix
+
+    x = configuration(q)
+    v = configuration(velocity)
+    mu = positive(coefficient, allow_zero=True)
+    mass = mass_matrix(x, model)
+    jac = kinematics(x, model)["tip"][1]
+    contact = jac @ v
+    if contact[1] >= 0:
+        return {"velocity": v.copy(), "impulse": np.zeros(2), "dissipated_j": 0.0, "mode": "separating"}
+    inverse = np.linalg.solve(mass, jac.T)
+    w = jac @ inverse
+    candidates = []
+    stick = -np.linalg.solve(w, contact)
+    if stick[1] >= 0 and abs(stick[0]) <= mu * stick[1] + 1e-12:
+        candidates.append((stick, "sticking"))
+    for sign in (-1, 1):
+        denominator = w[1, 1] + sign * mu * w[1, 0]
+        if denominator <= 0:
+            continue
+        normal = -contact[1] / denominator
+        impulse = np.array([sign * mu * normal, normal])
+        after = contact + w @ impulse
+        if normal >= 0 and sign * after[0] <= 1e-10:
+            candidates.append((impulse, "sliding"))
+    if not candidates:
+        raise ValueError("no consistent rigid Coulomb impact branch")
+    impulse, mode = min(
+        candidates, key=lambda item: float((v + inverse @ item[0]) @ mass @ (v + inverse @ item[0]))
+    )
+    out = v + inverse @ impulse
+    loss = float(0.5 * v @ mass @ v - 0.5 * out @ mass @ out)
+    if loss < -1e-9:
+        raise ValueError("impact branch generates unsupported energy")
+    return {"velocity": out, "impulse": impulse, "dissipated_j": max(0.0, loss), "mode": mode}

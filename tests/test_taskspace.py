@@ -99,3 +99,16 @@ def test_joint_barrier_preserves_task():
     v = m.joint_limit_motion(q, mass_matrix(q), jac, [-2, -1, -2, -1, -1], [2, 3, 2, 1, 1])
     assert np.allclose(jac @ v, 0, atol=1e-10)
     assert np.linalg.norm(v) > 0
+
+
+def test_null_barrier_is_descent_direction():
+    from aeriallab.planar import mass_matrix
+
+    q = np.array([0, 1, 0, 0.9, -0.5])
+    lo = np.array([-2, -1, -2, -1, -1])
+    hi = np.array([2, 3, 2, 1, 1])
+    jac = m.tip(q)[1]
+    v = m.joint_limit_motion(q, mass_matrix(q), jac, lo, hi)
+    gradient = 1 / (q - lo) - 1 / (hi - q)
+    assert gradient @ v > 0
+    assert np.allclose(jac @ v, 0, atol=1e-10)

@@ -127,4 +127,4 @@ def joint_limit_motion(q, mass, jacobian, lower, upper, gain=0.1):
     if x.shape != lo.shape or x.shape != hi.shape or np.any(x <= lo) or np.any(x >= hi):
         raise ValueError("configuration strictly within declared bounds required")
     gradient = 1 / (x - lo) - 1 / (hi - x)
-    return dynamic_inverse(mass, jacobian)["null"] @ (positive(gain) * gradient)
+    return dynamic_inverse(mass, jacobian)["null"] @ np.linalg.solve(metric(mass), positive(gain) * gradient)

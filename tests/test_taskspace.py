@@ -80,3 +80,12 @@ def test_constraint_kkt_balance():
     r = m.constrained_acceleration(mass, jac, np.zeros(5), bias, np.zeros(2), np.zeros(2))
     assert np.allclose(jac @ r["acceleration"], 0, atol=1e-10)
     assert np.allclose(mass @ r["acceleration"], -bias + jac.T @ r["reaction"])
+
+
+def test_com_gravity_gradient():
+    from aeriallab.planar import Model, gravity
+
+    q = np.array([0, 1, 0.2, 0.3, -0.5])
+    p = Model()
+    r = m.center_of_mass(q, p)
+    assert np.allclose(gravity(q, p), p.total_mass * p.gravity_m_s2 * r["jacobian"][1])

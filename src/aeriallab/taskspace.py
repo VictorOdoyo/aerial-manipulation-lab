@@ -104,3 +104,17 @@ def constrained_acceleration(mass, jacobian, applied_force, bias, desired_task_a
         np.block([[matrix, -jac.T], [jac, np.zeros((k, k))]]), np.r_[force - b, desired - drift]
     )
     return {"acceleration": solution[:n], "reaction": solution[n:]}
+
+
+def center_of_mass(q, model=None):
+    from .planar import Model, configuration, kinematics
+
+    p = Model() if model is None else model
+    x = configuration(q)
+    kin = kinematics(x, p)
+    position = p.base_mass_kg * x[:2]
+    jac = p.base_mass_kg * np.eye(2, 5)
+    for name, mass in (("link1", p.link1_mass_kg), ("link2", p.link2_mass_kg), ("tip", p.payload_kg)):
+        position += mass * kin[name][0]
+        jac += mass * kin[name][1]
+    return {"position_m": position / p.total_mass, "jacobian": jac / p.total_mass}

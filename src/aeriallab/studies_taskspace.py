@@ -70,3 +70,45 @@ def velocity(scale=1, seed=42):
         ],
         assumptions=["Instantaneous velocity allocation, not integrated dynamically feasible flight."],
     )
+
+
+def nullspace(scale=1, seed=42):
+    from .planar import mass_matrix
+    from .taskspace import joint_limit_motion, tip
+
+    q1 = np.linspace(0.1, 0.95, 101 * scale)
+    rates = []
+    leak = []
+    descent = []
+    lo = np.array([-2, -1, -2, -1, -1])
+    hi = np.array([2, 3, 2, 1, 1])
+    for angle in q1:
+        q = np.array([0, 1, 0, angle, -0.5])
+        jac = tip(q)[1]
+        v = joint_limit_motion(q, mass_matrix(q), jac, lo, hi)
+        rates.append(v[3])
+        leak.append(np.linalg.norm(jac @ v))
+        descent.append((1 / (q - lo) - 1 / (hi - q)) @ v)
+    return make(
+        "nullspace-joint-barrier",
+        {"joint_upper_rad": 1},
+        {"maximum_tip_leak_m_s": float(max(leak)), "minimum_barrier_descent": float(min(descent))},
+        {"joint1_rad": q1, "avoidance_rate_rad_s": np.array(rates), "tip_leak_m_s": np.array(leak)},
+        [
+            curve(
+                "Kinetic-metric joint barrier motion",
+                "joint1_rad",
+                [("avoidance_rate_rad_s", "Joint 1 null velocity")],
+                "Joint position (rad)",
+                "Rate (rad/s)",
+            ),
+            curve(
+                "Task-preservation residual",
+                "joint1_rad",
+                [("tip_leak_m_s", "Tip velocity leakage")],
+                "Joint position (rad)",
+                "Velocity (m/s)",
+                ylim=(-1e-10, 1e-10),
+            ),
+        ],
+    )

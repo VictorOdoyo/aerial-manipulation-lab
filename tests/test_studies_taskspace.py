@@ -11,3 +11,8 @@ def test_inertia():
 def test_velocity():
     r = m.velocity()
     assert np.all(r["arrays"]["dynamic_j"] <= r["arrays"]["euclidean_j"] + 1e-12)
+
+
+def test_nullspace():
+    s = m.nullspace()["summary"]
+    assert s["maximum_tip_leak_m_s"] < 1e-10 and s["minimum_barrier_descent"] > 0

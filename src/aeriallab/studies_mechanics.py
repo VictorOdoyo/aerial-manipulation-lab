@@ -398,7 +398,7 @@ def joint_impact(scale=1, seed=42):
                 "Inelastic joint-stop loss",
                 "incoming_joint_rad_s",
                 [("dissipated_j", "Dissipated")],
-                "Incoming q2 rate (rad/s)",
+                "Incoming q1 rate (rad/s)",
                 "Energy (J)",
             ),
         ],

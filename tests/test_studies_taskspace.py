@@ -37,3 +37,8 @@ def test_retiming():
 
 def test_waypoints():
     assert m.waypoints()["summary"]["final_joint1_rad"] == pytest.approx(-0.2)
+
+
+def test_clearance():
+    s = m.clearance()["summary"]
+    assert s["direct_collision"] and s["detour_clearance_m"] > 0

@@ -309,3 +309,40 @@ def waypoints(scale=1, seed=42):
         ],
         assumptions=["Piecewise rest-to-rest quintics are C2; jerk can jump at segment boundaries."],
     )
+
+
+def clearance(scale=1, seed=42):
+    from .motion import segment_clearance
+
+    direct = segment_clearance([0, 0], [1, 1], [[0.5, 0.5]], [0.25])
+    first = segment_clearance([0, 0], [0, 1], [[0.5, 0.5]], [0.25])
+    last = segment_clearance([0, 1], [1, 1], [[0.5, 0.5]], [0.25])
+    angle = np.linspace(0, 2 * np.pi, 181 * scale)
+    arrays = {
+        "direct_x": np.array([0.0, 1]),
+        "direct_z": np.array([0.0, 1]),
+        "detour_x": np.array([0.0, 0, 1]),
+        "detour_z": np.array([0.0, 1, 1]),
+        "obstacle_x": 0.5 + 0.25 * np.cos(angle),
+        "obstacle_z": 0.5 + 0.25 * np.sin(angle),
+    }
+    plots = [
+        curve("End-effector segment geometry", "direct_x", [("direct_z", "Direct")], "x (m)", "z (m)"),
+        curve("Declared detour", "detour_x", [("detour_z", "Detour")], "x (m)", "z (m)"),
+        curve("Obstacle boundary", "obstacle_x", [("obstacle_z", "Circular obstacle")], "x (m)", "z (m)"),
+    ]
+    for plot in plots:
+        plot["aspect"] = "equal"
+    return make(
+        "continuous-path-clearance",
+        {"obstacle_radius_m": 0.25},
+        {
+            "direct_collision": direct["collision"],
+            "detour_clearance_m": float(min(first["clearance_m"][0], last["clearance_m"][0])),
+        },
+        arrays,
+        plots,
+        assumptions=[
+            "Point end-effector line-segment geometry only; link swept volume and aircraft collision are not checked."
+        ],
+    )

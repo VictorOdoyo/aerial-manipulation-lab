@@ -16,3 +16,7 @@ def test_velocity():
 def test_nullspace():
     s = m.nullspace()["summary"]
     assert s["maximum_tip_leak_m_s"] < 1e-10 and s["minimum_barrier_descent"] > 0
+
+
+def test_constraint():
+    assert m.constraint()["summary"]["max_constraint_residual_m_s2"] < 1e-9

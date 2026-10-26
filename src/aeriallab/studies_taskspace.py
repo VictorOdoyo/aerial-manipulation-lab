@@ -112,3 +112,37 @@ def nullspace(scale=1, seed=42):
             ),
         ],
     )
+
+
+def constraint(scale=1, seed=42):
+    from .planar import gravity, mass_matrix
+    from .taskspace import constrained_acceleration, tip
+
+    angle = np.linspace(-1.2, 1.2, 101 * scale)
+    reaction = []
+    residual = []
+    for value in angle:
+        q = np.array([0, 1, 0.1, 0.4, value])
+        jac = tip(q)[1]
+        r = constrained_acceleration(mass_matrix(q), jac, np.zeros(5), gravity(q), np.zeros(2), np.zeros(2))
+        reaction.append(r["reaction"])
+        residual.append(np.linalg.norm(jac @ r["acceleration"]))
+    reaction = np.array(reaction)
+    return make(
+        "bilateral-contact-reaction",
+        {"desired_tip_acceleration_m_s2": [0, 0]},
+        {"max_constraint_residual_m_s2": float(max(residual))},
+        {"joint2_rad": angle, "horizontal_n": reaction[:, 0], "vertical_n": reaction[:, 1]},
+        [
+            curve(
+                "Bilateral constraint reactions",
+                "joint2_rad",
+                [("horizontal_n", "Horizontal"), ("vertical_n", "Vertical")],
+                "Joint 2 (rad)",
+                "Constraint force (N)",
+            )
+        ],
+        assumptions=[
+            "Bilateral contact can pull or push. This is distinct from unilateral frictional impact."
+        ],
+    )

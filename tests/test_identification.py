@@ -40,3 +40,10 @@ def test_contact_wrench_inverse():
     force = np.array([2.0, 4.0])
     r = m.wrench_fit(jac, jac.T @ force, 0.01)
     assert np.allclose(r["force"], force)
+
+
+def test_friction_cone_projection():
+    r = m.friction_projection([4, 1], 0.5)
+    assert abs(r[0]) <= 0.5 * r[1] + 1e-12 and r[1] >= 0
+    assert np.allclose(m.friction_projection([0, -2]), 0)
+    assert np.allclose(m.friction_projection([0.1, 2]), [0.1, 2])

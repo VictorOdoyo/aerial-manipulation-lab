@@ -1,6 +1,6 @@
 import numpy as np
 
-from .core import finite
+from .core import finite, positive
 
 
 def payload_regressor(q, velocity, acceleration, model=None):
@@ -68,3 +68,17 @@ def wrench_fit(jacobian, generalized_reaction, noise_std):
         raise ValueError("contact wrench is unobservable")
     cov = np.linalg.inv(information)
     return {"force": cov @ design.T @ (force / sigma), "covariance": cov}
+
+
+def friction_projection(force, coefficient=0.5):
+    f = finite(force, real=True)
+    mu = positive(coefficient, allow_zero=True)
+    if f.shape != (2,):
+        raise ValueError("tangential and positive-normal force required")
+    tangent, normal = f
+    if normal >= 0 and abs(tangent) <= mu * normal:
+        return f.copy()
+    if mu == 0:
+        return np.array([0.0, max(0.0, normal)])
+    candidate = max(0.0, (mu * abs(tangent) + normal) / (1 + mu * mu))
+    return np.array([np.sign(tangent) * mu * candidate, candidate])

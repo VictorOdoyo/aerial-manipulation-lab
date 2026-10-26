@@ -40,3 +40,17 @@ def payload_fit(regressor, measured_minus_baseline, noise_std):
         "at_boundary": unconstrained < 0,
         "weighted_residual": b - estimate * a,
     }
+
+
+def damping_fit(velocities, residual_forces):
+    v = finite(velocities, real=True, ndim=2)
+    force = finite(residual_forces, real=True, ndim=2)
+    if v.shape != force.shape or len(v) < 3:
+        raise ValueError("aligned residual force and velocity samples required")
+    excitation = np.sum(v * v, axis=0)
+    if np.any(excitation < 1e-8):
+        raise ValueError("every damping channel must be excited")
+    coefficient = np.sum(v * force, axis=0) / excitation
+    if np.any(coefficient < 0):
+        raise ValueError("fitted damping violates passivity")
+    return {"damping": coefficient, "residual": force - v * coefficient}

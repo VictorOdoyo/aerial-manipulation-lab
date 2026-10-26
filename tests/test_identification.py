@@ -25,3 +25,9 @@ def test_payload_fit_known_noise():
     assert r["standard_deviation_kg"] < 0.01
     with pytest.raises(ValueError):
         m.payload_fit(np.zeros(30), np.zeros(30), 0.01)
+
+
+def test_damping_recovery():
+    v = np.random.default_rng(4).normal(size=(100, 5))
+    truth = np.array([0.1, 0.2, 0.3, 0.4, 0.5])
+    assert np.allclose(m.damping_fit(v, v * truth)["damping"], truth)

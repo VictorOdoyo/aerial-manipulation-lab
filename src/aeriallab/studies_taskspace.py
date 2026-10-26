@@ -425,3 +425,32 @@ def payload(scale=1, seed=42):
             "Configuration, velocity and acceleration observations are supplied; no derivative-noise model or flight estimator is claimed."
         ],
     )
+
+
+def damping(scale=1, seed=42):
+    from .core import stream
+    from .identification import damping_fit
+
+    rng = stream(seed, "damping")
+    v = rng.normal(0, 1, (400 * scale, 5))
+    truth = np.array([0.1, 0.2, 0.03, 0.02, 0.015])
+    force = v * truth + rng.normal(0, 0.002, v.shape)
+    fit = damping_fit(v, force)
+    return make(
+        "viscous-damping-identification",
+        {"samples": len(v), "noise_std": 0.002},
+        {"maximum_coefficient_error": float(max(abs(fit["damping"] - truth)))},
+        {"coordinate": np.arange(5), "true_coefficient": truth, "estimated_coefficient": fit["damping"]},
+        [
+            curve(
+                "Component-wise viscous damping",
+                "coordinate",
+                [("true_coefficient", "Reference"), ("estimated_coefficient", "Estimated")],
+                "Generalized coordinate index",
+                "Damping coefficient (coordinate-dependent SI)",
+            )
+        ],
+        assumptions=[
+            "Translation and angle channels have different SI damping units; coefficients are compared channel-wise, not summed."
+        ],
+    )

@@ -50,3 +50,7 @@ def test_jerk():
 
 def test_payload():
     assert abs(m.payload()["summary"]["estimated_payload_kg"] - 0.35) < 0.01
+
+
+def test_damping():
+    assert m.damping()["summary"]["maximum_coefficient_error"] < 0.001

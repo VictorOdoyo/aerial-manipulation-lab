@@ -1,0 +1,5 @@
+{
+  "acceleration_limit_rad_s2": 2,
+  "jerk_limit_rad_s3": 10,
+  "velocity_limit_rad_s": 1
+}

@@ -1,3 +1,8 @@
+import numpy as np
+
+from .core import finite
+
+
 def payload_regressor(q, velocity, acceleration, model=None):
     from dataclasses import replace
 
@@ -14,3 +19,24 @@ def payload_regressor(q, velocity, acceleration, model=None):
 
     baseline = inverse(0)
     return {"baseline": baseline, "column": inverse(1) - baseline}
+
+
+def payload_fit(regressor, measured_minus_baseline, noise_std):
+    phi = finite(regressor, real=True, ndim=1)
+    y = finite(measured_minus_baseline, real=True, ndim=1)
+    sigma = np.broadcast_to(finite(noise_std, real=True), phi.shape)
+    if phi.shape != y.shape or len(phi) < 3 or np.any(sigma <= 0):
+        raise ValueError("aligned reaction samples and positive uncertainties required")
+    a = phi / sigma
+    b = y / sigma
+    information = a @ a
+    if information < 1e-8:
+        raise ValueError("payload excitation is insufficient")
+    unconstrained = float(a @ b / information)
+    estimate = max(0.0, unconstrained)
+    return {
+        "payload_kg": estimate,
+        "standard_deviation_kg": float(1 / np.sqrt(information)),
+        "at_boundary": unconstrained < 0,
+        "weighted_residual": b - estimate * a,
+    }

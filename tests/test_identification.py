@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from aeriallab import identification as m
 
@@ -15,3 +16,12 @@ def test_payload_dynamics_are_affine():
     p = replace(Model(), payload_kg=0.37)
     actual = mass_matrix(q, p) @ a + coriolis_matrix(q, v, p) @ v + gravity(q, p)
     assert np.allclose(actual, r["baseline"] + 0.37 * r["column"])
+
+
+def test_payload_fit_known_noise():
+    phi = np.linspace(0.2, 2, 30)
+    r = m.payload_fit(phi, 0.4 * phi, 0.01)
+    assert r["payload_kg"] == pytest.approx(0.4)
+    assert r["standard_deviation_kg"] < 0.01
+    with pytest.raises(ValueError):
+        m.payload_fit(np.zeros(30), np.zeros(30), 0.01)

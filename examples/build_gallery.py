@@ -39,7 +39,8 @@ def build(source, destination):
     lines = [
         "# Computed experiment gallery",
         "",
-        "Twenty-seven default studies computed from clean source revision "
+        str(len(results))
+        + " default studies computed from clean source revision "
         + "[`"
         + revision[:12]
         + "`](https://github.com/VictorOdoyo/aerial-manipulation-lab/commit/"

@@ -28,3 +28,7 @@ def test_work():
 
 def test_authority():
     assert 0 < m.authority()["summary"]["minimum_scale"] < 1
+
+
+def test_retiming():
+    assert m.retiming()["summary"]["max_velocity_rad_s"] <= 1 + 1e-8

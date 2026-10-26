@@ -223,3 +223,50 @@ def authority(scale=1, seed=42):
             "Component-box generalized limits are a design bound. They do not model the aircraft's underactuated thrust direction or replace rotor allocation."
         ],
     )
+
+
+def retiming(scale=1, seed=42):
+    from .motion import minimum_duration, quintic
+
+    start = [0, 0]
+    stop = [0.8, -1.2]
+    duration = minimum_duration(start, stop, [1, 1], [2, 2], [10, 10])
+    t = np.linspace(0, duration, 501 * scale)
+    r = quintic(t, duration, start, stop)
+    return make(
+        "bounded-quintic-motion",
+        {"velocity_limit_rad_s": 1, "acceleration_limit_rad_s2": 2, "jerk_limit_rad_s3": 10},
+        {"duration_s": duration, "max_velocity_rad_s": float(max(abs(r["velocity"]).ravel()))},
+        {
+            "time_s": t,
+            "joint1_rad": r["position"][:, 0],
+            "joint2_rad": r["position"][:, 1],
+            "joint1_rate": r["velocity"][:, 0],
+            "joint2_rate": r["velocity"][:, 1],
+            "joint1_accel": r["acceleration"][:, 0],
+            "joint2_accel": r["acceleration"][:, 1],
+        },
+        [
+            curve(
+                "Synchronized rest-to-rest arm path",
+                "time_s",
+                [("joint1_rad", "Joint 1"), ("joint2_rad", "Joint 2")],
+                "Time (s)",
+                "Joint angle (rad)",
+            ),
+            curve(
+                "Bounded joint rates",
+                "time_s",
+                [("joint1_rate", "Joint 1"), ("joint2_rate", "Joint 2")],
+                "Time (s)",
+                "Rate (rad/s)",
+            ),
+            curve(
+                "Bounded joint acceleration",
+                "time_s",
+                [("joint1_accel", "Joint 1"), ("joint2_accel", "Joint 2")],
+                "Time (s)",
+                "Acceleration (rad/s^2)",
+            ),
+        ],
+    )

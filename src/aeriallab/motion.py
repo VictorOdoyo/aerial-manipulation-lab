@@ -85,3 +85,11 @@ def waypoints(time_s, points, durations_s):
         for key in out:
             out[key].append(sample[key])
     return {key: np.array(value) for key, value in out.items()}
+
+
+def jerk_cost(start, stop, duration_s):
+    a = finite(start, real=True)
+    b = finite(stop, real=True)
+    if a.shape != b.shape:
+        raise ValueError("matching move endpoints required")
+    return float(720 * np.sum((b - a) ** 2) / positive(duration_s) ** 5)

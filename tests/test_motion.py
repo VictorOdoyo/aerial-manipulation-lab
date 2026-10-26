@@ -36,3 +36,10 @@ def test_waypoint_continuity():
     assert np.max(abs(r["position"] - 1)) < 1e-10
     assert np.max(abs(r["velocity"])) < 1e-10
     assert np.max(abs(r["acceleration"])) < 1e-4
+
+
+def test_jerk_cost_matches_quadrature():
+    t = np.linspace(0, 2, 10001)
+    r = m.quintic(t, 2, [0, 1], [1, 3])
+    numerical = np.trapezoid(np.sum(r["jerk"] ** 2, axis=1), t)
+    assert numerical == pytest.approx(m.jerk_cost([0, 1], [1, 3], 2), rel=1e-6)

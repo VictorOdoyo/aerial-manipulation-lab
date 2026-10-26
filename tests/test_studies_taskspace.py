@@ -24,3 +24,7 @@ def test_constraint():
 
 def test_work():
     assert m.work()["summary"]["max_power_defect_w"] < 1e-10
+
+
+def test_authority():
+    assert 0 < m.authority()["summary"]["minimum_scale"] < 1

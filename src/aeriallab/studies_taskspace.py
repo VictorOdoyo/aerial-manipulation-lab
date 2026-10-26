@@ -191,3 +191,35 @@ def work(scale=1, seed=42):
             ),
         ],
     )
+
+
+def authority(scale=1, seed=42):
+    from .taskspace import scale_force, tip
+
+    q = np.array([0, 1, 0, 0.4, -0.7])
+    jac = tip(q)[1]
+    angle = np.linspace(0, 2 * np.pi, 181 * scale)
+    scales = []
+    achieved = []
+    for value in angle:
+        r = scale_force(jac, 20 * np.array([np.cos(value), np.sin(value)]), [30, 30, 2, 1, 1])
+        scales.append(r["scale"])
+        achieved.append(np.linalg.norm(r["force"]))
+    return make(
+        "task-force-authority",
+        {"requested_force_n": 20, "generalized_component_limits": [30, 30, 2, 1, 1]},
+        {"minimum_scale": float(min(scales))},
+        {"angle_deg": np.rad2deg(angle), "available_force_n": np.array(achieved), "scale": np.array(scales)},
+        [
+            curve(
+                "Idealized generalized-limit force envelope",
+                "angle_deg",
+                [("available_force_n", "Scaled task force")],
+                "Force direction (deg)",
+                "Task force magnitude (N)",
+            )
+        ],
+        assumptions=[
+            "Component-box generalized limits are a design bound. They do not model the aircraft's underactuated thrust direction or replace rotor allocation."
+        ],
+    )

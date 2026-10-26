@@ -518,3 +518,52 @@ def cone(scale=1, seed=42):
             "Euclidean projection may increase normal force. It is a feasibility projection, not a fixed-normal load controller."
         ],
     )
+
+
+def impact(scale=1, seed=42):
+    from .identification import frictional_impact
+    from .planar import kinematics
+
+    q = np.array([0, 1, 0, 0.3, -0.5])
+    velocity = np.array([1.0, -1, 0, 0, 0])
+    jac = kinematics(q)["tip"][1]
+    mu = np.linspace(0, 1, 101 * scale)
+    dissipation = []
+    tangent = []
+    normal = []
+    for value in mu:
+        r = frictional_impact(q, velocity, float(value))
+        speed = jac @ r["velocity"]
+        dissipation.append(r["dissipated_j"])
+        tangent.append(speed[0])
+        normal.append(speed[1])
+    return make(
+        "coupled-friction-impact",
+        {"initial_base_velocity_m_s": [1, -1], "normal_restitution": 0},
+        {
+            "minimum_dissipation_j": float(min(dissipation)),
+            "max_post_normal_speed_m_s": float(max(abs(np.array(normal)))),
+        },
+        {
+            "friction": mu,
+            "dissipation_j": np.array(dissipation),
+            "tangent_m_s": np.array(tangent),
+            "normal_m_s": np.array(normal),
+        },
+        [
+            curve(
+                "Inelastic contact energy loss",
+                "friction",
+                [("dissipation_j", "Dissipated energy")],
+                "Coulomb coefficient",
+                "Energy (J)",
+            ),
+            curve(
+                "Post-impact contact velocity",
+                "friction",
+                [("tangent_m_s", "Tangential"), ("normal_m_s", "Normal")],
+                "Coulomb coefficient",
+                "Velocity (m/s)",
+            ),
+        ],
+    )

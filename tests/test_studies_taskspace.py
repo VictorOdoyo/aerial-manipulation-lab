@@ -62,3 +62,8 @@ def test_wrench():
 
 def test_cone():
     assert m.cone()["summary"]["max_cone_violation_n"] < 1e-10
+
+
+def test_impact():
+    s = m.impact()["summary"]
+    assert s["minimum_dissipation_j"] >= 0 and s["max_post_normal_speed_m_s"] < 1e-9

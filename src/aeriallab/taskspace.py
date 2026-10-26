@@ -26,3 +26,12 @@ def operational_inertia(mass, jacobian):
     if np.linalg.matrix_rank(inverse_task) < len(jac):
         raise ValueError("task directions must be independent")
     return np.linalg.inv(inverse_task)
+
+
+def dynamic_inverse(mass, jacobian):
+    matrix = metric(mass)
+    jac = finite(jacobian, real=True, ndim=2)
+    task = operational_inertia(matrix, jac)
+    inverse = np.linalg.solve(matrix, jac.T) @ task
+    null = np.eye(len(matrix)) - inverse @ jac
+    return {"inverse": inverse, "null": null, "task_inertia": task}
